@@ -51,8 +51,6 @@ class Msinhvien extends CI_Model
     function get_sinhvien_data($masv)
     {     
          $this->db->where("MaSV",$masv);
-               
-          
         $query=$this->db->get("sinhvien");
         return $query->result_object();
         
