@@ -42,6 +42,7 @@ $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 $route['quanly/sinhvien']='sinhvien/index';
+$route['quanly/sinhvien/suadoi/(:any)']='sinhvien/suadoi/$1';
 $route['quanly/sinhvien/(:any)']='sinhvien/index/$1';
 $route['sinhvien']='';
 
