@@ -1,0 +1,50 @@
+﻿#main_menu *  { padding:0; margin: 0;font-size:20px; }
+
+#main_menu { line-height: 20px;height:53px;background-image: url("../../images/menu_bg.jpg");z-index:120;position:relative;}
+#main_menu a{ display: block;text-decoration: none; color:white;}
+
+
+
+/*set top menu width */
+
+#main_menu ul li { float: left; width: 120px;list-style-type:none;}
+#main_menu ul li.top{background: none;margin:2px 2px 0px 0px;height:50px;text-align:center;}
+#main_menu ul li.first{margin-left:80px;}
+
+#main_menu ul li.active{background:url("../../images/menu_active.png")}
+#main_menu ul li.top:hover{background:url("../../images/menu_active.png")}
+#main_menu ul li a{padding:14px 10px;}/*only top */
+
+/*Set submenu width 160px  and hide*/
+#main_menu li ul li a:hover {color:#000; }
+#main_menu ul li ul li,#main_menu ul li ul li ul li  { width: 220px; list-style-type:none;text-align:left;background:#59bbfa; }
+#main_menu ul li ul li a,#main_menu ul li ul li ul li a{font-size:18px;padding:10px;}
+#main_menu ul li ul li ul li a{border-left:1px dashed #fff;}/*tao duong ke */
+/*Theo quy luat ma them 
+	Quy tac an: an het nhung ul chau, hien ul cua li ma thoi
+	
+*/
+
+#main_menu ul li ul, 
+#main_menu ul li:hover ul li ul,
+#main_menu ul li:hover ul li:hover ul li ul{ 
+	display:none;
+	list-style-type:none; 
+	width: 140px;
+	}
+	
+	
+/*Theo quy luat ma them 
+	Quy tac hien: hien ra ul con cua li duoc hover */
+	
+
+ #main_menu ul li:hover ul, 
+ #main_menu ul li:hover ul li:hover ul,
+ #main_menu ul li:hover ul li:hover ul li:hover ul { display:block; }
+	
+#main_menu ul li:hover ul li:hover ul,
+#main_menu ul li:hover ul li:hover ul li:hover ul { 
+	position: absolute;
+	margin-left: 220px;
+	margin-top: -40px;
+	}	

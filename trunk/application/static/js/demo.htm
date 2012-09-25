@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html" />
+	<meta name="author" content="rinodung" />
+
+	<title>Untitled 1</title>
+    <link href="popup_css.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jpopup.js"></script>
+    
+</head>
+<script type="text/javascript">
+$(document).ready(function()
+{
+    $("button").click(function()
+    {   
+        
+        open_popup("#demo1");
+    });
+    
+   
+});
+</script>
+<body>
+<button>show popup</button>
+<div class="overflow"></div>
+<div class="popup_detail" id="demo1">
+<div id="pheader">
+</div>
+<div id="pdata">
+</div>
+<div id="pfooter"></div>
+</div>
+</body>
+</html>
