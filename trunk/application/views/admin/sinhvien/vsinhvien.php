@@ -27,7 +27,7 @@
     <div id="page">
     
     <!--div #main_menu -->    
-    <?php include_once("vmain_menu.php"); ?>
+    <?php $this->load->view("template/vmain_menu"); ?>
     <!--END div #main_menu --> 
        
     <div id="data">
@@ -147,7 +147,7 @@
                          {
                             echo "<tr>";
                             echo "<td><input id='".$row->MaSV."' class='checkbox_row' type='checkbox' /></td>";
-                            echo "<td class='masv' title='Xem chi tiết'>".$row->MaSV."</td>";
+                            echo "<td class='masv'><a  title='Xem chi tiết' href='/quanly/sinhvien/suadoi/".$row->MaSV."'>".$row->MaSV."</a></td>";
                             echo "<td class='tensv' style='text-align:left' >".$row->TenSV."</td>";
                             echo "<td class='khoa'>".$row->Khoa."</td>";
                             echo "<td class='lop'>".$row->Lop."</td>";
@@ -167,12 +167,12 @@
     </div><!--#page -->
     
     <!-- #footer -->
-    <?php include_once("vfooter.php"); ?>
+    <?php $this->load->view("template/vfooter"); ?>
     <!-- End #footer-->
    
 </div><!--end #wrapper -->   
 
-<?php include_once("vpopup.php"); ?>
+<?php $this->load->view("admin/vpopup"); ?>
 
 </body>
 </html>
