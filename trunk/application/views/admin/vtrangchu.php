@@ -22,7 +22,7 @@
     </div><!--#header -->
     <div id="page">
         <!--div #main_menu -->    
-        <?php include_once("vtrangchu_menu.php");  ?>      
+         <?php $this->load->view("template/vtrangchu_menu"); ?>     
         <!--END div #main_menu --> 
     
         <div id="data">
@@ -119,7 +119,7 @@
     
     
      <!-- #footer -->
-    <?php include_once("vfooter.php"); ?>
+    <?php $this->load->view("template/vfooter"); ?>
     <!-- End #footer-->
 </div><!--end #wrapper -->   
 
