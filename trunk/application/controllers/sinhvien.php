@@ -5,7 +5,7 @@ class Sinhvien extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->helper("url");
+       $this->load->helper(array("url","form","cookie"));
         $this->load->model("admin/msinhvien");
     }
 	public function index($khoa="tatca")
@@ -24,8 +24,43 @@ class Sinhvien extends CI_Controller {
         $data["num_rows"]=$num_rows;
         $data["title"]="Trang quản lý sinh viên";        
         
-		$this->load->view('admin/vsinhvien',$data);        
+		$this->load->view('admin/sinhvien/vsinhvien',$data);        
    	}
+    public function suadoi($str_mssv)
+    {
+        
+            
+            //controller load library form_validation
+            $this->load->library("form_validation");
+            
+            //set rules manually
+            $this->form_validation->set_rules("masv","MSSV","required");
+            //$this->form_validation->set_rules("password","Password","required");
+           // $this->form_validation->set_rules("passconf","Password confirm","required");
+            //$this->form_validation->set_rules("email","Email-address","required");
+    
+            
+                        
+            //Ok check where the form is submitted by run() function
+            if($this->form_validation->run()==false)
+            {
+                $array_mssv=explode("|",$str_mssv);
+                $data["title"]="Trang thông tin chi tiết sinh viên"; 
+                $data["data_result"]=$this->msinhvien->get_sinhvien_datas($array_mssv);        
+                $this->load->view("admin/sinhvien/vsinhvien_edit",$data);
+            }
+            else//submitted success without any error
+            {     
+                $array_mssv=explode("|",$str_mssv);
+                $data["title"]="Trang thông tin chi tiết sinh viên"; 
+                $data["data_result"]=$this->msinhvien->get_sinhvien_datas($array_mssv);        
+                $this->load->view("admin/sinhvien/vsinhvien_edit",$data);
+            } 
+        
+        
+        
+        
+    }
     //ajax load lai data
     public function ajax_full_data()
     {
