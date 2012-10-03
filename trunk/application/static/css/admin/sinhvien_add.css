@@ -1,0 +1,109 @@
+
+#wrapper #data h3{background-color: #e8e9e8;padding:10px 10px;
+                        -webkit-border-top-right-radius: 5px;
+                        -moz-border-top-right-radius: 5px;
+                        -o-border-top-right-radius: 5px;
+                        border-top-right-radius: 5px;
+                        
+                        -webkit-border-top-left-radius: 5px;
+                        -moz-border-top-left-radius: 5px;
+                        -o-border-top-left-radius: 5px;
+                        border-top-left-radius: 5px; 
+                        
+                         }
+#wrapper #data #left{float:left;width:168px;
+                     min-height:600px;
+                     border:1px solid #a1a2a1;
+                     -webkit-border-radius: 5px;
+                     -moz-border-radius: 5px;
+                     -o-border-radius: 5px;
+                     border-radius: 5px; 
+                     -webkit-box-shadow: 0 0  8px #646564;
+                     -moz-box-shadow: 0 0  8px #646564;
+                                          
+                     }
+
+
+#wrapper #data #left ul li{margin:2px 0px 10px 0px;}
+#wrapper #data #left ul li a{background: #e8e9e8;padding:8px 10px;display:block;
+                        
+                        }
+#wrapper #data #left ul li a:hover{color: #023bfe;font-weight:bold;}
+#wrapper #data #left ul li a.active{font-weight:bold;color: #023bfe;}
+#wrapper #data #left ul li ul li{margin:5px 0px 0px 20px;}
+#wrapper #data #left ul li ul li a{background:none;padding:0px;border:none;}
+
+#wrapper #data #left ul li ul li a:hover{color: red;font-weight:bold;cursor:pointer;}
+#wrapper #data #left ul li ul li.active{color:red;font-weight:bold;}
+
+#wrapper #data #right{float:right;width:978px;                                         
+                      padding:0px;
+                      min-height:600px;
+                      -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        border-radius: 5px; 
+                        position:relative;
+                        margin-top:0px;
+                        border:1px solid #a1a2a1;
+                        -webkit-box-shadow: 0 0  8px #646564;
+                        -moz-box-shadow: 0 0  8px #646564;
+                      }
+
+
+#wrapper #data .box{                
+                     -webkit-border-radius: 5px;
+                     -moz-border-radius: 5px;
+                     -o-border-radius: 5px;
+                     border-radius: 5px;
+                     margin:15px 0px 0px 100px;
+                     position:relative;
+             }
+
+#wrapper #data  .box table {float:left;border-collapse:collapse;}
+#wrapper #data  .box table td{border-bottom:1px dashed #e8e9e8;font-size:20px;padding:5px 10px}
+#wrapper #data  .box table tr{height:38px;}
+#wrapper #data  .box table tr:hover{background:#e8e9e8;}
+#wrapper #data  .box table input,
+#wrapper #data  .box table select,
+#wrapper #data  .box table textarea{font-size:18px;width:300px;}
+
+#wrapper #data  .box table input:hover,
+#wrapper #data  .box table select:hover,
+#wrapper #data  .box table textarea:hover{cursor:pointer;}
+
+#wrapper #data  .box table.error td{font-size:14px;}
+#wrapper #data  .box table.error td span{color:red;}
+#wrapper #data  .box table.error tr:hover{background:none;}
+
+
+                 
+#wrapper #data  #action {height: 50px;
+                        width: 100%;
+                        background-color:#e8e9e8;
+                        -webkit-border-bottom-right-radius: 5px;
+                        -moz-border-bottom-right-radius: 5px;
+                        -o-border-bottom-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                        -webkit-border-bottom-left-radius: 5px;
+                        -moz-border-bottom-left-radius: 5px;
+                        -o-border-bottom-left-radius: 5px;
+                        border-bottom-left-radius: 5px;                                    
+                        position:absolute;
+                        bottom:0px;
+                        left:0px;           
+                        }
+#wrapper #data  #action h4{float:left;margin:0px 10px;line-height:50px;font-weight:normal;display:none;}
+#wrapper #data  #action h4 img{float:left;}
+#wrapper #data  #action img{margin:1px 10px 1px 10px;opacity:0.65;width:48px;height:48px;}
+#wrapper #data  #action img:hover{cursor:pointer;opacity:1;}
+#wrapper #data  #action img#process,
+#wrapper #data  #action img#create{float:right;display:none;}
+
+#wrapper #data #message {display:none;}
+#wrapper #data #message span{color:green;}
+
+                     
+                        
+
+                        
