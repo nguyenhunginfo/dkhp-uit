@@ -1,0 +1,43 @@
+*{padding:0px;margin:0px;}
+.overflow{position:fixed;top:0px;left:0px;width:100%;height:100%;display:none;background:#111; opacity: 0.6;z-index:130;}
+.popup_detail{width:800px;background:#fff;display:none;z-index:1200;position:fixed;left:300px;top:150px;box-shadow:0px 0px 10px #fff;}
+.popup_detail #pheader{height:30px;background-color:#4db9fe;position:relative;}
+.popup_detail #pheader p#ptitle{color:#fff;font-size:18px;margin:0px 20px;line-height:30px;}
+.popup_detail #pheader img{position:absolute;top:-2px;right:-2px;opacity:0.4;}
+.popup_detail #pheader img#pclose{top:-2px;right:-2px;}
+.popup_detail #pheader img#pnext{top:300px;right:0px;}
+.popup_detail #pheader img#pprev{top:300px;left:0px;}
+.popup_detail #pheader img:hover{opacity:1;cursor:pointer;} 
+
+.popup_detail #pdata{height:482px;background-color:#fff;overflow-y:auto;padding:10px 10px 10px 200px;position:relative;}
+.popup_detail #pdata img#waiting{position:absolute;left:45%;top:40%;}
+
+.popup_detail #pdata table {float:left;border-collapse:collapse;}
+
+.popup_detail #pdata table td{border-bottom:1px dashed #e8e9e8;font-size:20px;padding:5px 10px}
+.popup_detail #pdata table tr{height:36px;}
+.popup_detail #pdata table tr:hover{background:#e8e9e8;}
+.popup_detail #pdata table input,
+.popup_detail #pdata table select,
+.popup_detail #pdata table textarea{font-size:18px;width:300px;border:none;}
+
+.popup_detail #pdata table input:hover,
+.popup_detail #pdata table select:hover,
+.popup_detail #pdata table textarea:hover{cursor:pointer;}
+
+
+.popup_detail #pdata table.error td{font-size:14px;}
+.popup_detail #pdata table.error td span{color:red;}
+.popup_detail #pdata table.error tr:hover{background:none;}
+
+.popup_detail #pfooter{height:48px;background-color:#4db9fe;overflow:auto;}
+.popup_detail #pfooter h4{float:left;margin:0px 10px;line-height:48px;font-weight:normal;display:none;}
+.popup_detail #pfooter h4 img{float:left;}
+.popup_detail #pfooter img{float:right;width:48px;height:48px;margin:0px 10px;opacity:0.8;}
+.popup_detail #pfooter img:hover{cursor:pointer;opacity:1;}
+.popup_detail #pfooter img#process,.popup_detail #pfooter img#save{display:none;}
+
+.popup_detail#view {min-width:1100px;top:5%;left:9%;}
+
+                     
+

@@ -1,0 +1,58 @@
+*{margin:0px;padding:0px;}
+ul{list-style: none;}
+a{text-decoration:none;color:#000;}
+input:hover{cursor:pointer;}
+button:hover{cursor:pointer;}
+img{border:none;}
+select{z-index:120;position:relative;}
+#wrapper{width:1200px;margin:0px auto;background-color:#2cacfe;
+       -box-shadow: 0 0  8px #646564;
+       -webkit-box-shadow: 0 0  8px #646564;
+       -moz-box-shadow: 0 0  8px #646564;
+       -o-box-shadow: 0 0  8px #646564;}
+#wrapper #header{height:150px;position:relative;overflow:auto;border-bottom:1px solid #fff;}
+#wrapper #header p{position:absolute;font-size:26px;font-weight:bold;top:30px;left:170px;color:#fff;}
+
+#wrapper #header img{position:absolute;}
+#wrapper #header img#logo{top:16px;left:0px;}
+#wrapper #header img#header_pic{top:0px;right:0px;height:149px;}
+
+#wrapper #data{border:1px solid #e8e9e8;
+                background:#fff;
+              -webkit-border-radius: 5px;
+              -moz-border-radius: 5px;
+              -o-border-radius: 5px;
+              border-radius: 5px;
+              width:1160px;min-height:600px;
+              margin:5px 10px;
+              
+              
+              overflow:hidden;padding:15px 10px;}
+
+
+#wrapper #data .data_box{
+                        border:1px dashed #a1a2a1;
+                        -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        border-radius: 5px;                        
+                       
+                        position:relative;
+                        margin-top:20px;
+                        padding:15px;}
+
+
+
+#wrapper #footer{height:250px;position:relative;}
+#wrapper #footer p{font-size:18px;color: #fff;}
+#wrapper #footer h4{color:#fff;font-size:20px;}
+#wrapper #footer img#separator{margin:0px 0px 0px 300px ;}
+#wrapper #footer #info{position:absolute;top:50px;left:20px;}
+#wrapper #footer #info p{margin-bottom: 5px;}
+#wrapper #footer #info a{color:#fff;}
+#wrapper #footer #info a:hover{text-decoration:underline;}
+#wrapper #footer #contact{position:absolute;top:50px;right:20px;
+                         height:141px;background:url("../../images/_copyright.png") no-repeat;
+                         padding:30px 10px;}
+#wrapper #footer #copyright{position:absolute;bottom:0px;left:0px;background:#063afd;width:100%;text-align:center;}
+#wrapper #footer #copyright p{font-size:16px;}

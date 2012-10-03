@@ -1,0 +1,34 @@
+
+#wrapper #data #box{
+                    position:relative;
+                    border:1px solid #e8e9e8;                    
+                    -webkit-border-radius: 5px;
+                      -moz-border-radius: 5px;
+                      -o-border-radius: 5px;
+                      border-radius: 5px;                      
+                      -webkit-box-shadow: 0 0  6px #646564;
+                      padding:5px 30px;
+                      min-height:1080px;}
+
+#wrapper #data h3{color:#000;position:absolute;background:#fff;top:-12px;left:460px;}
+#wrapper #data h4{clear:both;font-size:20px;text-align:center;margin:10px 0px;}
+
+#wrapper #data .data_box{width:500px;float:left;position: relative;}
+#wrapper #data .data_box#khoa{margin:10px 12px 0px 0px;}
+#wrapper #data .data_box#k{margin:10px 0px 0px 12px}
+#wrapper #data .data_box h4{position:absolute;top:-20px;left:30px;}
+#wrapper #data .data_box h4:hover{cursor:pointer;}
+#wrapper #data .data_box h4 span{color:#023bfe;font-size:18px;
+                            background: #fff url("../../images/show_hide.png") 0px 0px no-repeat;
+                            padding:0px  0px 0px 15px;}
+                            
+
+#wrapper #data .data_box ul{list-style: none;}
+#wrapper #data .data_box ul li{padding:5px 0px;margin:0px 40px;}
+#wrapper #data .data_box ul li:hover{cursor:pointer;}
+#wrapper #data .data_box ul li span{background: url("../../images/show_hide.png") 0px 0px no-repeat;
+                            padding:0px  0px 0px 15px;}
+#wrapper #data .data_box ul ul{list-style: circle;}
+#wrapper #data .data_box ul li li{padding:2px 0px;margin:0px 80px;background:none;display:none;}
+#wrapper #data .data_box ul li li:hover{cursor:default;}
+#wrapper #data .data_box a{color:blue;text-decoration: underline;}

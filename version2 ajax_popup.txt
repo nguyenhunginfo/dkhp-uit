@@ -1,0 +1,1 @@
+style: ajax_popup
