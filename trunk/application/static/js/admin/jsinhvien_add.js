@@ -4,20 +4,32 @@ $(document).ready(function()
     
     
     
-     $("table.info select#khoa").live("change",function()
-    {
-        khoa=$(this).val();        
-        $.ajax({
-            url: "/sinhvien/ajax_lop_from_khoa",
-            type:"POST",
-            data:{khoa:khoa},
-            success:function(result)
-            {
-               // alert(result);
-                $("table.info select#lop").html(result);
-            }
+     $("table.info select#k,table.info select#khoa").live("change",function()
+        {
+            k=$("table.info select#k").val();
+            khoa=$("table.info select#khoa").val();      
+             
+            
+            $.ajax({
+                url: "/sinhvien/ajax_lop_from_khoa",
+                type:"POST",
+                data:{k:k,khoa:khoa},
+                success:function(result)
+                {
+                   // alert(result);
+                    $("table.info select#lop").html(result);
+                }
+            });
+            
+        }); 
+     $("table.info select").live("change",function()
+        {
+            enable_footer(1,0);
         });
-   });    
+    $("table.info input,table.info textarea").live("keydown",function()
+        {        
+            enable_footer(1,0);
+        });   
     
     $("#action img#create").click(function()
     {
@@ -63,15 +75,7 @@ $(document).ready(function()
       
     });//end save action
 });
-$("table.info select").live("change",function()
-{
-    enable_footer(1,0);
-});
-$("table.info input,table.info textarea").live("keydown",function()
-{
-    
-    enable_footer(1,0);
-});
+
 function enable_footer(save,h4)
 {
         

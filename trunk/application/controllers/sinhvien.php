@@ -6,40 +6,46 @@ class Sinhvien extends CI_Controller {
     {
         parent::__construct();
         $this->load->helper("url");
+        $this->load->library("form_validation");        
         $this->load->model("admin/msinhvien");
+        $this->load->library('PHPExcel');
     }
-	public function index($khoa="tatca")
+	public function index($khoa="CNPM")
 	{  
-	   //get khoa make menu
-        $khoa_result=$this->msinhvien->get_khoa();
-        //get data to dump into table
-        $sinhvien_result=$this->msinhvien->get_sinhvien("",$khoa,0,0,15);//lay danh sach sinh vien cac khoa, thuoc cac k, 15 record dau tien
+	   
+              
+            //get khoa make menu
+            $khoa_result=$this->msinhvien->get_khoa();
+            //get data to dump into table
+            $sinhvien_result=$this->msinhvien->get_sinhvien("",$khoa,0,0,15);//lay danh sach sinh vien cac khoa, thuoc cac k, 15 record dau tien
+           
+            
+            $data['data_title']="Danh sách sinh viên khoa ".$this->msinhvien->ten_khoa($khoa);
+            
+            
+            //tong so hang de tao phan trang
+            $num_rows=$this->msinhvien->get_num_rows("",$khoa);
+            
+            //make pagination
+            $this->load->library("pagination");        
+            $config["base_url"]="http://dkhp.uit.edu.vn/quanly/sinhvien/ajax_full_data";
+            $config["total_rows"]=$num_rows;
+            $config["per_page"]=15;
+            $this->pagination->initialize($config);
+            $data["pagination"]=$this->pagination->create_links();
+            //data for view
+            $data["khoa_result"]=$khoa_result;
+            $data["khoa"]=$khoa;
+            $data["sinhvien_result"]=$sinhvien_result;
+            $data["total_rows"]=$num_rows;
+            $data["title"]="Trang quản lý sinh viên";        
+            
+    		$this->load->view('admin/vsinhvien',$data);  
+              
         
-        if($khoa!="tatca") $data['data_title']="Danh sách sinh viên khoa ".$this->msinhvien->ten_khoa($khoa);
-        else $data['data_title']="Danh sách sinh viên";
-        
-        //tong so hang de tao phan trang
-        $num_rows=$this->msinhvien->get_num_rows("",$khoa);
-        
-        //make pagination
-        $this->load->library("pagination");        
-        $config["base_url"]="http://dkhp.uit.edu.vn/quanly/sinhvien/ajax_full_data";
-        $config["total_rows"]=$num_rows;
-        $config["per_page"]=15;
-        $this->pagination->initialize($config);
-        $data["pagination"]=$this->pagination->create_links();
-        //data for view
-        $data["khoa_result"]=$khoa_result;
-        $data["khoa"]=$khoa;
-        $data["sinhvien_result"]=$sinhvien_result;
-        
-        $data["title"]="Trang quản lý sinh viên";        
-        
-		$this->load->view('admin/vsinhvien',$data);        
    	}
-    
-    
-    
+        
+//DANH SACH SINHVIEN====================================================================================================================================================
     //ajax load lai datas
     public function ajax_full_data($start=0)
     {
@@ -47,10 +53,10 @@ class Sinhvien extends CI_Controller {
         $khoa=$this->input->post("khoa");
         $k=$this->input->post("k");
         $limit=$this->input->post("limit");        
-        $masv=$this->input->post("masv");
+        $search=$this->input->post("search");
         
        //get a record of masv OR all follow each $khoa,$k,$start and $limit
-        $sinhvien_result=$this->msinhvien->get_sinhvien($masv,$khoa,$k,$start,$limit);        
+        $sinhvien_result=$this->msinhvien->get_sinhvien($search,$khoa,$k,$start,$limit);        
         $count_rows=count($sinhvien_result);
         
         if($count_rows>0)
@@ -58,13 +64,13 @@ class Sinhvien extends CI_Controller {
             //make pagination
             $this->load->library("pagination");        
             $config["base_url"]="http://dkhp.uit.edu.vn/quanly/sinhvien/ajax_full_data";
-            $config["total_rows"]=$this->msinhvien->get_num_rows($masv,$khoa);
+            $config["total_rows"]=$this->msinhvien->get_num_rows($search,$khoa,$k);
             
             $config["per_page"]=$limit;
             $this->pagination->initialize($config);
             
           
-            echo "<div id='pagination'>";
+            echo "<div id='pagination' class='".$config["total_rows"]."'>";
             echo $this->pagination->create_links();
 		    echo "</div><!--end #pagintion -->";
             
@@ -74,8 +80,7 @@ class Sinhvien extends CI_Controller {
             <tr id="first">
                 <th id="textbox"></th>
                 <th id="mssv"></th>
-                <th id="tensv"></th>
-                <th id="khoa"></th>
+                <th id="tensv"></th>                
                 <th id="lop"></th>
                 <th id="k"></th>
                 <th id="ngaysinh"></th>
@@ -85,11 +90,11 @@ class Sinhvien extends CI_Controller {
             </tr>';            
              foreach($sinhvien_result as $row)
              {
-                echo "<tr>";
+                $khoa=$this->msinhvien->get_sv_table($row->MaSV);
+                echo "<tr id='$khoa'>";
                 echo "<td><input id='".$row->MaSV."' class='checkbox_row' type='checkbox' /></td>";
                 echo "<td class='masv' title='Sửa đổi'>".$row->MaSV."</td>";
-                echo "<td class='tensv' style='text-align:left' >".$row->TenSV."</td>";
-                echo "<td class='khoa'>".$row->Khoa."</td>";
+                echo "<td class='tensv' style='text-align:left' >".$row->TenSV."</td>";                
                 echo "<td class='lop'>".$row->Lop."</td>";
                 echo "<td class='k'>".$row->K."</td>";
                 echo "<td class='ngaysinh'>".$row->NgaySinh."</td>";
@@ -104,21 +109,19 @@ class Sinhvien extends CI_Controller {
             
         }
         else echo "Dữ liệu trống.";
-        
-    sleep(1);   
-        
+    
+      
     }//end ajax_full_data
+    
+//==============================================DATA POPUP======================================================================================================   
     //tra ve 1 record sinh vien theo masv
-    function ajax_data()
+    public function ajax_data()
    {
-        sleep(0.5);
+
         $masv=$this->input->post("masv");
-        
-        $data_result=$this->msinhvien->get_sinhvien_data($masv);
+        $khoa=$this->input->post("khoa");
+        $data_result=$this->msinhvien->get_sinhvien($masv,$khoa);
         $khoa_result=$this->msinhvien->get_khoa();
-        
-        $khoa_result=$this->msinhvien->get_khoa();
-        
         if(count($data_result)>0)
         {
             foreach($data_result as $row)
@@ -128,32 +131,7 @@ class Sinhvien extends CI_Controller {
                           <td><input  name='masv'  id='masv'  type='text' title='MSSV gồm 8 kí tự' value='". $row->MaSV."'/></td>
                           </tr>";
                 echo "<tr><td>Họ Tên</td><td><input  name='tensv' id='tensv' type='text' value='". $row->TenSV."'/> </td></tr>";
-                echo "<tr><td>Khoa</td>
-                          <td>
-                              <select name='khoa' id='khoa'>";
-                              foreach($khoa_result as $khoa_row)
-                              {
-                                if($khoa_row->MaKhoa==$row->Khoa) 
-                                     echo "<option title='".$khoa_row->TenKhoa."' selected='selected' value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";
-                                else echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";
-                               
-                              }
-                echo          "</select>
-                          </td></tr>";
-                          
-                $lop_result=$this->msinhvien->get_lop($row->Khoa);
-                echo "<tr><td>Lớp</td>
-                          <td>
-                              <select name='lop' id='lop'>";
-                              foreach($lop_result as $lop_row)
-                              {
-                                if($lop_row->TenLop==$row->Lop) echo "<option selected='selected' value='".$lop_row->TenLop."'>".$lop_row->TenLop."</option>";
-                                else echo "<option  value='".$lop_row->TenLop."'>".$lop_row->TenLop."</option>";
-                               
-                              }
-                echo          "</select>
-                          </td></tr>";
-                          
+                //==============================================================================================
                 $K_result=$this->msinhvien->get_K();
                 echo "<tr><td>Khóa</td>
                           <td>
@@ -166,6 +144,36 @@ class Sinhvien extends CI_Controller {
                               }
                 echo          "</select>
                           </td></tr>";
+                          
+                 //==============================================================================================          
+                echo "<tr><td>Khoa</td>
+                          <td>
+                              <select name='khoa' class='".$khoa."' id='khoa'>";
+                              foreach($khoa_result as $khoa_row)
+                              {
+                                if($khoa_row->MaKhoa==$khoa) 
+                                     echo "<option title='".$khoa_row->TenKhoa."' selected='selected' value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";
+                                else echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";
+                               
+                              }
+                echo          "</select>
+                          </td></tr>";
+                  //==============================================================================================
+                         
+                $lop_result=$this->msinhvien->get_lop("",$khoa);
+                
+                echo "<tr><td>Lớp</td>
+                          <td>
+                              <select name='lop' id='lop'>";
+                              foreach($lop_result as $lop_row)
+                              {
+                                if($lop_row->TenLop==$row->Lop) echo "<option selected='selected' value='".$lop_row->TenLop."'>".$lop_row->TenLop."</option>";
+                                else echo "<option  value='".$lop_row->TenLop."'>".$lop_row->TenLop."</option>";
+                               
+                              }
+                echo          "</select>
+                          </td></tr>";
+                 //==============================================================================================
                           
                 echo "<tr><td>Ngày Sinh</td><td><input   name='ngaysinh' id='ngaysinh' type='text' title='vd: 20/10/2000, 20-10-2000' value='". $row->NgaySinh."'/> </td></tr>";
                 echo "<tr><td>Nơi Sinh</td><td><textarea name='noisinh'  id='noisinh' cols='25' rows='4'>".$row->NoiSinh."</textarea></td></tr>";
@@ -184,11 +192,12 @@ class Sinhvien extends CI_Controller {
             }
         }
         else echo "Lỗi dữ liệu";
+        
    }
-      
-   function ajax_update()
+//==============================================UPDATE SINHVIEN==========================================================================================================================================      
+   public function ajax_update()
    {
-            sleep(1);
+
             $this->load->library("form_validation");            
             $key=$this->input->post("key"); 
                  
@@ -205,9 +214,10 @@ class Sinhvien extends CI_Controller {
                 //echo validation_errors();
                 echo "<tr><td>".form_error("masv","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr><td>".form_error("tensv","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("k","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr><td>".form_error("khoa","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr><td>".form_error("lop","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
-                echo "<tr><td>".form_error("k","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                
                 echo "<tr><td>".form_error("ngaysinh","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr style='height:92px;'><td>".form_error("noisinh","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr><td>".form_error("sdt","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
@@ -218,25 +228,29 @@ class Sinhvien extends CI_Controller {
             {
                
                $data["masv"]=$this->input->post("masv");
-               $data["tensv"]=$this->input->post("tensv");
-               $data["khoa"]=$this->input->post("khoa");
+               $data["tensv"]=$this->input->post("tensv");               
                $data["lop"]=$this->input->post("lop");
                $data["k"]=$this->input->post("k");
                $data["noisinh"]=$this->input->post("noisinh");
                $data["ngaysinh"]=$this->input->post("ngaysinh");
                $data["sdt"]=$this->input->post("sdt");
                $data["email"]=$this->input->post("email");
-               $this->db->update("sinhvien",$data,array("MaSV"=>$key));
+               
+               $khoa_old=$this->input->post("khoa_old");
+               $khoa_new=$this->input->post("khoa_new");
+               $this->msinhvien->update_sinhvien($key,$khoa_old,$khoa_new,$data);
+               
                
                echo "success";
             }
     
      
-   }
+   }//end ajax_update
    
-   function ajax_insert()
+//==============================================INSERT SINHVIEN====================================================================================================================================================    
+   public function ajax_insert()
    {
-            sleep(1);
+
             $this->load->library("form_validation");            
             $key=$this->input->post("key"); 
                  
@@ -255,9 +269,9 @@ class Sinhvien extends CI_Controller {
                 //echo validation_errors();
                 echo "<tr><td>".form_error("masv","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr><td>".form_error("tensv","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
-                echo "<tr><td>".form_error("khoa","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
-                echo "<tr><td>".form_error("lop","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr><td>".form_error("k","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("khoa","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("lop","<span title='Thông báo lỗi'>","</span>")."</td></tr>";                
                 echo "<tr><td>".form_error("ngaysinh","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr style='height:92px;'><td>".form_error("noisinh","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
                 echo "<tr><td>".form_error("sdt","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
@@ -268,48 +282,43 @@ class Sinhvien extends CI_Controller {
                
                $data["masv"]=$this->input->post("masv");
                $data["tensv"]=$this->input->post("tensv");
-               $data["khoa"]=$this->input->post("khoa");
-               $data["lop"]=$this->input->post("lop");
-               $data["k"]=$this->input->post("k");
+               $data["k"]=$this->input->post("k");               
+               $data["lop"]=$this->input->post("lop");               
                $data["noisinh"]=$this->input->post("noisinh");
                $data["ngaysinh"]=$this->input->post("ngaysinh");
                $data["sdt"]=$this->input->post("sdt");
                $data["email"]=$this->input->post("email");
-               $this->db->insert("sinhvien",$data);
+               
+               $khoa=$this->input->post("khoa");
+               $this->db->insert("sv_".$khoa,$data);
                echo "success";
             }
     
      
-   }
-   function ajax_delete()
+   }//end ajax insert
+//==============================================DELETE SINHVIEN====================================================================================================================================================   
+   public function ajax_delete()
    {
         $mssv_array=$this->input->post("mssv_array");
-        if(count($mssv_array)>0)
-        { 
-            foreach($mssv_array as $key=>$value)
-            {
-                if($key==0) $this->db->where("MaSV",$value);
-                else  $this->db->or_where("MaSV",$value);
-                    
-            }
-            //$str_where="MaSV IN".array_values($mssv_array);
-            //echo $str_where;
-            $this->db->delete("sinhvien");
-            echo "Xóa thành công";
-        }
+        $khoa=$this->input->post("khoa");
+        $this->msinhvien->delete_sinhvien($mssv_array,$khoa);
    }
-   function ajax_lop_from_khoa()
+//====================================================================================================================================================
+   public function ajax_lop_from_khoa()
    {
+        $k=$this->input->post("k");  
         $khoa=$this->input->post("khoa");   
              
-        $lop_result=$this->msinhvien->get_lop($khoa);
+        $lop_result=$this->msinhvien->get_lop($k,$khoa);
         foreach($lop_result as $lop_row)
         {          
            echo "<option  value='".$lop_row->TenLop."'>".$lop_row->TenLop."</option>";
                                
         }
    }
-   function check_mssv($new_mssv,$old_mssv)
+
+//====================================================================================================================================================
+  public function check_mssv($new_mssv,$old_mssv)
    {
         if($new_mssv!=$old_mssv)
         {
@@ -322,9 +331,8 @@ class Sinhvien extends CI_Controller {
         }
         else return true;
    }
-   
-   //them sv page
-   public function themsv()
+//==============================================THEM SINHVIEN====================================================================================================================================================
+    function themsv()
     {
         $khoa_result=$this->msinhvien->get_khoa();
         $data["khoa_result"]=$khoa_result;
@@ -332,8 +340,230 @@ class Sinhvien extends CI_Controller {
         $data["title"]="Trang thêm sinh viên";  
         $this->load->view("admin/vsinhvien_add",$data);   
     }
-    //thong ke page
     
+   
+    
+    
+    
+//==============================================NHAP DU LIEU SINHVIEN====================================================================================================================================================
+   //them sv page
+   function nhapdl()
+    {
+        $khoa_result=$this->msinhvien->get_khoa();
+        $data["khoa_result"]=$khoa_result;
+        
+        $data["title"]="Trang nhập dữ liệu";  
+        $this->load->view("admin/vsinhvien_import",$data);   
+    }//END IMPORT FROM FILE
+    
+    
+    
+    
+//==============================================XUAT DU LIEU=================================================================================================================================================    
+    function xuatdl()
+	{  
+	   
+           $khoa=$this->input->post("khoa");
+           $k=$this->input->post("k");
+           $start=$this->input->post("start");
+           $end=$this->input->post("end");
+           $limit=$end-$start;        
+           $search=$this->input->post("search");
+           $file=$this->input->post("file");
+           
+           $this->form_validation->set_rules("khoa","khoa","required");
+           if($this->form_validation->run())
+            {
+    //=================================================CSV================================================================================================================================================      
+                if($file=="CSV")
+                {
+                    $objPHPExcel = new PHPExcel();
+                    
+                    
+                    $sinhvien_result=$this->msinhvien->get_sinhvien($search,$khoa,$k,$start,$limit);
+                    $fields=array("MaSV","TenSV","Lop","K","NgaySinh","NoiSinh","SDT","email");
+                    $ncol=0;
+                    $nrow=1;
+                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);    
+                    
+                    foreach($sinhvien_result as $row)
+                    {
+                        $ncol=0;
+                        foreach($fields as $field)
+                        {
+                            $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit($row->$field,PHPExcel_Cell_DataType::TYPE_STRING);
+                            $ncol++;
+                        }                
+                        $nrow++;
+                    }
+                   
+                    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    $filename="Danh sach sv ".$khoa;
+                    header('Content-Type: text/csv');
+                    header('Content-Disposition: attachment;filename="'.$filename.'.csv"');
+                    header('Cache-Control: max-age=0');
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+                    $objWriter->setDelimiter(',');
+                    $objWriter->setEnclosure('');
+                    $objWriter->setLineEnding("\r\n");
+                    $objWriter->setSheetIndex(0);
+                    
+                    $objWriter->save('php://output');
+                    exit();
+                }
+                
+                
+                
+                
+    //============================================EXCEL 2003============================================================================================================           
+                else if($file=="EXCEL2003")
+                {
+                    
+                    $objPHPExcel = new PHPExcel();
+                    // Add some data
+                    $sinhvien_result=$this->msinhvien->get_sinhvien($search,$khoa,$k,$start,$limit);
+                    $fields=array("MaSV","TenSV","Lop","K","NgaySinh","NoiSinh","SDT","email");
+                    $ncol=0;
+                    $nrow=2;
+                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);
+            //======TITLE============================================================================================================            
+                    $sheet_dsmh->getCell("A1")->setValue("MSSV"); 
+                    $sheet_dsmh->getColumnDimension('A')->setAutoSize(true);
+                    
+                    $sheet_dsmh->getCell("B1")->setValue("Họ Tên");        
+                    $sheet_dsmh->getColumnDimension('B')->setWidth(25);
+                    
+                    $sheet_dsmh->getCell("C1")->setValue("Lớp");
+                    $sheet_dsmh->getColumnDimension('C')->setWidth(12);
+                    
+                    $sheet_dsmh->getCell("D1")->setValue("K");
+                    $sheet_dsmh->getColumnDimension('D')->setWidth(15);
+                    
+                    $sheet_dsmh->getCell("E1")->setValue("Ngày Sinh");
+                    $sheet_dsmh->getColumnDimension('E')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("F1")->setValue("Nơi sinh");
+                    $sheet_dsmh->getColumnDimension('F')->setWidth(25);
+                    
+                    $sheet_dsmh->getCell("G1")->setValue("Số ĐT");
+                    $sheet_dsmh->getColumnDimension('G')->setAutoSize(true);
+                    
+                    $sheet_dsmh->getCell("H1")->setValue("Email");
+                    $sheet_dsmh->getColumnDimension('H')->setAutoSize(true);
+                    
+                    $sheet_dsmh->getStyle("A1:H1")->getFont()->setSize(12)->setBold(true);
+            //======DATA============================================================================================================            
+                    foreach($sinhvien_result as $row)
+                    {
+                        $ncol=0;
+                        foreach($fields as $field)
+                        {
+                            $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit($row->$field,PHPExcel_Cell_DataType::TYPE_STRING);
+                            $ncol++;
+                        }                
+                        $nrow++;
+                    }
+                   
+                    
+                    // Rename worksheet
+                    $objPHPExcel->getActiveSheet()->setTitle('DSSV '.$khoa);
+                    
+                    
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    $filename="Danh sach sv ".$khoa;
+                    header('Content-Type: application/vnd.ms-excel');
+                    header('Content-Disposition: attachment;filename="'.$filename.'.xls"');
+                    header('Cache-Control: max-age=0');
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+                    $objWriter->save('php://output');
+                    exit();
+                    
+                }//END 2003 OUTPUT
+                
+                
+                
+                
+//==============================================EXCEL 2007===================================================================================================================================            
+                else if($file=="EXCEL2007")
+                {
+                    $objPHPExcel = new PHPExcel();
+                    // Add some data
+                    $sinhvien_result=$this->msinhvien->get_sinhvien($search,$khoa,$k,$start,$limit);
+                    $fields=array("MaSV","TenSV","Lop","K","NgaySinh","NoiSinh","SDT","email");
+                    $ncol=0;
+                    $nrow=2;
+                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);
+            //=======TITLE============================================================================================================            
+                    $sheet_dsmh->getCell("A1")->setValue("MSSV"); 
+                    $sheet_dsmh->getColumnDimension('A')->setAutoSize(true);
+                    
+                    $sheet_dsmh->getCell("B1")->setValue("Họ Tên");        
+                    $sheet_dsmh->getColumnDimension('B')->setWidth(25);
+                    
+                    $sheet_dsmh->getCell("C1")->setValue("Lớp");
+                    $sheet_dsmh->getColumnDimension('C')->setWidth(12);
+                    
+                    $sheet_dsmh->getCell("D1")->setValue("K");
+                    $sheet_dsmh->getColumnDimension('D')->setWidth(15);
+                    
+                    $sheet_dsmh->getCell("E1")->setValue("Ngày Sinh");
+                    $sheet_dsmh->getColumnDimension('E')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("F1")->setValue("Nơi sinh");
+                    $sheet_dsmh->getColumnDimension('F')->setWidth(25);
+                    
+                    $sheet_dsmh->getCell("G1")->setValue("Số ĐT");
+                    $sheet_dsmh->getColumnDimension('G')->setAutoSize(true);
+                    
+                    $sheet_dsmh->getCell("H1")->setValue("Email");
+                    $sheet_dsmh->getColumnDimension('H')->setAutoSize(true);
+                    
+                    $sheet_dsmh->getStyle("A1:H1")->getFont()->setSize(12)->setBold(true);
+        //==========DATA============================================================================================================            
+                    foreach($sinhvien_result as $row)
+                    {
+                        $ncol=0;
+                        foreach($fields as $field)
+                        {
+                            $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit($row->$field,PHPExcel_Cell_DataType::TYPE_STRING);
+                            $ncol++;
+                        }                
+                        $nrow++;
+                    }
+                   
+                    
+                    // Rename worksheet
+                    $objPHPExcel->getActiveSheet()->setTitle('DSSV '.$khoa);
+                    
+                    
+                    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    
+                    $filename="Danh sach sv ".$khoa;
+                    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                    header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
+                    header('Cache-Control: max-age=0');                
+                    
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                    $objWriter->save('php://output');
+                    exit();
+                }//END 2007 OUTPUT
+                
+            }
+            else
+            {
+                $khoa_result=$this->msinhvien->get_khoa();
+                $data["khoa_result"]=$khoa_result;
+        
+                $data["title"]="Trang xuất dữ liệu";  
+                $this->load->view("admin/vsinhvien_export",$data);   
+                  
+            }
+	    
+        
+   	}//END EXPORT DATA
+ //================================================THONG KE==================================================================================================================================================
     public function count_sv($khoa="tatca",$k=0)
     {
          return $this->msinhvien->get_num_rows("",$khoa,$k);
@@ -345,7 +575,7 @@ class Sinhvien extends CI_Controller {
          $SL["total"]=$this->msinhvien->get_num_rows();
         foreach($khoa_result as $row)
         {
-            $SL[$row->MaKhoa][0]=$this->msinhvien->get_num_rows("",$row->MaKhoa,0);
+            $SL[$row->MaKhoa][0]=$this->msinhvien->get_num_rows("",$row->MaKhoa);
             foreach($K_result as $k_row)
             {                
                 $SL[$row->MaKhoa][$k_row->MaK]=$this->msinhvien->get_num_rows("",$row->MaKhoa,$k_row->MaK);

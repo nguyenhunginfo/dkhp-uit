@@ -17,8 +17,8 @@
 				</li>
                 <li><a href="/quanly/monhoc">Môn học &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &#187;</a>
                  <ul>
-						<li><a href="/quanly/monhoc/daicuong" title="Môn học đại cương">Đại Cương</a></li>							
-					    <li><a href="/quanly/monhoc/chuyennghanh" title="Môn học chuyên nghành">Chuyên Nghành</a></li>
+						<li><a href="/quanly/monhoc/DC" title="Môn học đại cương">Đại Cương</a></li>							
+					    <li><a href="/quanly/monhoc/CN" title="Môn học chuyên nghành">Chuyên Nghành</a></li>
 				</ul>
                 </li>
                 <li><a href="/quanly/lophoc">Lớp học &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &#187;</a>
