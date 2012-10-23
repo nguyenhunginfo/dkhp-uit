@@ -43,7 +43,7 @@ select{z-index:120;position:relative;}
 
 
 
-#wrapper #footer{height:250px;position:relative;}
+#wrapper #footer{height:20px;position:relative;}
 #wrapper #footer p{font-size:18px;color: #fff;}
 #wrapper #footer h4{color:#fff;font-size:20px;}
 #wrapper #footer img#separator{margin:0px 0px 0px 300px ;}
@@ -54,5 +54,5 @@ select{z-index:120;position:relative;}
 #wrapper #footer #contact{position:absolute;top:50px;right:20px;
                          height:141px;background:url("../../images/_copyright.png") no-repeat;
                          padding:30px 10px;}
-#wrapper #footer #copyright{position:absolute;bottom:0px;left:0px;background:#063afd;width:100%;text-align:center;}
+#wrapper #footer #copyright{position:absolute;bottom:0px;left:0px;width:100%;text-align:center;}
 #wrapper #footer #copyright p{font-size:16px;}

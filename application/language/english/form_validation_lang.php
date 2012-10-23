@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 $lang['required']			= "<b style='color:red'>%s</b> không được trống.";
 $lang['isset']				= "The %s field must have a value.";

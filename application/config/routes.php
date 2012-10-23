@@ -42,12 +42,17 @@ $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 $route['quanly/sinhvien']='sinhvien/index';
-$route['quanly/sinhvien/themsv']='sinhvien/themsv';
+$route['quanly/sinhvien/them-sinh-vien']='sinhvien/themsv';
+$route['quanly/sinhvien/nhap-du-lieu']='sinhvien/nhapdl';
+$route['quanly/sinhvien/xuat-du-lieu']='sinhvien/xuatdl';
 $route['quanly/sinhvien/thongke']='sinhvien/thongke';
+$route['quanly/sinhvien/test']='sinhvien/test';
 $route['quanly/sinhvien/(:any)']='sinhvien/index/$1';
-
 $route['sinhvien']='';
 
+$route['quanly/monhoc']='monhoc/index';
+$route['quanly/monhoc/them-mon-hoc']='monhoc/themmh';
+$route['quanly/monhoc/(:any)']='monhoc/index/$1';
 $route['quanly/giaovien']='giaovien/index';
 $route['giaovien']='';
 

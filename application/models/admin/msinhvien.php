@@ -12,21 +12,23 @@ class Msinhvien extends CI_Model
         $query=$this->db->get("khoa");
         return $query->result_object();        
     }
-    
-    function get_lop($khoa="")
+    //return tat ca lop thuoc k, khoa
+    function get_lop($k="",$khoa="")
     {
+        if($k!="") $this->db->where("MaK",$k);
         if($khoa!="") $this->db->where("MaKhoa",$khoa);
         $query=$this->db->get("lophoc");
         return $query->result_object();
         
     }
+    //get gia tri K
     function get_K()
     {        
         $query=$this->db->get("k");
         return $query->result_object();
         
     }
-    
+    //get ten_khoa
     function ten_khoa($makhoa)
     {
         $this->db->where("MaKhoa",$makhoa);
@@ -36,73 +38,199 @@ class Msinhvien extends CI_Model
         return $row->TenKhoa;
         
     }
-    function get_sinhvien($masv="",$khoa="tatca",$k=0,$start=0,$limit=0)
+    //get all sinh vien
+    function get_sinhvien($search="",$khoa,$k=0,$start=0,$limit=0)
     {
+        $result=null;
         //find by $masv
-        if($masv!="") 
+        if($search!="") 
         {
-            if(is_numeric($masv))$this->db->where("MaSV",$masv);//$masv is a numberic string
-            else $this->db->like("TenSV",$masv);
+            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);  
+            if($k!=0) $this->db->where("K",$k);  
+            if($limit!=0) $this->db->limit($limit,$start);          
+            $query_cnpm=$this->db->get("sv_cnpm");
+            
+            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);
+            if($k!=0) $this->db->where("K",$k);  
+            if($limit!=0) $this->db->limit($limit,$start);
+            $query_httt=$this->db->get("sv_httt");
+            
+            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);  
+            if($k!=0) $this->db->where("K",$k);  
+            if($limit!=0) $this->db->limit($limit,$start);              
+            $query_ktmt=$this->db->get("sv_ktmt");
+            
+            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);
+            if($k!=0) $this->db->where("K",$k);  
+            if($limit!=0) $this->db->limit($limit,$start);
+            $query_khmt=$this->db->get("sv_khmt");
+            
+            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);
+            if($k!=0) $this->db->where("K",$k);  
+            if($limit!=0) $this->db->limit($limit,$start);
+            $query_mmt=$this->db->get("sv_mmt");
+            
+            $array_cnmp=$query_cnpm->result_object();
+            $array_httt=$query_httt->result_object();
+            $array_ktmt=$query_ktmt->result_object();
+            $array_khmt=$query_khmt->result_object();                
+            $array_mmt=$query_mmt->result_object();
+                
+            $result=array_merge($array_cnmp,$array_httt,$array_ktmt,$array_khmt,$array_mmt);
+            
+            
                      
         }
         else//find by each of $khoa,$k
         {
-            if($khoa!="tatca")$this->db->where("Khoa",$khoa);       
-            if($k!=0) $this->db->where("K",$k);   
+            if($k!=0) $this->db->where("K",$k);  
+            if($limit!=0) $this->db->limit($limit,$start);  
+            $query=$this->db->get("sv_".$khoa);
+            $result=$query->result_object();
+            
             
         } 
-        if($limit!=0) $this->db->limit($limit,$start); 
-        $query=$this->db->get("sinhvien");
-        return $query->result_object();
+        
+        return $result;
         
     }
     
-    function get_sinhvien_data($masv)
-    {     
-         $this->db->where("MaSV",$masv);
-               
-          
-        $query=$this->db->get("sinhvien");
-        return $query->result_object();
-        
-    }
-    
-    function get_sinhvien_datas($array_mssv)
+    function get_num_rows($search="",$khoa="tatca",$k=0)
     {
-        $ncount=count($array_mssv);
-        for($i=0;$i<$ncount;$i++)
+        $num_rows=0;
+        //truong hop tim kiem
+        if($search!="") //co gia tri de tim kiem
         {
-           if($i==0) $this->db->where("MaSV",$array_mssv[$i]);
-           else $this->db->or_where("MaSV",$array_mssv[$i]);
+            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);  
+            if($k!=0) $this->db->where("K",$k);           
+            $num_rows+=$this->db->count_all_results("sv_cnpm");
+            
+            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);
+            if($k!=0) $this->db->where("K",$k); 
+            $num_rows+=$this->db->count_all_results("sv_httt");
+            
+            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);
+            if($k!=0) $this->db->where("K",$k); 
+            $num_rows+=$this->db->count_all_results("sv_ktmt");
+            
+             if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);
+            if($k!=0) $this->db->where("K",$k); 
+            $num_rows+=$this->db->count_all_results("sv_khmt");
+            
+             if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            else $this->db->like("TenSV",$search);
+            if($k!=0) $this->db->where("K",$k); 
+            $num_rows+=$this->db->count_all_results("sv_mmt");
+            
         }
-          
-        $query=$this->db->get("sinhvien");
-        return $query->result_object();
-        
-    }
-    function get_num_rows($masv="",$khoa="tatca",$k=0)
-    {
-        if($masv!="") $this->db->where("MaSV",$masv);
+        //truong hop liet ke
         else 
         {
-            if($khoa!="tatca")$this->db->where("Khoa",$khoa);       
-            if($k!=0) $this->db->where("K",$k); 
+            
+            if($khoa!="tatca")
+            {
+                if($k!=0) $this->db->where("K",$k); 
+                $num_rows=$this->db->count_all_results("sv_".$khoa);
+            }
+            else
+            {
+                if($k!=0) $this->db->where("K",$k); 
+                $num_rows+=$this->db->count_all_results("sv_cnpm");
+                if($k!=0) $this->db->where("K",$k); 
+                $num_rows+=$this->db->count_all_results("sv_httt");
+                if($k!=0) $this->db->where("K",$k); 
+                $num_rows+=$this->db->count_all_results("sv_ktmt");
+                if($k!=0) $this->db->where("K",$k); 
+                $num_rows+=$this->db->count_all_results("sv_khmt");
+                if($k!=0) $this->db->where("K",$k); 
+                $num_rows+=$this->db->count_all_results("sv_mmt");
+            }    
+            
         }
+          
                   
-        $query=$this->db->get("sinhvien");
-        return $query->num_rows();
+        return $num_rows;
     }
-	function update_sinhvien($data,$where)
+	//xoa sinh vien dua vao masv
+    function delete_sinhvien($mssv_array,$khoa)
     {
-        $this->db->update("sinhvien",$data,$where);        
+        if(count($mssv_array)>0)
+        { 
+            if($khoa!="")//biet truoc khoa
+            {
+                foreach($mssv_array as $key=>$value)
+                {
+                if($key==0) $this->db->where("MaSV",$value);
+                else  $this->db->or_where("MaSV",$value);                    
+                }        
+                $this->db->delete("sv_".$khoa);
+            }
+            else//khong biet khoa
+            {
+                foreach($mssv_array as $key=>$value)
+                {
+                    if($key==0) $this->db->where("MaSV",$value);
+                    else  $this->db->or_where("MaSV",$value);                    
+                }     
+                $table=array("sv_cnpm","sv_httt","sv_ktmt","sv_khmt","sv_mmt");   
+                $this->db->delete($table);
+            }
+            
+            
+            //delete gi thi delete
+        }
+    }
+    function insert_sinhvien($table,$data)
+    {
+        $this->db->insert($table,$data);
+    }
+    function update_sinhvien($key,$khoa_old,$khoa_new,$data)
+    {
+        //chuyen khoa
+        if($khoa_old!=$khoa_new)
+        {
+            $mssv_array=array($key);            
+            $this->delete_sinhvien($mssv_array,$khoa_old);
+            $this->insert_sinhvien("sv_".$khoa_new,$data);
+            
+            
+        }
+        else $this->db->update("sv_".$khoa_old,$data,array("MaSV"=>$key));
+        
     }
     function mssv_exist($masv)
     {
-        $this->db->where("masv",$masv);
-        $this->db->select("masv");
-        $query=$this->db->get("sinhvien");
-        if($query->num_rows()>0) return true;
-        else return false;
+        if($this->get_num_rows($masv)>0) return true;
+        return false;
+    }
+    function get_sv_table($masv)
+    {
+        $this->db->where("MaSV",$masv);
+        if($this->db->count_all_results("sv_cnpm")>0) return "CNPM";
+        $this->db->where("MaSV",$masv);
+        if($this->db->count_all_results("sv_httt")>0) return "HTTT";
+        $this->db->where("MaSV",$masv);
+        if($this->db->count_all_results("sv_ktmt")>0) return "KTMT";
+        $this->db->where("MaSV",$masv);
+        if($this->db->count_all_results("sv_khmt")>0) return "KHMT";
+        $this->db->where("MaSV",$masv);
+        if($this->db->count_all_results("sv_mmt")>0) return "MMT";
+    }
+    
+    function _get()
+    {
+        $this->load->database();
+        $query=$this->db->get("monhoc");
+        return $query;
     }
     
     

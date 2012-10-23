@@ -34,7 +34,7 @@
 #wrapper #data #left ul li ul li a{background:none;padding:0px;border:none;}
 
 #wrapper #data #left ul li ul li a:hover{color: red;font-weight:bold;cursor:pointer;}
-#wrapper #data #left ul li ul li.active{color:red;font-weight:bold;}
+
 
 #wrapper #data #right{float:right;width:978px;                                         
                       padding:0px;
@@ -56,7 +56,7 @@
                      -moz-border-radius: 5px;
                      -o-border-radius: 5px;
                      border-radius: 5px;
-                     margin:15px 0px 0px 100px;
+                     margin:15px 0px 0px 150px;
                      position:relative;
              }
 
@@ -66,12 +66,13 @@
 #wrapper #data  .box table tr:hover{background:#e8e9e8;}
 #wrapper #data  .box table input,
 #wrapper #data  .box table select,
-#wrapper #data  .box table textarea{font-size:18px;width:300px;}
+#wrapper #data  .box table textarea{font-size:18px;width:300px;resize: none ;}
 
 #wrapper #data  .box table input:hover,
 #wrapper #data  .box table select:hover,
 #wrapper #data  .box table textarea:hover{cursor:pointer;}
 
+#wrapper #data  .box table.info td:first-child{text-align: right;}
 #wrapper #data  .box table.error td{font-size:14px;}
 #wrapper #data  .box table.error td span{color:red;}
 #wrapper #data  .box table.error tr:hover{background:none;}

@@ -38,22 +38,19 @@
                 
                 <?php
                 echo "<ul>";
-                
-                echo "<li id='tatca'  ><a href='/quanly/sinhvien'>Tất cả</a></li>";
-                
                 foreach($khoa_result as $row)
-                {                
-                     
+                {    
                     echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."</a></li>"; 
                 }
                 echo "</ul>";
                 ?>
                  
                 </li>
-                <li><a class="active"  href="/quanly/sinhvien/themsv">Thêm sinh viên</a></li>
-                <li><a href="#">Tìm sinh viên</a></li>
+                <li><a href="/quanly/sinhvien/them-sinh-vien" class="active"  >Thêm sinh viên</a></li>
+                <li><a href="/quanly/sinhvien/nhap-du-lieu">Nhập dữ liệu</a></li> 
+                <li><a href="/quanly/sinhvien/xuat-du-lieu">Xuất dữ liệu</a></li> 
                 <li><a href="/quanly/sinhvien/thongke">Thống kê</a></li>
-                <li><a href="#">Ghi chú</a></li>
+                
                 
             </ul>
             </div><!--end #left -->
@@ -64,7 +61,19 @@
                         <table class="info"> 
                             <tr><td>MSSV</td><td><input    name='masv'   id='masv'   type='text' title='MSSV gồm 8 kí tự'/></td></tr>          
                             <tr><td>Họ Tên</td><td><input  name='tensv'  id='tensv'  type='text'/></td></tr>
-                            <?php                 
+                            <?php
+                            $K_result=$this->msinhvien->get_K();
+                                    echo "<tr><td>Khóa</td>
+                                              <td>
+                                                  <select name='k' id='k'>";                                                  
+                                                  foreach($K_result as $K_row)
+                                                  {
+                                                    
+                                                    echo "<option title='".$K_row->TenK."'  value='".$K_row->MaK."'>".$K_row->TenK."</option>";
+                                                   
+                                                  }
+                                    echo          "</select>
+                                              </td></tr>";                 
                             $khoa_result=$this->msinhvien->get_khoa();    
                             echo "<tr><td>Khoa</td>
                                       <td>
@@ -76,6 +85,7 @@
                                                    
                                       }
                             echo "</select> </td></tr>";
+                            
                             //$lop_result=$this->msinhvien->get_lop();
                             echo "<tr><td>Lớp</td>
                                       <td>
@@ -84,18 +94,7 @@
                                           <select />                                  
                                       </td></tr>";
                                               
-                                    $K_result=$this->msinhvien->get_K();
-                                    echo "<tr><td>Khóa</td>
-                                              <td>
-                                                  <select name='k' id='k'>";                                                  
-                                                  foreach($K_result as $K_row)
-                                                  {
-                                                    
-                                                    echo "<option title='".$K_row->TenK."'  value='".$K_row->MaK."'>".$K_row->TenK."</option>";
-                                                   
-                                                  }
-                                    echo          "</select>
-                                              </td></tr>";
+                                    
                                      ?>         
                             <tr><td>Ngày Sinh</td><td><input   name='ngaysinh'  id='ngaysinh'  type='text' title='vd: 20/10/2000, 20-10-2000' /></td></tr>
                             <tr><td>Nơi Sinh</td><td><textarea  name='noisinh'  id='noisinh' cols='25' rows='4'></textarea></td></tr>                            
@@ -114,7 +113,7 @@
                     </div><!--end  a .box -->
                     
                     <div id="message">
-                    <img alt="ok" src="<?php echo static_url() ?>/images/tick.png"/><span>Tạo sinh viên thành công</span>
+                    <img alt="ok" src="<?php echo static_url() ?>/images/ok.png"/><span>Tạo sinh viên thành công</span>
                     
                     </div><!--end message -->
                     

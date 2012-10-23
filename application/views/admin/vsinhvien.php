@@ -37,23 +37,21 @@
             <li><a class="active" href="/quanly/sinhvien">Danh sách sinh viên</a>
             
             <?php
-            echo "<ul>";
-            if($khoa=="tatca") echo "<li id='tatca'  class='active'>Tất cả</li>";
-            else               echo "<li id='tatca'  >Tất cả</li>";
-            
+            echo "<ul>";                       
             foreach($khoa_result as $row)
             {                
-                if(strcasecmp($row->MaKhoa,$khoa)==0) echo "<li id='".$row->MaKhoa."' class='active' title='".$row->TenKhoa."'> Khoa ".$row->MaKhoa."</li>"; 
-                else echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'> Khoa ".$row->MaKhoa."</li>"; 
+                if(strcasecmp($row->MaKhoa,$khoa)==0) echo "<li id='".$row->MaKhoa."' class='active' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."</a></li>"; 
+                else echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."</a></li>"; 
             }
                 echo "</ul>";
             ?>
              
             </li>
-            <li><a href="/quanly/sinhvien/themsv">Thêm sinh viên</a></li>
-            <li><a href="#">Tìm sinh viên</a></li>
+            <li><a href="/quanly/sinhvien/them-sinh-vien">Thêm sinh viên</a></li>
+            <li><a href="/quanly/sinhvien/nhap-du-lieu">Nhập dữ liệu</a></li> 
+            <li><a href="/quanly/sinhvien/xuat-du-lieu">Xuất dữ liệu</a></li>             
             <li><a href="/quanly/sinhvien/thongke">Thống kê</a></li>
-            <li><a href="#">Ghi chú</a></li>
+            
             
         </ul>
         </div><!--end #left -->
@@ -65,10 +63,12 @@
                 <option value="15">15</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
-                <option value="50">50</option>                
+                <option value="50">50</option>
+                <option value="0">Tất cả</option>                    
                 </select>
                 <div id="action">
                     <img id="del" title="Xóa" src="<?php echo static_url(); ?>/images/bin.png" alt="bin" />
+                    <img id="export" title="Xuất dữ liệu" src="<?php echo static_url(); ?>/images/outbox.png" alt="export" />
                     
                 </div>
                 <div id="search" title="Tìm kiếm">
@@ -96,8 +96,7 @@
                 <tr>
                     <th id="textbox"><input id="all" type="checkbox" title="Chọn tất cả/ hủy tất cả"/></th>
                     <th id="mssv">MSSV</th>
-                    <th id="tensv">Tên SV</th>
-                    <th id="khoa">Khoa</th>
+                    <th id="tensv">Tên SV</th>                    
                     <th id="lop">Lớp</th>
                     <th id="k">Khóa</th>
                     <th id="ngaysinh">Ngày Sinh</th>
@@ -108,13 +107,13 @@
                 </table><!--end tempt -->
                 
                 <div id="message">
-                <img alt="ok" src="<?php echo static_url() ?>/images/tick.png"/>                
+                <img alt="ok" src="<?php echo static_url() ?>/images/ok.png"/>                
                 </div>
                 
                 <div id="change_data">
                 <?php //pagination                    
                                          
-            			echo "<div id='pagination'>";
+            			echo "<div id='pagination' class='".$total_rows."'>";
                         echo $pagination;
             			echo "</div>";	
                     	
@@ -125,8 +124,7 @@
                         <tr id="first">
                             <td class="checkbox"></td>
                             <td class="mssv">MSSV</td>
-                            <td class="tensv">Tên SV</td>
-                            <td class="khoa">Khoa</td>
+                            <td class="tensv">Tên SV</td>                            
                             <td class="lop">Lớp</td>
                             <td class="k">Khóa</td>
                             <td class="ngaysinh">Ngày Sinh</td>
@@ -137,11 +135,10 @@
                         <?php
                          foreach($sinhvien_result as $row)
                          {
-                            echo "<tr>";
+                            echo "<tr id='$khoa'>";
                             echo "<td class='checkbox'><input id='".$row->MaSV."' class='checkbox_row' type='checkbox' /></td>";
                             echo "<td class='masv' title='Xem chi tiết'>".$row->MaSV."</td>";
-                            echo "<td class='tensv' style='text-align:left' >".$row->TenSV."</td>";
-                            echo "<td class='khoa'>".$row->Khoa."</td>";
+                            echo "<td class='tensv' style='text-align:left' >".$row->TenSV."</td>";                            
                             echo "<td class='lop'>".$row->Lop."</td>";
                             echo "<td class='k'>".$row->K."</td>";
                             echo "<td class='ngaysinh'>".$row->NgaySinh."</td>";
