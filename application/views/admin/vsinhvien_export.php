@@ -6,12 +6,12 @@
 	<meta name="author" content="rinodung" />
         
     <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/admin/common.css" />   
-    <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/admin/sinhvien_add.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/admin/sinhvien_import.css" />
      
     <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/menu/menu_css.css" />
     
     <script type="text/javascript" src="<?php echo static_url(); ?>/js/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo static_url(); ?>/js/admin/jsinhvien_add.js"></script>        
+    <script type="text/javascript" src="<?php echo static_url(); ?>/js/admin/jsinhvien_import.js"></script>        
 	<title><?php echo $title ?></title>
 </head>
 

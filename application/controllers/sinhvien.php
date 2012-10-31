@@ -1,6 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
 class Sinhvien extends CI_Controller {
+    var $file_upload_ext="";
 
     function __construct()
     {
@@ -9,12 +11,10 @@ class Sinhvien extends CI_Controller {
         $this->load->library("form_validation");        
         $this->load->model("admin/msinhvien");
         $this->load->library('PHPExcel');
+        
     }
 	public function index($khoa="CNPM")
-	{  
-	   
-              
-            //get khoa make menu
+	{       //get khoa make menu
             $khoa_result=$this->msinhvien->get_khoa();
             //get data to dump into table
             $sinhvien_result=$this->msinhvien->get_sinhvien("",$khoa,0,0,15);//lay danh sach sinh vien cac khoa, thuoc cac k, 15 record dau tien
@@ -231,7 +231,7 @@ class Sinhvien extends CI_Controller {
                $data["tensv"]=$this->input->post("tensv");               
                $data["lop"]=$this->input->post("lop");
                $data["k"]=$this->input->post("k");
-               $data["noisinh"]=$this->input->post("noisinh");
+               $data["noisinh"]=trim($this->input->post("noisinh"));
                $data["ngaysinh"]=$this->input->post("ngaysinh");
                $data["sdt"]=$this->input->post("sdt");
                $data["email"]=$this->input->post("email");
@@ -284,7 +284,7 @@ class Sinhvien extends CI_Controller {
                $data["tensv"]=$this->input->post("tensv");
                $data["k"]=$this->input->post("k");               
                $data["lop"]=$this->input->post("lop");               
-               $data["noisinh"]=$this->input->post("noisinh");
+               $data["noisinh"]=trim($this->input->post("noisinh"));
                $data["ngaysinh"]=$this->input->post("ngaysinh");
                $data["sdt"]=$this->input->post("sdt");
                $data["email"]=$this->input->post("email");
@@ -303,6 +303,7 @@ class Sinhvien extends CI_Controller {
         $khoa=$this->input->post("khoa");
         $this->msinhvien->delete_sinhvien($mssv_array,$khoa);
    }
+
 //====================================================================================================================================================
    public function ajax_lop_from_khoa()
    {
@@ -317,20 +318,7 @@ class Sinhvien extends CI_Controller {
         }
    }
 
-//====================================================================================================================================================
-  public function check_mssv($new_mssv,$old_mssv)
-   {
-        if($new_mssv!=$old_mssv)
-        {
-            if($this->msinhvien->mssv_exist($new_mssv)) 
-            {
-                $this->form_validation->set_message("check_mssv","<span title='Thông báo lỗi'><b style='color:red'>".$new_mssv."</b> đã tồn tại.</span>");
-                return false;   
-            }
-            else return true;
-        }
-        else return true;
-   }
+
 //==============================================THEM SINHVIEN====================================================================================================================================================
     function themsv()
     {
@@ -349,16 +337,75 @@ class Sinhvien extends CI_Controller {
    //them sv page
    function nhapdl()
     {
-        $khoa_result=$this->msinhvien->get_khoa();
-        $data["khoa_result"]=$khoa_result;
-        
-        $data["title"]="Trang nhập dữ liệu";  
-        $this->load->view("admin/vsinhvien_import",$data);   
-    }//END IMPORT FROM FILE
-    
-    
-    
-    
+        $this->load->helper("url");
+        $this->load->library("form_validation");
+        $this->form_validation->set_rules("khoa","Khoa","required");
+        $this->form_validation->set_rules("file_upload","Tập tin","callback_exist_file");
+        if($this->form_validation->run())
+        {
+            
+            $file_data=$this->upload->data();
+            $khoa=$this->input->post("khoa");
+            $import_type=$this->input->post("import_type");
+            
+            
+            try
+            {
+                $sinhvien_array=$this->read_import_file($file_data);    
+                if($import_type=="insert")$num_errors=$this->check_error_data($sinhvien_array);
+                else $num_errors=$this->check_error_data($sinhvien_array,$khoa);
+                if($num_errors>0) 
+                {
+                    
+                    $khoa_result=$this->msinhvien->get_khoa();
+                    $data["khoa_result"]=$khoa_result;
+                    $data["import_data"]=$sinhvien_array;
+                    $data["num_errors"]=$num_errors;
+            
+                    $data["title"]="Trang nhập dữ liệu";  
+                    $this->load->view("admin/vsinhvien_import",$data);    
+                }
+                else
+                {
+                    $this->msinhvien->import_sinhvien($khoa,$sinhvien_array,$import_type);
+                    
+                    /*
+                    echo"<pre>";
+                    print_r($sinhvien_array);
+                    print_r($file_data);
+                    echo $num_errors;
+                    echo"</pre>";
+                    */   
+                }
+            }
+            catch(exception $ex)
+            {
+                $khoa_result=$this->msinhvien->get_khoa();
+                $data["khoa_result"]=$khoa_result;
+                $data["error_array"]="Lỗi khi đọc tập tin";
+                $data["import_data"]=array();
+                $data["num_errors"]=1;
+                $data["title"]="Trang nhập dữ liệu";  
+                $this->load->view("admin/vsinhvien_import",$data); 
+                
+            }
+            
+            
+             
+           
+        }
+        else
+        {
+            $khoa_result=$this->msinhvien->get_khoa();
+            $data["khoa_result"]=$khoa_result;
+            $data["import_data"]=array();
+            $data["num_errors"]=0;
+            $data["error_array"]="";
+            $data["title"]="Trang nhập dữ liệu";  
+            $this->load->view("admin/vsinhvien_import",$data);    
+        }
+           
+    }//END IMPORT FROM FILE    
 //==============================================XUAT DU LIEU=================================================================================================================================================    
     function xuatdl()
 	{  
@@ -388,13 +435,20 @@ class Sinhvien extends CI_Controller {
                     
                     foreach($sinhvien_result as $row)
                     {
-                        $ncol=0;
-                        foreach($fields as $field)
-                        {
-                            $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit($row->$field,PHPExcel_Cell_DataType::TYPE_STRING);
-                            $ncol++;
-                        }                
-                        $nrow++;
+                                                                      
+                        $sheet_dsmh->setCellValueByColumnAndRow(0,$nrow,"'".$row->MaSV);
+                        $sheet_dsmh->setCellValueByColumnAndRow(1,$nrow,$row->TenSV);
+                        $sheet_dsmh->setCellValueByColumnAndRow(2,$nrow,$row->Lop);
+                        $sheet_dsmh->setCellValueByColumnAndRow(3,$nrow,$row->K);
+                        $sheet_dsmh->setCellValueByColumnAndRow(4,$nrow,$row->NgaySinh);                        
+                        $sheet_dsmh->setCellValueByColumnAndRow(5,$nrow,trim($row->NoiSinh));
+                        $sheet_dsmh->setCellValueByColumnAndRow(6,$nrow,"'".$row->SDT);
+                        $sheet_dsmh->setCellValueByColumnAndRow(7,$nrow,$row->email);
+                        
+                        
+                        $nrow++; 
+                        
+                        
                     }
                    
                     // Set active sheet index to the first sheet, so Excel opens this as the first sheet
@@ -412,8 +466,6 @@ class Sinhvien extends CI_Controller {
                     $objWriter->save('php://output');
                     exit();
                 }
-                
-                
                 
                 
     //============================================EXCEL 2003============================================================================================================           
@@ -438,7 +490,7 @@ class Sinhvien extends CI_Controller {
                     $sheet_dsmh->getColumnDimension('C')->setWidth(12);
                     
                     $sheet_dsmh->getCell("D1")->setValue("K");
-                    $sheet_dsmh->getColumnDimension('D')->setWidth(15);
+                    $sheet_dsmh->getColumnDimension('D')->setWidth(10);
                     
                     $sheet_dsmh->getCell("E1")->setValue("Ngày Sinh");
                     $sheet_dsmh->getColumnDimension('E')->setWidth(20);
@@ -459,13 +511,11 @@ class Sinhvien extends CI_Controller {
                         $ncol=0;
                         foreach($fields as $field)
                         {
-                            $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit($row->$field,PHPExcel_Cell_DataType::TYPE_STRING);
+                            $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit(trim($row->$field),PHPExcel_Cell_DataType::TYPE_STRING);
                             $ncol++;
                         }                
                         $nrow++;
                     }
-                   
-                    
                     // Rename worksheet
                     $objPHPExcel->getActiveSheet()->setTitle('DSSV '.$khoa);
                     
@@ -505,7 +555,7 @@ class Sinhvien extends CI_Controller {
                     $sheet_dsmh->getColumnDimension('C')->setWidth(12);
                     
                     $sheet_dsmh->getCell("D1")->setValue("K");
-                    $sheet_dsmh->getColumnDimension('D')->setWidth(15);
+                    $sheet_dsmh->getColumnDimension('D')->setWidth(10);
                     
                     $sheet_dsmh->getCell("E1")->setValue("Ngày Sinh");
                     $sheet_dsmh->getColumnDimension('E')->setWidth(20);
@@ -591,11 +641,185 @@ class Sinhvien extends CI_Controller {
         $data["K_result"]=$K_result;
         $data["SL"]=$SL;
         $data["title"]="Trang thống kê tổng quát sinh viên";  
-        $this->load->view("admin/vsinhvien_statistic",$data);   
+        $this->load->view("admin/vsinhvien_statistic",$data); 
+          
     }
+//============VALID SINHVIEN WHEN IMPORT==============================================================================================================
+    public function valid_mssv($mssv,$arr_unique,$khoa="")
+       {
+          if(in_array($mssv,$arr_unique)) return false;
+          else if ($this->msinhvien->mssv_exist_condition($mssv,$khoa)) return false;
+          return true;
+       }
+    public function check_error_data($data,$khoa="")
+    {
+        $num_errors=0;
+        $array_unique=array();
+        foreach($data as $row)
+        {
+            if($this->valid_mssv($row["MaSV"],$array_unique,$khoa)==false) $num_errors++;
+            $array_unique[]=$row["MaSV"];
+            
+        }
+        return $num_errors;
+    }
+//============VALID FILE_UPLOAD WHEN IMPORT==============================================================================================================
+    public function exist_file()
+       {   
+           if($_FILES["file_upload"])
+            {
+                $config["upload_path"]="C:\\xampp\\htdocs\\dkhp\\application\\uploads";
+                $config["allowed_types"]="xls|xlsx|csv";
+                $config["max_size"]="2048";
+                $config["file_name"]="upload_file";                
+                $config["max_filename"]="30";
+                $config["overwrite"]=true;
+                $this->load->library("upload",$config);
+                $this->upload->initialize($config);
+                if($this->upload->do_upload("file_upload"))
+                {                      
+                    return true;
+                }
+                else
+                {
+                    $error=$this->upload->display_errors("<span title='Thông báo lỗi'>","</span>");
+                    $this->form_validation->set_message("exist_file",$error);
+                    return false;
+                }
+            }
+            else
+            {
+                $this->form_validation->set_message("exist_file","<span title='Thông báo lỗi'> Hãy chọn tập tin.</span>");
+                return false;
+            }
+            
+       }
+//==========================CALLBACK OF FORM VALIDATTION==========================================================================================================================
+  public function check_mssv($new_mssv,$old_mssv)
+   {
+        if($new_mssv!=$old_mssv)
+        {
+            if($this->msinhvien->mssv_exist($new_mssv)) 
+            {
+                $this->form_validation->set_message("check_mssv","<span title='Thông báo lỗi'><b style='color:red'>".$new_mssv."</b> đã tồn tại.</span>");
+                return false;   
+            }
+            else return true;
+        }
+        else return true;
+   }
+   public function read_import_file($file_data)   
+   {
+        $file_name=$file_data["file_name"];
+        $full_name=$file_data["full_path"];
+        $file_ext=$file_data["file_ext"];
+            
+            
+        $objPHPExcel = new PHPExcel();
+        $sinhvien_array=array();  
+        
+   
+            if($file_ext==".csv")
+            {                                    
+                $inputFileType = 'CSV';
+                    
+                $objReader = PHPExcel_IOFactory::createReader($inputFileType);                 
+                $objReader->setDelimiter(',');
+                $objReader->setEnclosure('');
+                $objReader->setLineEnding("\r\n");
+                $objReader->setSheetIndex(0);                
+                    
+                    
+                    
+                $objPHPExcel = $objReader->load($full_name);
     
-}
+                $str_col= $objPHPExcel->getActiveSheet()->getHighestColumn();
+                $num_col=PHPExcel_Cell::columnIndexFromString($str_col);
+                $num_row=$str_row=$objPHPExcel->getActiveSheet()->getHighestRow();
+                    
+                    
+                    
+                                  
+                          
+                for($row_index=1;$row_index<=$num_row;$row_index++)
+                {
+                        
+                        
+                $MaSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                $TenSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                $Lop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                $K=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                $NgaySinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                $NoiSinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
+                $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
+                $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                        
+                      
+                $MaSV=ltrim($MaSV,"'");
+                $SoDT=ltrim($SoDT,"'");
+                $tempt=array("MaSV"=>$MaSV,
+                             "TenSV"=>$TenSV,
+                             "Lop"=>$Lop,
+                             "K"=>$K,
+                             "NgaySinh"=>$NgaySinh,
+                             "NoiSinh"=>$NoiSinh,
+                             "SDT"=>$SoDT,
+                             "Email"=>$Email);
+                $sinhvien_array[]=$tempt;
+                       
+                }
+            }
+            
+            else if($file_ext==".xls")
+                {
+                    $inputFileType = 'EXCEL5';
+                    
+                    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                    $objPHPExcel = $objReader->load($full_name);
+                    
+                    $str_col= $objPHPExcel->getActiveSheet()->getHighestColumn();
+                    $num_col=PHPExcel_Cell::columnIndexFromString($str_col);
+                    $num_row=$str_row=$objPHPExcel->getActiveSheet()->getHighestRow();
+                    
+                    
+                    
+                    $sinhvien_array=array();                
+                          
+                    for($row_index=2;$row_index<=$num_row;$row_index++)
+                    {
+                        
+                        
+                        $MaSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                        $TenSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                        $Lop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                        $K=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                        $NgaySinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                        $NoiSinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
+                        $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
+                        $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                        
+                        $tempt=array("MaSV"=>$MaSV,
+                                     "TenSV"=>$TenSV,
+                                     "Lop"=>$Lop,
+                                     "K"=>$K,
+                                     "NgaySinh"=>$NgaySinh,
+                                     "NoiSinh"=>$NoiSinh,
+                                     "SDT"=>$SoDT,
+                                     "Email"=>$Email);
+                        $sinhvien_array[]=$tempt;
+                       
+                    }
+                
+                }
+            
+           
+            
+            return $sinhvien_array;
+    
+   }
+}//end CONTROLLER SINHVIEN
+    
+    
 
-
-
+ 
 ?>

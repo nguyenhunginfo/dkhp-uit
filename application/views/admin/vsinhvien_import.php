@@ -43,84 +43,147 @@
                     echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."</a></li>"; 
                 }
                 echo "</ul>";
-                ?>
-                 
+                ?>                 
                 </li>
                 <li><a href="/quanly/sinhvien/them-sinh-vien">Thêm sinh viên</a></li>
                 <li><a href="/quanly/sinhvien/nhap-du-lieu" class="active">Nhập dữ liệu</a></li> 
                 <li><a href="/quanly/sinhvien/xuat-du-lieu">Xuất dữ liệu</a></li>   
                 <li><a href="/quanly/sinhvien/thongke">Thống kê</a></li>
-                
-                
             </ul>
             </div><!--end #left -->
             <div id="right"> 
-                    <h3>Thao tác nhập dữ liệu từ tập tin</h3>
-                    <div class='box'>
-                    <form>        
+                <form method="post" action="/sinhvien/nhapdl" enctype="multipart/form-data">
+                    <?php
+                    if($num_errors>0) echo "<h3>Thao tác nhập dữ liệu từ tập tin<span style='color:red;'>(phát hiện lỗi)</span></h3>";
+                    else echo "<h3>Thao tác nhập dữ liệu từ tập tin</h3>";
+                     ?>
+                    <div class='box'>                    
                         <table class="info"> 
-                        <tr><td>Chọn tập tin</td><td><input type="file" name="file"/></td></tr>
-                        
                         <?php
                             
-                            $khoa_result=$this->msinhvien->get_khoa();    
+                            $khoa_result=$this->msinhvien->get_khoa();   
+                            $khoa_active=set_value("khoa"); 
+                            $khoa_type="";
                             echo "<tr><td>Khoa</td>
                                       <td>
-                                      <select name='khoa' id='khoa'>";
+                                      <select name='khoa' id='khoa' title='Chọn Khoa để áp dụng nhập dữ liệu cho Khoa này'>";
                                       echo "<option value=''>Chọn khoa</option>";
                                       foreach($khoa_result as $khoa_row)
-                                      {                   
-                                         echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";
+                                      {  
+                                        if($khoa_row->MaKhoa==$khoa_active) echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."' selected='selected'>".$khoa_row->MaKhoa."</option>";
+                                        else echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";
                                                    
                                       }
-                            echo "</select> </td></tr>";
-                            $K_result=$this->msinhvien->get_K();
-                                    echo "<tr><td>Khóa</td>
-                                              <td>
-                                                  <select name='k' id='k'>"; 
-                                                  echo "<option value=0>Tất cả</option>" ;                                                
-                                                  foreach($K_result as $K_row)
-                                                  {
-                                                    
-                                                    echo "<option title='".$K_row->TenK."'  value='".$K_row->MaK."'>".$K_row->TenK."</option>";
-                                                   
-                                                  }
-                                    echo          "</select>
-                                              </td></tr>";                
-                                                                
-                        ?>         
-                                      
-                        </table><!--end .info -->
-                             
-                        <table class='error'>
-                        <tr><td><span title="Bắt buộc">*</span></td></tr>
-                        <tr><td><span title="Bắt buộc">*</span></td></tr>
+                            echo "</select> </td></tr>";        
+                            
+                            
+                            $import_type_active=$this->input->post("import_type");
+                            if($import_type_active=="insert")
+                            {
+                                
+                                echo "<tr><td>Kiểu nhập dữ liệu</td>
+                                <td id='import_type'><input name='import_type' type='radio'  value='new'
+                                                     title='Kiểu này sẽ xóa toàn bộ dữ liệu cũ và thêm dữ liệu mới từ tập tin'
+                                                     />Tạo mới
+                                                    <input name='import_type' type='radio' value='insert' checked='checked'
+                                                    title='Kiểu bổ sung sẽ thêm dữ liệu từ tập tin vào hệ thống(Chú ý có thể lỗi dữ liệu)'/>Bổ sung
+                                </td>
+                                </tr> ";
+                            }
+                            else//new
+                            {
+                                $khoa_type=$khoa_active;
+                                echo "<tr><td>Kiểu nhập dữ liệu</td>
+                                <td id='import_type'><input name='import_type' type='radio' value='new' checked='checked' 
+                                                     title='Kiểu này sẽ xóa toàn bộ dữ liệu cũ và thêm dữ liệu mới từ tập tin'
+                                                     />Tạo mới
+                                                    <input name='import_type' type='radio' value='insert' 
+                                                    title='Kiểu bổ sung sẽ thêm dữ liệu từ tập tin vào hệ thống(Chú ý có thể lỗi dữ liệu)'/>Bổ sung
+                                </td>
+                                </tr> ";
+                            } 
                         
-                        </table>  
-                    </form>
+                        ?>       
+                        <tr><td>Chọn tập tin</td>
+                            <td><input type="file" id="file_upload" name="file_upload" title="Chọn tập tin cần nhập dữ liệu(.CSV,.XLS,.XLSX)"/></td>                                 
+                        </tr>
+                        </table><!--end .info -->
+                            
+                        <table class='error'>
+                            <tr><td><?php echo form_error("khoa","<span title='Thông báo lỗi'>","</span>") ?></td></tr>
+                            
+                            <tr><td><?php echo form_error("import_type","<span title='Thông báo lỗi'>","</span>") ?></td></tr>
+                            <tr><td><?php echo form_error("file_upload","<span title='Thông báo lỗi'>","</span>") ?></td></tr>
+                        </table> 
+                    
                     </div><!--end  a .box -->
                     
-                    <div id="message">
-                    <img alt="ok" src="<?php echo static_url() ?>/images/ok.png"/><span>Tạo sinh viên thành công</span>
+                    <div id="data_checking">
+                    <?php
                     
-                    </div><!--end message -->
+                    if(count($import_data)>0)
+                    {
+                        
+                        echo "
+                        <table>
+                          <tr id='first'>
+                            <th id='im_error'></th>
+                            <th id='mssv'>MSSV</th>
+                            <th id='tensv'>Tên SV</th>                    
+                            <th id='lop'>Lớp</th>
+                            <th id='k'>Khóa</th>
+                            <th id='ngaysinh'>Ngày Sinh</th>
+                            <th id='noisinh'>Nơi Sinh</th>
+                            <th id='sdt'>Số ĐT</th>
+                            <th id='email'>E-mail</th>
+                          </tr>";
+                          
+                              $arr_unique=array();
+                              foreach($import_data as $row)
+                              {
+                                  if(Sinhvien::valid_mssv($row["MaSV"],$arr_unique,$khoa_type)==false)
+                                  {
+                                    echo "<tr class='error'>";
+                                    echo "<td class='im_error'><img title='MSSV đã tồn tại hoặc trùng' src='".static_url()."/images/delete.png' /></td>";
+                                  }
+                                  else
+                                  {
+                                    echo "<tr>";
+                                    echo "<td class='im_error'></td>";
+                                  }
+                                  echo "<td class='masv'>".$row["MaSV"]."</td>";
+                                  echo "<td class='tensv' style='text-align:left' >".$row["TenSV"]."</td>";                            
+                                  echo "<td class='lop'>".$row["Lop"]."</td>";
+                                  echo "<td class='k'>".$row["K"]."</td>";
+                                  echo "<td class='ngaysinh'>".$row["NgaySinh"]."</td>";
+                                  echo "<td class='noisinh'>".$row["NoiSinh"]."</td>";
+                                  echo "<td class='sdt'>".$row["SDT"]."</td>";
+                                  echo "<td class='email'>".$row["Email"]."</td>";
+                                  echo "</tr>";
+                                  $arr_unique[]=$row["MaSV"];
+                              }
+                                                                            
+                        echo "</table>";
+                        }
+                        else echo $error_array;
+                        ?>
+                    </div><!--end #data_checking-->
                     
                     <div id="action">
-                        <h4 title="Phát hiện lỗi"><img src="<?php echo static_url(); ?>/images/error.png" />Phát hiện lỗi trong quá trình kiểm tra dữ liệu.Thao tác chỉ thành công khi không còn lỗi</h4>
-                        <img id="create" title="Lưu" src="<?php echo static_url(); ?>/images/accept.png" />
-                        <img id="process" title="Đang kiểm tra" src="<?php echo static_url(); ?>/images/process.gif" />
+                        <?php
+                            if($num_errors>0) echo "<p>Phát hiện ".$num_errors." lỗi trong quá trình kiểm tra dữ liệu.Quá trình nhập dữ liệu thất bại</p>";
+                            
+                         ?>                                                
+                        <img id="create" title="Lưu" src="<?php echo static_url(); ?>/images/accept.png" />                        
                     </div><!--end #action -->                   
-                
+                </form><!--end main form -->    
             </div><!--end #right -->
         </div><!--end #data -->
-        </div><!--#page =#main_menu + #data -->
+    </div><!--#page =#main_menu + #data -->
+    
     <!-- #footer -->
     <?php $this->load->view("admin/vfooter"); ?>
     <!-- End #footer-->
    
-</div><!--end #wrapper -->   
-
-
-
-</body>
+</div><!--end #wrapper -->   </body>
 </html>

@@ -189,9 +189,23 @@ class Msinhvien extends CI_Model
             //delete gi thi delete
         }
     }
-    function insert_sinhvien($table,$data)
+    function insert_sinhvien($khoa,$data)
     {
-        $this->db->insert($table,$data);
+        $this->db->insert_batch("sv_".$khoa,$data);
+    }
+    function import_sinhvien($khoa,$data,$type)
+    {
+        if($type=="insert")
+        {
+            $this->db->insert_batch("sv_".$khoa,$data);
+        }
+        else
+        {   
+            $this->db->trans_start();
+            $this->db->empty_table("sv_".$khoa);
+            $this->db->insert_batch("sv_".$khoa,$data);
+            $this->db->trans_complete();
+        }
     }
     function update_sinhvien($key,$khoa_old,$khoa_new,$data)
     {
@@ -210,6 +224,22 @@ class Msinhvien extends CI_Model
     function mssv_exist($masv)
     {
         if($this->get_num_rows($masv)>0) return true;
+        return false;
+    }
+    function mssv_exist_condition($masv,$khoa)
+    {
+        if($this->get_num_rows($masv)>0)//ton tai sinhvien
+        {
+            if($khoa!="")
+            {                
+                $this->db->where("MaSV",$masv); 
+                $count=$this->db->count_all_results("sv_".$khoa);
+                if($count>0) return false;
+                else return true;   
+            }
+            else return true;
+             
+        } 
         return false;
     }
     function get_sv_table($masv)

@@ -51,7 +51,13 @@ $(document).ready(function()
          {
             url:"/sinhvien/ajax_insert",
             type:"POST",
+            timeout:5000,
             data:{key:key,masv:masv,tensv:tensv,khoa:khoa,lop:lop,k:k,ngaysinh:ngaysinh,noisinh:noisinh,sdt:sdt,email:email},
+            error: function (xhr, ajaxOptions, thrownError) {
+                enable_footer(1,0); 
+                alert("Thao tác thêm sinh viên thất bại");
+               
+            },
             success:function(result)
             {   
                 //alert(result);
