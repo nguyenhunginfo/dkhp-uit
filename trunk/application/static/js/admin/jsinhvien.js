@@ -8,7 +8,7 @@ $(document).ready(function()
         var khoa=$("#data #left li li.active").attr("id");
         var display=parseInt($("select#view_num").val());//hien thi bao nhiu?
         var search=$("#search form").children().val();
-        alert(k+" "+khoa);
+        
         $.ajax(
         {
             url:"/sinhvien/ajax_full_data",
@@ -208,7 +208,8 @@ $(document).ready(function()
                             var k=$("select#khoa").val();
                             var display=parseInt($("#tool select#view_num").val());//hien thi bao nhiu?			
                             var start_num=0;
-                            var khoa="cnpm";//default
+                            var khoa=$("#data #left li li.active").attr("id");
+                            if(khoa==undefined) khoa="cnpm"; 
                     			$.ajax(
                                 {
                                     url:"/sinhvien/ajax_full_data",

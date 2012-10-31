@@ -1,118 +1,47 @@
 $(document).ready(function()
 {   
     
-    
-    
-    
-     $("table.info select#k,table.info select#khoa").live("change",function()
-        {
-            k=$("table.info select#k").val();
-            khoa=$("table.info select#khoa").val();      
-             
-            
-            $.ajax({
-                url: "/sinhvien/ajax_lop_from_khoa",
-                type:"POST",
-                data:{k:k,khoa:khoa},
-                success:function(result)
-                {
-                   // alert(result);
-                    $("table.info select#lop").html(result);
-                }
-            });
-            
-        }); 
-     $("table.info select").live("change",function()
-        {
-            enable_footer(1,0);
-        });
-    $("table.info input,table.info textarea").live("keydown",function()
-        {        
-            enable_footer(1,0);
-        });   
-    
+   
     $("#action img#create").click(function()
     {
+        khoa=$("table.info select#khoa").val();
+        file_name=$("table.info input#file_upload").val();
+        if(khoa=="") alert("Hãy chọn khoa trước");
+        else if(file_name=="") alert("Hãy chọn tập tin dữ liệu trước"); 
+             else $("form").submit();
+        
+       
         
         
-        key="";
-        masv=$("table.info input#masv").val();
-        tensv=$("table.info  input#tensv").val();
-        khoa=$("table.info  select#khoa").val();
-        lop=$("table.info  select#lop").val();
-        k=$("table.info  select#k").val();
-        ngaysinh=$("table.info  input#ngaysinh").val();
-        noisinh=$("table.info  textarea#noisinh").val();
-        sdt=$("table.info  input#sdt").val();
-        email=$("table.info  input#email").val();
-        //alert(key+" "+masv+" "+tensv+" "+khoa+" "+lop+" "+k);
-        enable_footer(0,0);       
-        $.ajax(
-         {
-            url:"/sinhvien/ajax_insert",
-            type:"POST",
-            data:{key:key,masv:masv,tensv:tensv,khoa:khoa,lop:lop,k:k,ngaysinh:ngaysinh,noisinh:noisinh,sdt:sdt,email:email},
-            success:function(result)
-            {   
-                //alert(result);
-                if(result=="success")
-                {
-                    $("#right #message span").html("Tạo sinh viên "+masv+" thành công");
-                    $("#right #message").fadeIn(500).fadeOut(2500);
-                    clear_form();
-                    enable_footer(2,0); 
-                }
-                else
-                {
-                  
-                  $("table.error").html(result);
-                  enable_footer(1,1);  
-                } 
-              
-            }
-        });
-        
-      
     });//end save action
+    $("table.info input#file_upload").change(function()
+    {
+        filename=$(this).val();
+        
+        if(filename!="")
+        {
+            ext=filename.split('.').pop();
+            if(ext!="csv"&&ext!="xls"&&ext!="xlsx")
+            {
+              alert("Kiểu dữ liệu không hợp lệ.\nVui lòng chọn những tập tin sau: csv,excel2003(.xls),excel2007(.xlsx)");
+              $(this).val("");  
+            } 
+            
+        }
+        $("#right h3").html("Thao tác nhập dữ liệu từ tập tin");
+        $("#data_checking").html("");
+        $("#right form #action p").html("");
+    });
+    $("table.info select,table.info input").change(function()
+    {
+        
+        $("#right h3").html("Thao tác nhập dữ liệu từ tập tin");
+        $("#data_checking").html("");
+        $("#right form #action p").html("");
+        
+    });
 });
 
-function enable_footer(save,h4)
-{
-        
-    if(save==0)
-    {     
-      $("#action img#create").hide();     
-      $("#action img#process").show();  
-    }
-    else if(save==1)  
-    {
-        $("#action img#process").hide();
-        $("#action img#create").show();     
-       
-    }
-    else
-    {
-        $("#action img#process").hide();
-        $("#action img#create").hide(); 
-    }
-    
-    if(h4==0) 
-    {
-     $(".box table.error").hide();   
-     $("#action h4").hide();   
-    }    
-    else
-    {
-        $(".box table.error").show();
-        $("#action h4").show();  
-    }     
-    
-}
-function clear_form()
-{
-    $("table.info input,table.info textarea").val("");
-}
-    
     
     
     
