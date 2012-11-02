@@ -228,18 +228,22 @@ class Msinhvien extends CI_Model
     }
     function mssv_exist_condition($masv,$khoa)
     {
-        if($this->get_num_rows($masv)>0)//ton tai sinhvien
+        if($masv!="")
         {
-            if($khoa!="")
-            {                
-                $this->db->where("MaSV",$masv); 
-                $count=$this->db->count_all_results("sv_".$khoa);
-                if($count>0) return false;
-                else return true;   
-            }
-            else return true;
-             
-        } 
+            if($this->get_num_rows($masv)>0)//ton tai sinhvien
+            {
+                if($khoa!="")
+                {                
+                    $this->db->where("MaSV",$masv); 
+                    $count=$this->db->count_all_results("sv_".$khoa);
+                    if($count>0) return false;
+                    else return true;   
+                }
+                else return true;
+                 
+            } 
+        }
+        
         return false;
     }
     function get_sv_table($masv)
