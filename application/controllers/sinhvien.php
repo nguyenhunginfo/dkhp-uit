@@ -320,11 +320,13 @@ class Sinhvien extends CI_Controller {
 
 
 //==============================================THEM SINHVIEN====================================================================================================================================================
-    function themsv()
+    function themsv($khoa="")
     {
         $khoa_result=$this->msinhvien->get_khoa();
         $data["khoa_result"]=$khoa_result;
-        
+        $data["khoa"]=$khoa;
+        if($khoa!="") $data['data_title']="Thao tác thêm sinh viên khoa ".$this->msinhvien->ten_khoa($khoa);
+        else $data['data_title']="Thao tác thêm sinh viên";
         $data["title"]="Trang thêm sinh viên";  
         $this->load->view("admin/vsinhvien_add",$data);   
     }
@@ -335,15 +337,14 @@ class Sinhvien extends CI_Controller {
     
 //==============================================NHAP DU LIEU SINHVIEN====================================================================================================================================================
    //them sv page
-   function nhapdl()
+   function nhapdl($khoa_active="")
     {
         $this->load->helper("url");
-        $this->load->library("form_validation");
+        $this->load->library("form_validation");        
         $this->form_validation->set_rules("khoa","Khoa","required");
-        $this->form_validation->set_rules("file_upload","Tập tin","callback_exist_file");
+        $this->form_validation->set_rules("file_upload","Tập tin","callback_exist_file");              
         if($this->form_validation->run())
-        {
-            
+        {            
             $file_data=$this->upload->data();
             $khoa=$this->input->post("khoa");
             $import_type=$this->input->post("import_type");
@@ -354,21 +355,39 @@ class Sinhvien extends CI_Controller {
                 $sinhvien_array=$this->read_import_file($file_data);    
                 if($import_type=="insert")$num_errors=$this->check_error_data($sinhvien_array);
                 else $num_errors=$this->check_error_data($sinhvien_array,$khoa);
+                //LOI=============================================================================================
                 if($num_errors>0) 
                 {
                     
                     $khoa_result=$this->msinhvien->get_khoa();
                     $data["khoa_result"]=$khoa_result;
-                    $data["import_data"]=$sinhvien_array;
-                    $data["num_errors"]=$num_errors;
-            
+                    $data["khoa_active"]=$khoa_active;
+                    $data["khoa"]=$khoa;
+                    $data["import_type"]=$import_type;
+                    $data["error_data"]=$sinhvien_array;
+                    $data["num_errors"]=$num_errors;                   
+                    
+                    if($khoa!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->msinhvien->ten_khoa($khoa)."   <img src='".static_url()."/images/delete.png' />";
+                    else $data['right_title']="Thao tác nhập dữ liệu từ tập tin";    
+                    
+                    
                     $data["title"]="Trang nhập dữ liệu";  
-                    $this->load->view("admin/vsinhvien_import",$data);    
+                    $this->load->view("admin/vsinhvien_import_error",$data);    
                 }
+                //=OK IMPORT INTO DATA======================================================================================
                 else
                 {
                     $this->msinhvien->import_sinhvien($khoa,$sinhvien_array,$import_type);
-                    
+                    $khoa_result=$this->msinhvien->get_khoa();
+                    $data["khoa_result"]=$khoa_result;
+                    $data["khoa"]=$khoa;
+                    $data["TenKhoa"]=$this->msinhvien->ten_khoa($khoa);
+                    $data["success_data"]=$sinhvien_array;
+                    $data["num_success"]=count($sinhvien_array);
+                    if($khoa!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->msinhvien->ten_khoa($khoa)."   <img src='".static_url()."/images/ok.png' />";
+                    else $data['right_title']="Thao tác nhập dữ liệu từ tập tin"; 
+                     $data["title"]="Trang nhập dữ liệu";  
+                    $this->load->view("admin/vsinhvien_import_success",$data);    
                     /*
                     echo"<pre>";
                     print_r($sinhvien_array);
@@ -382,11 +401,17 @@ class Sinhvien extends CI_Controller {
             {
                 $khoa_result=$this->msinhvien->get_khoa();
                 $data["khoa_result"]=$khoa_result;
+                $data["khoa_active"]=$khoa_active;//neu co
+                $data["khoa"]=$khoa;//$_POST rebuild
+                $data["import_type"]=$import_type;//$_POST rebuild
                 $data["error_array"]="Lỗi khi đọc tập tin";
-                $data["import_data"]=array();
+                $data["error_data"]=array();
                 $data["num_errors"]=1;
+               
+                if($khoa!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->msinhvien->ten_khoa($khoa)."   <img src='".static_url()."/images/delete.png' />";
+                else $data['right_title']="Thao tác nhập dữ liệu từ tập tin";  
                 $data["title"]="Trang nhập dữ liệu";  
-                $this->load->view("admin/vsinhvien_import",$data); 
+                $this->load->view("admin/vsinhvien_import_error",$data); 
                 
             }
             
@@ -394,13 +419,13 @@ class Sinhvien extends CI_Controller {
              
            
         }
-        else
+        else//load binh thuong khong co form
         {
             $khoa_result=$this->msinhvien->get_khoa();
             $data["khoa_result"]=$khoa_result;
-            $data["import_data"]=array();
-            $data["num_errors"]=0;
-            $data["error_array"]="";
+            $data["khoa_active"]=$khoa_active;
+            if($khoa_active!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->msinhvien->ten_khoa($khoa_active);
+            else $data['right_title']="Thao tác nhập dữ liệu từ tập tin";
             $data["title"]="Trang nhập dữ liệu";  
             $this->load->view("admin/vsinhvien_import",$data);    
         }
@@ -743,32 +768,34 @@ class Sinhvien extends CI_Controller {
                           
                 for($row_index=1;$row_index<=$num_row;$row_index++)
                 {
-                        
-                        
-                $MaSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
-                $TenSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
-                $Lop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
-                $K=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
-                $NgaySinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
-                $NoiSinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
-                $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
-                $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
-                        
-                      
-                $MaSV=ltrim($MaSV,"'");
-                $SoDT=ltrim($SoDT,"'");
-                $tempt=array("MaSV"=>$MaSV,
-                             "TenSV"=>$TenSV,
-                             "Lop"=>$Lop,
-                             "K"=>$K,
-                             "NgaySinh"=>$NgaySinh,
-                             "NoiSinh"=>$NoiSinh,
-                             "SDT"=>$SoDT,
-                             "Email"=>$Email);
-                $sinhvien_array[]=$tempt;
+                    $MaSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                    $TenSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                    $Lop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                    $K=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                    $NgaySinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                    $NoiSinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
+                    $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
+                    $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                            
+                          
+                    $MaSV=ltrim($MaSV,"'");
+                    $SoDT=ltrim($SoDT,"'");
+                    if($MaSV!="")
+                    {
+                        $tempt=array("MaSV"=>$MaSV,
+                                 "TenSV"=>$TenSV,
+                                 "Lop"=>$Lop,
+                                 "K"=>$K,
+                                 "NgaySinh"=>$NgaySinh,
+                                 "NoiSinh"=>$NoiSinh,
+                                 "SDT"=>$SoDT,
+                                 "Email"=>$Email);
+                        $sinhvien_array[]=$tempt;
+                    }
+                   
                        
-                }
-            }
+                }//end for
+            }//end extension .csv
             
             else if($file_ext==".xls")
                 {
@@ -798,7 +825,11 @@ class Sinhvien extends CI_Controller {
                         $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
                         $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
                         
-                        $tempt=array("MaSV"=>$MaSV,
+                        $MaSV=ltrim($MaSV,"'");
+                        $SoDT=ltrim($SoDT,"'");
+                        if($MaSV!="")
+                        {
+                            $tempt=array("MaSV"=>$MaSV,
                                      "TenSV"=>$TenSV,
                                      "Lop"=>$Lop,
                                      "K"=>$K,
@@ -806,7 +837,8 @@ class Sinhvien extends CI_Controller {
                                      "NoiSinh"=>$NoiSinh,
                                      "SDT"=>$SoDT,
                                      "Email"=>$Email);
-                        $sinhvien_array[]=$tempt;
+                            $sinhvien_array[]=$tempt;
+                        }
                        
                     }
                 

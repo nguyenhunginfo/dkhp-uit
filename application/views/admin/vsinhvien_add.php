@@ -39,7 +39,8 @@
                 <?php
                 echo "<ul>";
                 foreach($khoa_result as $row)
-                {    
+                { 
+                    
                     echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."</a></li>"; 
                 }
                 echo "</ul>";
@@ -48,20 +49,50 @@
                 </li>
                 <li><a href="/quanly/sinhvien/them-sinh-vien" class="active"  >Thêm sinh viên</a></li>
                 <li><a href="/quanly/sinhvien/nhap-du-lieu">Nhập dữ liệu</a></li> 
-                <li><a href="/quanly/sinhvien/xuat-du-lieu">Xuất dữ liệu</a></li> 
+                
                 <li><a href="/quanly/sinhvien/thongke">Thống kê</a></li>
                 
                 
             </ul>
             </div><!--end #left -->
             <div id="right"> 
-                    <h3>Thao tác thêm sinh viên</h3>
+                    <h3><?php echo $data_title; ?> </h3>
                     <div class='box'>
                     <form>        
                         <table class="info"> 
                             <tr><td>MSSV</td><td><input    name='masv'   id='masv'   type='text' title='MSSV gồm 8 kí tự'/></td></tr>          
                             <tr><td>Họ Tên</td><td><input  name='tensv'  id='tensv'  type='text'/></td></tr>
                             <?php
+                            
+                            $khoa_result=$this->msinhvien->get_khoa();
+                            if($khoa!="")
+                            {
+                                echo "<tr><td>Khoa</td>
+                                      <td>
+                                      <select name='khoa' id='khoa' disabled='disabled'>";
+                                      echo "<option value=''>Chọn khoa</option>";
+                                      foreach($khoa_result as $khoa_row)
+                                      {  
+                                        if($khoa==$khoa_row->MaKhoa)echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."' selected='selected'>".$khoa_row->MaKhoa."</option>";
+                                        else echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";
+                                                   
+                                      }
+                                 "</select> </td></tr>";
+                            }    
+                            else
+                            {
+                                echo "<tr><td>Khoa</td>
+                                      <td>
+                                      <select name='khoa' id='khoa'>";
+                                      echo "<option value=''>Chọn khoa</option>";
+                                      foreach($khoa_result as $khoa_row)
+                                      {                                          
+                                        echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";                                                   
+                                      }
+                                 "</select> </td></tr>";
+                            } //end khoa    
+                            
+                            
                             $K_result=$this->msinhvien->get_K();
                                     echo "<tr><td>Khóa</td>
                                               <td>
@@ -74,28 +105,37 @@
                                                   }
                                     echo          "</select>
                                               </td></tr>";                 
-                            $khoa_result=$this->msinhvien->get_khoa();    
-                            echo "<tr><td>Khoa</td>
-                                      <td>
-                                      <select name='khoa' id='khoa'>";
-                                      echo "<option value=''>Chọn khoa</option>";
-                                      foreach($khoa_result as $khoa_row)
-                                      {                   
-                                         echo "<option title='".$khoa_row->TenKhoa."'  value='".$khoa_row->MaKhoa."'>".$khoa_row->MaKhoa."</option>";
-                                                   
-                                      }
-                            echo "</select> </td></tr>";
                             
-                            //$lop_result=$this->msinhvien->get_lop();
-                            echo "<tr><td>Lớp</td>
+                            
+                            
+                            
+                            if($khoa!="")
+                            {
+                                $lop_result=$this->msinhvien->get_lop(1,$khoa);  
+                                 echo "<tr><td>Lớp</td>
+                                      <td>
+                                          <select name='lop' id='lop'>";
+                                          foreach($lop_result as $lop_row)
+                                          {
+                                            echo "<option value='".$lop_row->TenLop."'>".$lop_row->TenLop."</option>";
+                                          }
+                                          
+                                 echo "<select />                                  
+                                      </td></tr>"; 
+                            }
+                            else
+                            {
+                                echo "<tr><td>Lớp</td>
                                       <td>
                                           <select name='lop' id='lop'>
                                           <option value=''>Chọn lớp</option>
                                           <select />                                  
-                                      </td></tr>";
+                                      </td></tr>"; 
+                            }
+                           
                                               
                                     
-                                     ?>         
+                            ?>         
                             <tr><td>Ngày Sinh</td><td><input   name='ngaysinh'  id='ngaysinh'  type='text' title='vd: 20/10/2000, 20-10-2000' /></td></tr>
                             <tr><td>Nơi Sinh</td><td><textarea  name='noisinh'  id='noisinh' cols='25' rows='4'></textarea></td></tr>                            
                             <tr><td>Số ĐT</td><td><input        name='sdt'      id='sdt'    type='text'  title='vd: 016 9993 8919,0123 023 789'/> </td></tr>

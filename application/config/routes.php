@@ -43,7 +43,9 @@ $route['404_override'] = '';
 
 $route['quanly/sinhvien']='sinhvien/index';
 $route['quanly/sinhvien/them-sinh-vien']='sinhvien/themsv';
+$route['quanly/sinhvien/them-sinh-vien/(:any)']='sinhvien/themsv/$1';
 $route['quanly/sinhvien/nhap-du-lieu']='sinhvien/nhapdl';
+$route['quanly/sinhvien/nhap-du-lieu/(:any)']='sinhvien/nhapdl/$1';
 $route['quanly/sinhvien/xuat-du-lieu']='sinhvien/xuatdl';
 $route['quanly/sinhvien/thongke']='sinhvien/thongke';
 $route['quanly/sinhvien/test']='sinhvien/test';
