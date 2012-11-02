@@ -1,0 +1,28 @@
+
+/*It uses with almost interface */
+
+
+#wrapper #right #change_data table{border-collapse: collapse;}
+#wrapper #right #change_data table tr{height:20px;}
+#wrapper #right #change_data table tr#first{background: #e8e9e8;}
+#wrapper #right #change_data table td,
+#wrapper #right #change_data table th{border:1px solid #e8e9e8;text-align:center;font-size:12px;}
+#wrapper #right #change_data #table_data{width:910px;}
+
+#wrapper #right #change_data #table_data tr.active,
+#wrapper #right #change_data #table_data tr:hover{background:#bdf7f5;}  
+#wrapper #right  table th#textbox{width:50px;}
+#wrapper #right  table th#mssv{width:80px;}
+#wrapper #right  table th#tensv{width:150px;}
+#wrapper #right  table th#lop{width:100px;}
+#wrapper #right  table th#k{width:50px;}
+#wrapper #right  table th#ngaysinh{width:100px;}
+#wrapper #right  table th#noisinh{width:120px;}
+#wrapper #right  table th#sdt{width:100px;}
+#wrapper #right  table th#email{width:150px;}
+                      
+
+
+
+.popup_detail#view {width:900px;top:5%;left:20%;}
+.popup_detail#export {width:900px;top:5%;left:20%;}                        

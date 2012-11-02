@@ -1,0 +1,693 @@
+*{  margin: 0px 0px;
+    padding: 0px 0px;}
+
+#wrapper
+{
+    width: 1200px;
+    margin: 0px auto;
+	background: #29abfe;
+	position:relative;
+	
+}
+
+#top
+{
+    background: url(../../images/index/top_bg.png);
+    height: 32px;
+    width: 1200px;
+}
+#top h4{color:#fff;line-height:32px;}
+#top ul
+{
+    float: right;
+}
+
+#top ul li
+{
+    padding: 0px 10px 0px 25px;
+    font: 18px "Times New Roman", Tahoma,arial,verdana,sans-serif;
+    display: inline;
+    color: white;
+}
+
+#top ul li a
+{
+    color: white;
+    line-height: 44px;
+    text-decoration: none;
+}
+
+#top ul li a:hover
+{
+    text-decoration: underline;
+}
+
+#header
+{
+    height: 107px;
+    width: 1200px;
+    background: url(../../images/index/header_bg.png);
+    position: relative;
+}
+
+#header img
+{
+    margin: 4px 65px; 
+}
+
+#banner
+{
+    top: 13px;
+    left: 183px;
+    position: absolute;
+}
+
+#banner p
+{
+    font: bold 22px "Times New Roman", Tahoma,arial,verdana,sans-serif;
+    color: white;
+}
+
+#menu
+{
+    bottom: 20px;
+    right: 28px;
+    position: absolute;
+}
+
+#menu ul
+{
+    float: right;
+}
+
+#menu ul li:first-child
+{
+    color: #000;
+    display: inline;
+    font: 20px "Times New Roman", Tahoma,arial,verdana,sans-serif;
+}
+
+#menu ul li span
+{
+    color: red;
+}
+
+a:hover
+{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#menu ul li
+{
+    margin-left: 22px;
+    color: #777;
+    display: inline;
+    font: 19px "Times New Roman", Tahoma,arial,verdana,sans-serif;
+}
+#primary
+{
+	padding:10px 10px;
+	background:#fff;
+	margin: 0px auto;
+	width:1170px;    
+    -webkit-border-top-left-radius:5px;
+    -moz-border-top-left-radius:5px;
+    -border-top-left-radius:5px;
+	position:relative;
+	height:1300px;
+    
+}
+
+#linklogin
+{
+    color: #fff;
+    
+    
+    
+    background: url(../../images/index/h4_bg.jpg) repeat-x;
+    width:100px;
+    height:20px;
+    line-height:20px;
+    padding:5px 10px;
+    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+	-o-border-radius: 5px;
+    border-radius: 5px;
+    text-align:center;  
+    margin:0px 0px 5px 1005px; 
+}
+
+#linklogin p:hover
+{
+    font-weight:bold; 
+    
+    cursor: pointer;
+    
+}
+
+
+#quyche
+{
+	
+    height: 800px;    
+    border:1px solid #e8e9e8;  
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+	-o-border-radius: 5px;
+    border-radius: 5px;                      
+	-webkit-box-shadow: 0 0  10px #646564;
+	-moz-box-shadow: 0 0  6px #646564;
+    padding:10px 20px;
+    
+}
+#quyche .box
+{    
+	
+    
+    padding:2px 2px;
+                       
+	border:1px solid #e8e9e8;  
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+	-o-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom:20px;
+}
+#quyche .box h4
+{
+    color: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+	-o-border-radius: 5px;
+    border-radius: 5px;
+    background: url(../../images/index/h4_bg.jpg) repeat-x;
+    line-height:20px;
+    padding:5px 10px;
+}
+#quyche .box #box_data
+{
+    margin-top:4px;
+    border:1px solid #e8e9e8;  
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+	-o-border-radius: 5px;
+    border-radius: 5px;    
+    padding:5px 10px;
+    
+    
+}
+
+
+#quyche .box ol
+{    
+    
+    list-style-position: inside;
+    
+}
+#quyche .box ol li{line-height:40px;}
+
+#content
+{
+    position: absolute;
+    top: 20px;
+    left: 14px;
+}
+
+#contentheader
+{
+    width: 896px;
+    height: 53px;    
+    background: url(../../images/index/blue_bg.jpg) repeat-x;
+}
+
+#contentheader ul li
+{
+    display: inline;
+    font-size: 20px;
+    padding: 10px 20px;
+    line-height: 63.5px;
+    margin: 0px 0px 0px 18px
+}
+
+.active
+{
+    background: url(../../images/index/ctdt-active_bg.png) no-repeat;    
+    font-weight: bold;
+}
+
+#contenttable table
+{
+    width: 896px;
+    border: 1px solid #DCDDDE;
+    border-top: none;
+    font-size: 18px;
+    text-align: center;
+}
+
+#contenttable table th
+{
+    border-top: none;
+}
+
+#contenttable table tr td
+{	
+    border: 1px solid #DCDDDE;
+}
+
+#contenttable table tr td:last-child p
+{
+    color: #3761FF;
+	font-weight: bold;
+}
+
+#contenttable table tr td:last-child p:hover
+{
+    cursor: pointer;
+    text-decoration: underline;
+    font-style: italic;
+	font-weight: normal;
+}
+
+#taikhoan
+{
+    position: absolute;
+    left: 920px;
+    top: 20px;
+}
+
+#taikhoancontent
+{
+    border: 2px solid #2FADFE;
+    border-top: none;
+    width: 262px;
+    height: 145px;
+    padding: 0px 0px 10px 0px;
+}
+
+#taikhoancontent p
+{
+    font-size: 18px;
+    padding: 0px 2px;
+    line-height: 28px;
+}
+
+#taikhoancontent a
+{
+    padding-left: 150px;
+    color:blue;
+    text-decoration: none;
+    font-style: italic;
+}
+
+#taikhoancontent a:hover
+{
+    text-decoration: underline;
+}
+
+#TKB
+{
+    position: absolute;
+    top: 262px;
+    left: 920px;
+}
+
+#TKBcontent
+{
+    border: 2px solid #2FADFE;
+    border-top: none;
+    padding: 0px 0px 10px 0px;
+}
+
+.sidebarheader
+{
+    width: 266px;
+    height: 54px;
+    background: url(../../images/index/blue_bg.jpg);
+}
+
+.sidebarheader p
+{
+    font-size: 20px;
+    line-height: 57px;
+    text-align: center;
+}
+
+#TKBcontent table
+{
+    width: 250px;
+    height: 142px;
+    border: 1px solid #DCDDDE;
+    border-top: none;
+    border-left: none;
+    margin: 0px 3px 6px 3px;
+    font-weight: bold;
+}
+
+#TKBcontent td.lich
+{
+    text-align: center;
+    cursor: default;
+    color: #222;
+}
+
+#TKBcontent table th
+{
+    width: 24px;
+    border-top: none;
+}
+
+#TKBcontent table th:first-child
+{
+    border-left: none;
+}
+
+#TKBcontent table tr td
+{
+    border: 1px solid #DCDDDE;
+}
+
+#TKBcontent table td:first-child
+{
+    border-left: none;
+}
+
+#TKBcontent p
+{
+    font-size: 18px;
+    font-style: italic;
+    line-height: 20px;
+    margin-left: 171px;
+} 
+
+#TKBcontent p a
+{
+    text-decoration: none;
+    color: blue;
+}
+
+#TKBcontent p a:hover
+{
+    text-decoration: underline;
+    font-size: 18.2px;
+}
+
+#mondadk
+{
+    position: absolute;
+    top: 530px;
+    left: 920px;
+}
+
+#lietkedk
+{
+    border: 2px solid #2FADFE;
+    border-top: none;
+    height: 291px;
+    width: 262px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 27px;
+    overflow: scroll;
+}
+
+#lietkedk ol
+{
+    padding-left: 30px;
+}
+
+#lietkedk ol li
+{
+    border-bottom: 1px dashed #CCC;
+}
+
+#nhacnho
+{
+    position: absolute;
+    left: 920px;
+    top: 914px;
+}
+
+#lietkenhacnho
+{
+    border: 1px solid #2FADFE;
+    border-top: none;
+    height: 231px;
+}
+
+#footer
+{
+    margin:0px auto;
+    width:1190px;
+    height: 258px;
+    position:relative;
+    background: url(../../images/index/footer2_bg.jpg) repeat-x;
+	
+}
+
+#footer #hoatiet
+{
+    position: absolute;
+    z-index: 20;
+    top:40px;left:500px;
+}
+
+#diachi
+{
+    top: 0px;
+    position: absolute;
+    font-size: 21.5px;
+    line-height: 30px;
+    margin: 0px 400px;
+    text-align: center;
+    z-index: 30;
+}
+
+#link
+{
+    position: absolute;
+    top: 180px;
+}
+
+#link img
+{
+    margin: 0px 0px 0px 35px;
+}
+
+#link img:first-child
+{
+    margin-left: 435px;
+}
+
+#top p
+{
+    color: white;
+    font-size: 20.5px;
+    line-height: 45px;
+    padding: 0px 35px;
+}
+/*
+#quyche1
+{
+    font-size: 20.2px;
+    position: absolute;
+    top: 42px;
+    left: 57px;
+    width: 1050px;    
+}
+
+#quyche2
+{
+    font-size: 20.2px;
+    position: absolute;
+    top: 370px;
+    left: 57px;
+    width: 1050px;
+}
+*/
+
+#popup
+{
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background-color: #111;
+    opacity: .65;
+    z-index: 40;
+}
+
+#formlogin
+{
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+    margin-left: -192px;
+    margin-top: -248px;
+    width: 384px;
+    height: 497px;
+    background: url(../../images/index/loginform_bg.png);
+    position: fixed;
+    z-index: 50;
+}
+
+.popupdetail
+{
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+    margin-left: -360px;
+    margin-top: -219px;
+    width: 721px;
+    height: 438px;
+    background: url(../../images/index/popup_bg.png);
+    position: fixed;
+    z-index: 50;
+}
+
+#divchangepass
+{
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+    margin-left: -360px;
+    margin-top: -219px;
+    width: 721px;
+    height: 438px;
+    position: fixed;
+    z-index: 50;
+	background-color: white;
+}
+
+.popupdetail div.class
+{
+    color: white;
+    line-height: 30px;
+    font-size: 20px;
+    padding-left: 35px;
+    font-weight: bold;
+}
+
+.popupdetail p
+{
+    line-height: 36px;
+    font-size: 22px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+
+.popupdetail table
+{
+    margin-left: 5px;
+    width: 710px;
+    text-align: center;
+}
+
+.popupdetail table tr td, th
+{
+    border: 1px solid #DCDDDF;
+}
+
+.popupdetail table .full
+{
+    background-color: #FF120A;
+    opacity: .9;
+}
+
+.popupdetail table tr.full td
+{
+    border-left: none;
+    border-right: none;
+}
+
+.popupdetail table tr td:last-child
+{
+    width: 40px;
+    border: none;
+    background-color: white;
+}
+
+#formlogin input[type="text"]
+{
+    left: 20px;
+    border-radius: 15px;
+    box-shadow: 5px 3px 5px #ccc;
+    -moz-box-shadow: 5px 3px 5px #ccc;
+    -webkit-box-shadow: 5px 3px 5px #ccc;
+    height: 25px;
+    width: 300px;
+    left: 20px;
+    position: absolute;
+    font-size: 19px;
+    padding-left: 5px;
+}
+
+#username
+{
+    top: 110px;    
+}
+
+#password
+{
+    top: 220px;
+    left: 20px;
+    border-radius: 15px;
+    box-shadow: 5px 3px 5px #ccc;
+    -moz-box-shadow: 5px 3px 5px #ccc;
+    -webkit-box-shadow: 5px 3px 5px #ccc;
+    height: 25px;
+    width: 300px;
+    left: 20px;
+    position: absolute;
+    font-size: 19px;
+    padding-left: 5px;
+}
+
+#captcha
+{
+    top: 330px;
+}
+
+#dangnhap
+{
+    position: absolute;
+    top: 400px;
+    left: 40px;
+    width:128px;
+    height:64px;
+    color:#000;
+    font-size:18px;
+    background: url(../../images/index/dang.png);   
+    border:none;
+}
+#dangnhap:hover
+{cursor:pointer;
+font-weight:bold;
+}
+#imagecaptcha
+{
+    position: absolute;
+    height: 33px;
+    width: 200px;
+    top: 282px;
+    left: 122px;
+}
+
+.error
+{
+    position: absolute;
+    color: red;
+    left: 22px;
+}
+
+#captchaerror
+{
+    top: 370px;
+}
+
+#accounterror
+{
+	top: 471px;
+}
