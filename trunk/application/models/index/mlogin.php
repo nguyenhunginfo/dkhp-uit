@@ -305,7 +305,7 @@ class Mlogin extends CI_Model
 		$Malopth = "";
 		echo "<div class = 'class' >Chọn lớp đăng kí môn:showTenMH (".$MaMH.")</div>";
 		echo "<div class='table'><p>Lớp lý thuyết</p>";
-		echo "<table class='lt' cellspacing='0'>
+		echo "<table id='".$MaMH."' class='lt' cellspacing='0'>
 			<tr>
 				<th>Mã lớp</th>
 				<th>Tên môn học</th>
@@ -401,7 +401,8 @@ class Mlogin extends CI_Model
 			echo "/></td></tr>";
 		}
 		echo "</table>";
-		echo "<div id='selectdiv".$MaMH."' class='select'><p id='".$Maloplt."' class='lt' style='display:none;' >".$sllt."</p><p id='".$Malopth."' class='th' style='display:none;' >".$slth."</p>OK</div>";
+		echo "<div id='selectdiv".$MaMH."' class='select'><p id='".$Maloplt."' class='lt' style='display:none;' >".$sllt."</p><p id='".$Malopth."' class='th' style='display:none;' >".$slth."</p></div>";//$slth."</p></div>";
+		echo "<div class = 'note' ><p>*Chú ý: chọn 1 trong các lớp do phòng đào tạo mở</p><p>*Đối với môn có tín chỉ thực hành thì phải đăng ký kèm theo tín  chỉ thực hành</p></div>";
 		echo "</div>";
 	}
 	

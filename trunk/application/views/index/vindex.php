@@ -42,25 +42,32 @@
 	
 			$("#btn_changepass").click(function(e)
 			{
+				if($("#oldPassword").val() == "")
+				{
+					alert("Bạn chưa nhập mật khẩu cũ!");
+					return;					
+				}
 				pass1 = $("#password1").val();
 				pass2 = $("#password2").val();
 				if(pass1 != pass2)
 				{
-					$("#errorPassword").html("Password không trùng!");
+					$("#errorNewPassword").html("* Password mới không trùng!");
+					alert("Password mới không trùng!");
 				}
 				else
 				{
 					if(pass1 == "")
 					{
-						alert("Bạn chưa nhập mật khẩu!");
+						alert("Bạn chưa nhập mật khẩu mới!");
 						return;
 					}
 					var MSSV = $("#MSSV").html();
-					var pass = $("#password1").val();
+					var oldPass = $("#oldPassword").val();
+					var newPass = $("#password1").val();
 					$.ajax(
 					{
 						url: "<?php echo base_url()."index/index/changePass"; ?>",
-						data: "MSSV="+MSSV+"&Pass="+pass,
+						data: "MSSV="+MSSV+"&oldPass="+oldPass+"&newPass="+newPass,
 						type: "POST",
 						success:function(res) 
 						{
@@ -68,6 +75,13 @@
 							{
 								window.location.assign("<?php echo base_url()."index/index/logout"; ?>");
 							}
+							else
+								if(res == "error")
+								{
+									$("#errorOldPassword").fadeTo(0, 1);
+									$("#errorOldPassword").html("* Password cũ sai!");
+									$("#errorOldPassword").fadeTo(2000, 0);
+								}
 						}
 					});
 				}
@@ -87,10 +101,14 @@
 		}
 	?>
 	<div id = "divchangepass">
-		
-		<div>New password: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="password1" id="password1" /></div>
-		<div>Confirm password: <input type="password" name="password2" id="password2" /><span id="errorPassword"></span></div>
-		<button id="btn_changepass">OK</button>
+		<div id="topchangepass" >Đổi mật khẩu</div>
+		<button id="closechangepass" ></button>
+		<div class="nottop">Mật khẩu cũ:<br> <input type="password" name="oldPassword" id="oldPassword" /><br></div>
+		<div class="nottop">Mật khẩu mới:<br> <input type="password" name="password1" id="password1" /><br></div>
+		<div class="nottop">Xác nhận mật khẩu mới:<br> <input type="password" name="password2" id="password2" /><br></div>
+		<span id="errorOldPassword"></span>
+		<span id="errorNewPassword"></span>
+		<button id="btn_changepass" ></button>
 		
 	</div>
 
@@ -398,7 +416,6 @@
         </div><!-- end #primary -->
         
         <div id="footer">
-            <img src="<?php echo static_url();?>/images/index/_copyright.png" id="hoatiet" />
             <div id="diachi">
                 <p>Trường Đại Học Công Nghệ Thông Tin</p>
                 <p>Đại Học Quốc Gia Thành Phố Hồ Chí Minh</p>
