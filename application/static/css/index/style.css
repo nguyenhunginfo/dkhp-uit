@@ -1,13 +1,15 @@
-*{  margin: 0px 0px;
-    padding: 0px 0px;}
+*
+{
+    margin: 0px 0px;
+    padding: 0px 0px;
+}
 
 #wrapper
 {
     width: 1200px;
     margin: 0px auto;
 	background: #29abfe;
-	position:relative;
-	
+	position:relative;	
 }
 
 #top
@@ -17,6 +19,7 @@
     width: 1200px;
 }
 #top h4{color:#fff;line-height:32px;}
+
 #top ul
 {
     float: right;
@@ -28,12 +31,13 @@
     font: 18px "Times New Roman", Tahoma,arial,verdana,sans-serif;
     display: inline;
     color: white;
+    line-height:32px;
 }
 
 #top ul li a
 {
     color: white;
-    line-height: 44px;
+    line-height: 32px;
     text-decoration: none;
 }
 
@@ -121,16 +125,12 @@ a:hover
 
 #linklogin
 {
-    color: #fff;
-    
-    
-    
+    color: #fff;    
     background: url(../../images/index/h4_bg.jpg) repeat-x;
     width:100px;
     height:20px;
     line-height:20px;
-    padding:5px 10px;
-    
+    padding:5px 10px;    
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
 	-o-border-radius: 5px;
@@ -242,13 +242,14 @@ a:hover
     width: 896px;
     border: 1px solid #DCDDDE;
     border-top: none;
-    font-size: 18px;
+    font-size: 17px;
     text-align: center;
 }
 
 #contenttable table th
 {
     border-top: none;
+    line-height: 29px;
 }
 
 #contenttable table tr td
@@ -259,15 +260,13 @@ a:hover
 #contenttable table tr td:last-child p
 {
     color: #3761FF;
-	font-weight: bold;
+    width: 130px;
 }
 
 #contenttable table tr td:last-child p:hover
 {
     cursor: pointer;
-    text-decoration: underline;
-    font-style: italic;
-	font-weight: normal;
+	font-weight: bold;
 }
 
 #taikhoan
@@ -350,6 +349,7 @@ a:hover
     text-align: center;
     cursor: default;
     color: #222;
+    font-size: 14px;
 }
 
 #TKBcontent table th
@@ -527,8 +527,8 @@ a:hover
     margin-top: -248px;
     width: 384px;
     height: 497px;
-    background: url(../../images/index/loginform_bg.png);
     position: fixed;
+    background: url(../../images/index/loginform_bg.png);
     z-index: 50;
 }
 
@@ -537,51 +537,142 @@ a:hover
     opacity: 1;
     top: 50%;
     left: 50%;
-    margin-left: -360px;
-    margin-top: -219px;
-    width: 721px;
-    height: 438px;
-    background: url(../../images/index/popup_bg.png);
+    margin-left: -445px;
+    margin-top: -250px;
+    width: 890px;
+    height: 500px;
+    background-color: white;
     position: fixed;
     z-index: 50;
+    box-shadow: 10px 5px 10px #222;
 }
 
 #divchangepass
 {
-    opacity: 1;
     top: 50%;
     left: 50%;
-    margin-left: -360px;
-    margin-top: -219px;
-    width: 721px;
-    height: 438px;
+    margin-left: -260px;
+    margin-top: -180px;
+    width: 520px;
+    height: 360px;
     position: fixed;
     z-index: 50;
-	background-color: white;
+    background-color: white;
+}
+
+#topchangepass
+{
+    height: 50px;
+    background-color: #4DB9FE;
+    padding-left: 170px;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    line-height: 50px;
+}
+
+#closechangepass
+{
+    height: 39px;
+    width: 38px;
+    top: 7px;
+    right: 10px;
+    border: none;
+    position: absolute;
+    background: url(../../images/index/btndeny.png);
+}
+
+#closechangepass:hover
+{
+    background: url(../../images/index/btndeny_hover.png);
+    cursor: pointer;
+}
+
+#divchangepass div.nottop
+{
+    left: 5px;
+    padding: 15px 30px;
+    font-size: 20px;
+}
+
+#divchangepass div.nottop:hover
+{
+    border: 5px 5px 5px 5px;
+    background-color: #eee;
+    opacity: 0.8;
+}
+
+#divchangepass div.nottop input
+{    
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px #ccc;
+    -moz-box-shadow: 5px 3px 5px #ccc;
+    -webkit-box-shadow: 5px 3px 5px #ccc;
+    height: 23px;
+    width: 200px;
+    left: 230px;
+    position: absolute;
+    font-size: 19px;
+    padding-left: 5px;
+}
+
+#btn_changepass
+{
+    height: 59px;
+    width: 56px;
+    top: 290px;
+    left: 60px;
+    border: none;
+    position: absolute;
+    background: url(../../images/index/btnaccept.png);
+}
+
+#btn_changepass:hover
+{
+    background: url(../../images/index/btnaccept_hover.png);
+    cursor: pointer;
+}
+
+#errorOldPassword
+{
+    position: absolute;
+    top: 295px;
+    left: 200px;
+    color: red;
+}
+
+#errorNewPassword
+{
+    position: absolute;
+    top: 320px;
+    left: 200px;
+    color: red;
 }
 
 .popupdetail div.class
 {
+    background-color: #29abfe;
     color: white;
-    line-height: 30px;
-    font-size: 20px;
-    padding-left: 35px;
+    line-height: 40px;
+    height: 40px;
+    font-size: 22px;
+    text-align: center;
     font-weight: bold;
 }
 
 .popupdetail p
 {
-    line-height: 36px;
+    line-height: 40px;
     font-size: 22px;
     font-weight: bold;
-    padding-left: 10px;
+    padding-left: 40px;
 }
 
 
 .popupdetail table
 {
-    margin-left: 5px;
-    width: 710px;
+    margin-left: 20px;
+    width: 810px;
     text-align: center;
 }
 
@@ -609,19 +700,54 @@ a:hover
     background-color: white;
 }
 
+.popupdetail input[type="checkbox"]
+{
+    cursor: pointer;
+}
+
+.popupdetail .select
+{
+    position: absolute;
+    top: 360px;
+    left: 650px;
+    background: url(../../images/index/btnaccept.png) no-repeat;
+    height: 59px;
+    width: 58px;
+}
+
+.popupdetail .select:hover
+{
+    background: url(../../images/index/btnaccept_hover.png) no-repeat;    
+    cursor: pointer;
+}
+
+.popupdetail .note
+{
+    position: absolute;
+    background-color: #29abfe;
+    top: 450px;
+    height: 50px;
+    width: 100%;
+}
+
+.popupdetail .note p
+{
+    font-size: 14px;
+    line-height: 25px;
+}
+
 #formlogin input[type="text"]
 {
-    left: 20px;
-    border-radius: 15px;
+    left: 40px;
+    border-radius: 5px;
     box-shadow: 5px 3px 5px #ccc;
     -moz-box-shadow: 5px 3px 5px #ccc;
     -webkit-box-shadow: 5px 3px 5px #ccc;
-    height: 25px;
-    width: 300px;
-    left: 20px;
+    height: 28px;
+    width: 250px;
     position: absolute;
     font-size: 19px;
-    padding-left: 5px;
+    padding-left: 10px;
 }
 
 #username
@@ -632,17 +758,16 @@ a:hover
 #password
 {
     top: 220px;
-    left: 20px;
-    border-radius: 15px;
+    left: 40px;
+    border-radius: 5px;
     box-shadow: 5px 3px 5px #ccc;
     -moz-box-shadow: 5px 3px 5px #ccc;
     -webkit-box-shadow: 5px 3px 5px #ccc;
-    height: 25px;
-    width: 300px;
-    left: 20px;
+    height: 28px;
+    width: 250px;
     position: absolute;
     font-size: 19px;
-    padding-left: 5px;
+    padding-left: 10px;
 }
 
 #captcha

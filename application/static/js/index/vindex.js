@@ -3,22 +3,29 @@ $(document).ready(function()
 	$("#popup").hide(); 
 	$(".popupdetail").hide();
 	$("#divchangepass").hide();
+		
+	$("#closechangepass").click(function(e)
+	{
+		$("#popup").hide(); 
+		$("#divchangepass").hide();
+	});
 	
 	$("input.cbdangkylt").live("change", function(e)
 	{
 		var myString = $("#DKHP").val();
 		var checked = $(this).attr("checked");
 		var Malop = $(this).attr("id");
+		var MaMH = $(this).parents("table").attr("id");
 		var table = $(this).parents("table").attr("class");
 		var sllt = $(this).parents("table").nextAll("div.select").children("p.lt").html();
 		var id = $(this).parents("table").nextAll("div.select").children("p.lt").attr("id");
 		var ca = $(this).parents("td").siblings(".ca").html();
 		var thu = $(this).parents("td").siblings(".thu").html();
 		var idTKB = ca + thu;
-		if(checked == true)
+		if(checked == true || checked == "checked")
 		{
 			myString += " " + Malop + " ";
-			sllt++;
+			sllt = 1;
 			id += Malop;
 			//TKB
 			var TenMH = $(this).parents("td").siblings(".TenMH").html();
@@ -32,13 +39,57 @@ $(document).ready(function()
 				$("#" + idTKB).attr("title", title);
 				$("#" + idTKB).html(html);
 			}
-			//liệt kê môn đk
-			$("#lietkedk").children("ol").append("<li id='mondk" + Malop + "'>" + TenMH + "</li>");
+			//Xóa lớp khác nếu có
+			$(this).attr("checked", false);
+			var other = $(this).parents("table").find("input:checked:not(#" + Malop + ")").attr("id");
+			if( typeof(other) != "undefined")
+			{
+				lopxoa = $(this).parents("table").find("input:checked");
+				lopxoa.attr("checked", false);
+				$(this).attr("checked", true);
+				
+				myString = myString.replace(other,"");
+				id = id.replace(other, "");
+				
+				//TKB
+				ca = lopxoa.parents("td").siblings(".ca").html();
+				thu = lopxoa.parents("td").siblings(".thu").html();
+				idTKB = ca + thu;
+				if(ca != "" && thu !="*")
+				{
+					var html = $("#" + idTKB).html();
+					html = TKB_bot(html);
+					var title = $("#" + idTKB).attr("title");
+					var tArray = title.split("./");
+					title = "";
+					for(i = 0; i < tArray.length; i++)
+					{
+						if(tArray[i] == "" || tArray[i] == " ")
+							continue;
+						if(tArray[i].search(Malop + " ") >= 0)
+						{
+							tArray[i] = "";
+						}
+						else
+						{
+							title += tArray[i] + "./ ";
+						}
+					}	
+					$("#" + idTKB).attr("title", title);
+					$("#" + idTKB).html(html);
+				}
+			}
+			else
+			{
+				$(this).attr("checked", true);
+				//liệt kê môn đk
+				$("#lietkedk").children("ol").append("<li id='mondk" + MaMH + "'>" + TenMH + "</li>");
+			}
 		}
 		else
 		{
 			myString = myString.replace(Malop,"");
-			sllt--;
+			sllt = 0;
 			id = id.replace(Malop, "");
 			//TKB
 			if(ca != "" && thu !="*")
@@ -65,7 +116,7 @@ $(document).ready(function()
 				$("#" + idTKB).html(html);
 			}
 			//Xóa môn đk
-			$("#mondk" + Malop).remove();
+			$("#mondk" + MaMH).remove();
 		}
 		$("#DKHP").val(myString);	
 		$(this).parents("table").nextAll("div.select").children("p.lt").html(sllt);
@@ -83,15 +134,15 @@ $(document).ready(function()
 		var ca = $(this).parents("td").siblings(".ca").html();
 		var thu = $(this).parents("td").siblings(".thu").html();
 		var idTKB = ca + thu;
-		if(checked == true)
+		if(checked == true || checked == "checked")
 		{
 			myString += " " + Malop + " ";
-			slth++;
+			slth = 1;
 			id += Malop;
 			//TKB
+			var TenMH = $(this).parents("td").siblings(".TenMH").html();
 			if(ca != "" && thu !="*")
 			{
-				var TenMH = $(this).parents("td").siblings(".TenMH").html();
 				var TenGV = $(this).parents("td").siblings(".TenGV").html();
 				var Phong = $(this).parents("td").siblings(".Phong").html();
 				var title = $("#" + idTKB).attr("title") + Malop + " " + TenMH + " " + TenGV + " P" + Phong + "./ ";
@@ -100,11 +151,55 @@ $(document).ready(function()
 				$("#" + idTKB).attr("title", title);
 				$("#" + idTKB).html(html);
 			}
+			//Xóa lớp khác nếu có
+			$(this).attr("checked", false);
+			var other = $(this).parents("table").find("input:checked").attr("id");
+			if( typeof(other) != "undefined")
+			{
+				lopxoa = $(this).parents("table").find("input:checked");
+				$(this).attr("checked", true);
+				lopxoa.attr("checked", false);
+				
+				myString = myString.replace(other,"");
+				id = id.replace(other, "");
+				
+				//TKB
+				ca = lopxoa.parents("td").siblings(".ca").html();
+				thu = lopxoa.parents("td").siblings(".thu").html();
+				idTKB = ca + thu;
+				if(ca != "" && thu !="*")
+				{
+					var html = $("#" + idTKB).html();
+					html = TKB_bot(html);
+					var title = $("#" + idTKB).attr("title");
+					var tArray = title.split("./");
+					title = "";
+					for(i = 0; i < tArray.length; i++)
+					{
+						if(tArray[i] == "" || tArray[i] == " ")
+							continue;
+						if(tArray[i].search(Malop + " ") >= 0)
+						{
+							tArray[i] = "";
+						}
+						else
+						{
+							title += tArray[i] + "./ ";
+						}
+					}	
+					$("#" + idTKB).attr("title", title);
+					$("#" + idTKB).html(html);
+				}
+			}
+			else
+			{
+				$(this).attr("checked", true);
+			}
 		}
 		else
 		{
 			myString = myString.replace(Malop, "");
-			slth--;
+			slth = 0;
 			id = id.replace(Malop, "");
 			//TKB
 			if(ca != "" && thu !="*")
@@ -209,6 +304,9 @@ $(document).ready(function()
 	{
 		$("#popup").show();
 		$("#divchangepass").show();
+		$("#divchangepass input").val("");
+		$("#errorNewPassword").html("");
+		$("#errorOldPassword").html("");
 	});
 	
 	$("#password2").blur(function(e)
@@ -217,11 +315,25 @@ $(document).ready(function()
 		pass2 = $("#password2").val();
 		if(pass1 != pass2)
 		{
-			$("#errorPassword").html("Password không trùng!");
+			$("#errorNewPassword").html("Password không trùng!");
 		}
 		else 
 		{
-			$("#errorPassword").html("");
+			$("#errorNewPassword").html("");
+		}
+	});
+	
+	$("#password1").blur(function(e)
+	{
+		pass1 = $("#password1").val();
+		pass2 = $("#password2").val();
+		if(pass1 != pass2)
+		{
+			$("#errorNewPassword").html("Password không trùng!");
+		}
+		else 
+		{
+			$("#errorNewPassword").html("");
 		}
 	});
 	
@@ -229,6 +341,7 @@ $(document).ready(function()
 	{
 		$("#popup").hide();
 		$(".popupdetail").hide();
+		$("#divchangepass").hide();
 	}
 		
 	function TKB_them(s)

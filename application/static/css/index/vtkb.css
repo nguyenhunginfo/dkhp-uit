@@ -110,23 +110,23 @@ button
 #btnTaiFile
 {
     top: 420px;
-    background: url("../../images/index/btnBlue.png");
+    background: url(../../images/index/btnBlue.png);
 }
 
 #btnTaiFile:hover
 {
-    background: url("../../images/index/btnBlue_hover.png");
+    background: url(../../images/index/btnBlue_hover.png);
     cursor: pointer;
 }
 
 #btnInTKB
 {
     top: 510px;
-    background: url("../../images/index/btnGrey.png");
+    background: url(../../images/index/btnGrey.png);
 }
 
 #btnInTKB:hover
 {
-    background: url("../../images/index/btnGrey_hover.png") no-repeat;
+    background: url(../../images/index/btnGrey_hover.png) no-repeat;
     cursor: pointer;
 }

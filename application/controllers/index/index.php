@@ -55,9 +55,9 @@ class Index extends CI_Controller
 							$this->load->view('admin/vtrangchu');
 							return;
 						}
-						$this->session->set_userdata('khoa', $khoa);
 						$array = explode("|",$login);
 						$khoa = $array[1];
+						$this->session->set_userdata('khoa', $khoa);
 						$this->toVindex($_POST['username'], $khoa);
 						break;
 				}
