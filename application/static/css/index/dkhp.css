@@ -3,9 +3,9 @@
 a{text-decoration:none;opacity:0.8;}
 a:hover{cursor:pointer;opacity:1;}
 #wrapper{width:1200px;margin:0px auto;background: #29abfe;}
-#wrapper #top{height:24px;background: url(../../images/index/top_bg.png);}
+#wrapper #top{height:32px;background: url(../../images/index/top_bg.png);}
 #wrapper #top ul{list-style: none;float:right;}
-#wrapper #top ul li{display:inline-block;line-height: 24px;margin:0px 5px 0px 10px;color:#fff;}
+#wrapper #top ul li{display:inline-block;line-height: 31px;margin:0px 5px 0px 10px;color:#fff;}
 #wrapper #top ul li a{color:#fff;}
 
 #wrapper #header{height: 107px;background: url(../../images/index/header_bg.png);position:relative;}
