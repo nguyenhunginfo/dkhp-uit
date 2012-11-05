@@ -1,0 +1,77 @@
+#wrapper #primary #left #content table{border: 1px solid #DCDDDE;border-collapse: collapse;}
+#wrapper #primary #left #content table tr#first{height:30px;background: #DCDDDE;}
+#wrapper #primary #left #content table tr{height:24px;}
+#wrapper #primary #left #content table td,
+#wrapper #primary #left #content table th{border-top:1px dashed #DCDDDE;border-right:1px solid #DCDDDE;text-align:center;}
+#wrapper #primary #left #content table td:nth-child(3){text-align:left;}
+#wrapper #primary #left #content table tr td:last-child p{color: #3761FF;}
+#wrapper #primary #left #content table tr td:last-child p:hover{cursor: pointer;font-weight: bold;}
+#wrapper #primary #left #content table th#hk{width:60px;}
+#wrapper #primary #left #content table th#mamh{width:100px;}
+#wrapper #primary #left #content table th#tenmh{width:260px;}
+#wrapper #primary #left #content table th#sotc{width:60px;}
+#wrapper #primary #left #content table th#tclt{width:60px;}
+#wrapper #primary #left #content table th#tcth{width:60px;}
+#wrapper #primary #left #content table th#diem{width:60px;}
+#wrapper #primary #left #content table th#tinhtrang{width:80px;}
+#wrapper #primary #left #content table th#thaotac{width:140px;}
+#wrapper #primary #left #content input#dangky{background: url(../../images/index/blue_bg.jpg) repeat-x;
+                                                  height:30px;
+                                                  padding:5px 20px;
+                                                  display:block;
+                                                -webkit-border-radius: 5px;
+                                                -moz-border-radius: 5px;
+                                                -o-border-radius: 5px;
+                                                border-radius: 5px;                      
+                                                -webkit-box-shadow: 2px 2px  6px #646564;
+                                                -moz-box-shadow: 2px 2px 6px #646564;
+                                                line-height:20px;
+                                                text-align:center;
+                                                border:1px dashed #ebebeb;
+                                                margin:10px 0px 0px 790px;
+                                                width:100px;                                                
+                                                font-size:14px;
+                                                }
+
+#wrapper #primary #left #content input#dangky:hover{font-weight:bold;cursor:pointer;font-weight:bold;color:#fff;}
+
+/* popup */
+#popup{top: 0px;height: 100%;width: 100%;position: fixed;background-color: #111;opacity: .65;z-index: 40;}
+div.popupdetail{   opacity: 1;
+                top: 50%;
+                left: 50%;
+                margin-left: -445px;
+                margin-top: -250px;
+                width: 890px;
+                height: 500px;
+                background-color: white;
+                position: fixed;
+                z-index: 50;
+                box-shadow: 0px 0px 10px #ccc;}
+div.popupdetail div.class{background-color: #29abfe;color: white;line-height: 50px;height: 50px;font-size: 22px;text-align: center;font-weight: bold;}
+div.popupdetail p{line-height: 40px;font-size: 22px;font-weight: bold;padding-left: 20px;}
+div.popupdetail table{margin-left: 20px;width: 810px;text-align: center;}
+div.popupdetail table tr{height: 30px;}
+div.popupdetail table tr.full{background-color: #FF120A;opacity: .9;}
+div.popupdetail table tr td, th{border: 1px solid #DCDDDF;}
+div.popupdetail table tr.full td{border-left: none;border-right: none;}
+div.popupdetail table tr td:last-child{width: 40px;border: none;background-color: white;}
+div.popupdetail table tr td:last-child input[type="checkbox"]{cursor: pointer;}
+div.popupdetail div.select{position: absolute;top: 440px;left: 790px;background: url(../../images/index/btnaccept.png) no-repeat;height: 59px;width: 58px;z-index:10;}
+div.popupdetail div.select:hover{background: url(../../images/index/btnaccept_hover.png) no-repeat;cursor: pointer;}
+div.popupdetail div.note{position: absolute;background-color: #29abfe;top: 440px;height: 60px;width: 100%;}
+div.popupdetail div.note p{font-size: 14px;line-height: 30px;}
+
+/* change pass*/
+
+#divchangepass{top: 50%;left: 50%;margin-left: -260px;margin-top: -180px;width: 520px;height: 360px;position: fixed;z-index: 50;background-color: white;}
+#divchangepass #topchangepass{height: 50px;background-color: #4DB9FE;padding-left: 170px;font-size: 25px;font-weight: bold;color: white;line-height: 50px;}
+#divchangepass #closechangepass{height: 39px;width: 38px;top: 7px;right: 10px;border: none;position: absolute;background: url(../../images/index/btndeny.png);}
+#divchangepass #closechangepass:hover{background: url(../../images/index/btndeny_hover.png);cursor: pointer;}
+#divchangepass div.nottop{left: 5px;padding: 15px 30px;font-size: 20px;}
+#divchangepass div.nottop:hover{border: 5px 5px 5px 5px;background-color: #eee;opacity: 0.9;}
+#divchangepass div.nottop input{border-radius: 5px;box-shadow: 5px 3px 5px #ccc;-moz-box-shadow: 5px 3px 5px #ccc;-webkit-box-shadow: 5px 3px 5px #ccc;height: 23px;width: 200px;left: 230px;position: absolute;font-size: 19px;padding-left: 5px;}
+#divchangepass #errorOldPassword{position: absolute;top: 295px;left: 200px;color: red;}
+#divchangepass #errorNewPassword{position: absolute;top: 320px;left: 200px;color: red;}
+#divchangepass #btn_changepass{height: 59px;width: 56px;top: 290px;left: 60px;border: none;position: absolute;background: url(../../images/index/btnaccept.png);}
+#divchangepass #btn_changepass:hover{background: url(../../images/index/btnaccept_hover.png);cursor: pointer;}

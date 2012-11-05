@@ -1,0 +1,124 @@
+/*default css */
+*{margin:0px;padding:0px;}
+a{text-decoration:none;opacity:0.8;}
+a:hover{cursor:pointer;opacity:1;}
+#wrapper{width:1200px;margin:0px auto;background: #29abfe;}
+#wrapper #top{height:24px;background: url(../../images/index/top_bg.png);}
+#wrapper #top ul{list-style: none;float:right;}
+#wrapper #top ul li{display:inline-block;line-height: 24px;margin:0px 5px 0px 10px;color:#fff;}
+#wrapper #top ul li a{color:#fff;}
+
+#wrapper #header{height: 107px;background: url(../../images/index/header_bg.png);position:relative;}
+#wrapper #header img{ margin: 4px 65px; }
+#wrapper #header #banner{top: 13px;left: 183px; position: absolute;}
+#wrapper #header #banner p{    font: bold 22px "Times New Roman", Tahoma,arial,verdana,sans-serif;color: white;}
+#wrapper #header #menu{bottom: 5px;right: 12px;position: absolute;}
+#wrapper #header #menu ul li{display: inline-block;margin: 0px 5px 0px 10px;height:40px;}
+#wrapper #header #menu ul li#dkhp a{width:140px;}
+#wrapper #header #menu ul li#hd a{width:80px;}
+#wrapper #header #menu ul li#inphieu a{width:60px;}
+#wrapper #header #menu ul li a
+					{
+						font-size: 14px;color:#000;
+                        background: url(../../images/index/blue_bg.jpg) repeat-x;
+                        padding:5px 20px;height:20px;display:block;
+                        -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        border-radius: 7px;                      
+                        -webkit-box-shadow: 2px 2px  6px #646564;
+                        -moz-box-shadow: 2px 2px 6px #646564;
+                        line-height:20px;
+                        text-align:center;
+                        border:1px dashed #ebebeb;
+                        font-size:14px;
+                    }
+#wrapper #header #menu ul li a:hover,
+#wrapper #header #menu ul li a.active{font-weight:bold;color:#fff;opacity:1;}
+#wrapper #header #menu ul li span{color:red;}
+
+#wrapper .box{-webkit-border-radius: 5px;
+              -moz-border-radius: 5px;
+              -o-border-radius: 5px;
+              border-radius: 5px;                      
+              -webkit-box-shadow: 0px 0px  10px #646564;
+              -moz-box-shadow: 0px 0px 10px #646564;
+            }
+#wrapper .box_header{background: url(../../images/index/blue_bg.jpg) repeat-x;
+                    height:30px;
+                    -webkit-border-top-left-radius: 5px;
+                    -moz-border-top-left-radius: 5px;
+                    -o-border-top-left-radius: 5px;
+                    border-top-left-radius: 5px;
+                    -webkit-border-top-right-radius: 5px;
+                    -moz-border-top-right-radius: 5px;
+                    -o-border-top-right-radius: 5px;
+                    border-top-right-radius: 5px;   
+                    padding:5px;}
+#wrapper .box_data{padding:5px;}
+#wrapper .box_header h3{color:#fff;line-height:30px;}    
+#wrapper #primary{min-height:800px;margin:0px 5px;background:#fff;padding:20px 10px;overflow:auto;
+                    -webkit-border-top-left-radius: 5px;
+                    -moz-border-top-left-radius: 5px;
+                    -o-border-top-left-radius: 5px;
+                    border-top-left-radius: 5px;}
+
+#wrapper #primary #left{width:900px;float:left;min-height:800px;}
+
+
+
+#wrapper #primary #right{width:250px;float:right;min-height:800px;}
+#wrapper #primary #right .box{margin-bottom: 40px;}
+#wrapper #primary #right .box h3{text-align:center;}
+#wrapper #primary #right #taikhoan {height:200px;}
+#wrapper #primary #right #taikhoan #taikhoancontent p{font-size: 17px;padding: 0px 2px;line-height: 28px;}
+#wrapper #primary #right a{padding-left: 130px;color:blue;font-size: 17px;line-height: 35px;}
+#wrapper #primary #right a:hover{font-weight:bold;}
+#wrapper #primary #right #TKB{height:220px;}
+#wrapper #primary #right #TKB table{border-collapse: collapse;height: 142px;width:242px;}
+#wrapper #primary #right #TKB table tr{height:24px;}
+#wrapper #primary #right #TKB table th,
+#wrapper #primary #right #TKB table td{border:1px solid #DCDDDE;width:30px;}
+#TKBcontent td.lich{text-align: center;cursor: default;color: #333;font-size: 10px;}
+
+#wrapper #primary #right #mondadk{min-height: 500px;}
+#wrapper #primary #right #mondadk #lietkedk {font-size: 18px;line-height: 27px;min-height:450px;overflow: scroll;}
+#wrapper #primary #right #mondadk #lietkedk ol {padding-left: 27px;}
+#wrapper #primary #right #mondadk #lietkedk ol li {border-bottom: 1px dashed #CCC;}
+
+#wrapper #footer
+{
+    
+    margin:0px 5px;
+    width:1190px;
+    height: 266px;
+    position:relative;
+    background: url(../../images/index/footer2_bg.jpg) repeat-x;
+	
+}
+#wrapper #footer #diachi
+{
+    top: 10px;
+    position: absolute;
+    font-size: 21px;
+    line-height: 30px;
+    margin: 0px 400px;
+    text-align: center;
+    z-index: 30;
+}
+
+#wrapper #footer #link
+{
+    position: absolute;
+    top: 189px;
+}
+
+#wrapper #footer #link img
+{
+    margin: 0px 0px 0px 35px;
+}
+
+#wrapper #footer #link img:first-child
+{
+    margin-left: 435px;
+}
