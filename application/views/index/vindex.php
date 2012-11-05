@@ -4,7 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 	<title>Đăng ký học phần</title>
-	<link href="<?php echo static_url();?>/css/index/style.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo static_url();?>/css/index/dkhp.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo static_url();?>/css/index/index.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="<?php echo static_url();?>/js/jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo static_url();?>/js/index/vindex.js"></script>
 	<script type="text/javascript">
@@ -22,7 +23,7 @@
 					var TenMH = $("#" + id).attr("title");
 					$.ajax(
 					{
-						url: "<?php echo base_url()."index/index/getLop"; ?>",
+						url: "<?php echo base_url()."index/getLop"; ?>",
 						data: "MaMH="+MaMH+"&MSSV="+MSSV+"&khoa="+khoa,
 						type: "POST",
 						success:function(res) 
@@ -66,14 +67,14 @@
 					var newPass = $("#password1").val();
 					$.ajax(
 					{
-						url: "<?php echo base_url()."index/index/changePass"; ?>",
+						url: "<?php echo base_url()."index/changePass"; ?>",
 						data: "MSSV="+MSSV+"&oldPass="+oldPass+"&newPass="+newPass,
 						type: "POST",
 						success:function(res) 
 						{
 							if(res=="OK")
 							{
-								window.location.assign("<?php echo base_url()."index/index/logout"; ?>");
+								window.location.assign("<?php echo base_url()."index/logout"; ?>");
 							}
 							else
 								if(res == "error")
@@ -120,7 +121,7 @@
                 <li><a href="#"><strong>Trang chủ</strong></a></li>
                 <li><a href="#">Chương trình đào tạo</a></li>
                 <li><a href="#">Liên kết &raquo;</a></li>
-                <li><a href="#"><?php echo $MSSV; ?></a> | <a href="<?php echo base_url(); ?>index/index/logout">Thoát</a></li>
+                <li><a href="#"><?php echo $MSSV; ?></a> | <a href="<?php echo base_url(); ?>index/logout">Thoát</a></li>
             </ul>
             
         </div><!-- end #top -->
@@ -137,34 +138,33 @@
             
             <div id="menu">
                 <ul>
-                    <li><a><strong>Đăng Ký Học Phần (<span>new</span>)</strong></a></li>
-                    <li><a>Hướng Dẫn</a></li>
-                    <li><a>In Phiếu</a></li>
+                    <li id="dkhp">   <a href="#" class="active">Đăng Ký Học Phần</a></li>
+                    <li id="hd">     <a href="#">Hướng Dẫn</a></li>
+                    <li id="inphieu"><a href="#">In Phiếu</a></li>
                 </ul>
             </div><!-- end #menu -->
         
         </div><!-- end #header -->
         
         <div id="primary">
-            <div id="content">
-                <div id="contentheader">
-                    <ul>
-                        <li class="active">Chương Trình Đào Tạo</li>
-                    </ul>
+            <div id="left">
+            <div id="content" class = "box">
+                <div id="contentheader" class="box_header">
+                    <h3>Chương trình đào tạo</h3>
                 </div><!-- end #contentheader -->
                 
-                <div id="contenttable">
-                    <table cellspacing="0">
-                        <tr>
-                            <th>Học Kỳ</th>
-                            <th>Mã Môn Học</th>
-                            <th>Tên Môn Học</th>
-                            <th>Số TC</th>
-                            <th>TCLT</th>
-                            <th>TCTH</th>
-                            <th>Điểm</th>
-                            <th>Tình Trạng</th>
-                            <th>Thao Tác</th>
+                <div id="contenttable" class="box_data">
+                    <table>
+                        <tr id="first">
+                            <th id="hk">Học Kỳ</th>
+                            <th id="mamh">Mã Môn Học</th>
+                            <th id="tenmh">Tên Môn Học</th>
+                            <th id="sotc">Số TC</th>
+                            <th id="tclt">TCLT</th>
+                            <th id="tcth">TCTH</th>
+                            <th id="diem">Điểm</th>
+                            <th id="tinhtrang">Tình Trạng</th>
+                            <th id="thaotac">Thao Tác</th>
                         </tr>
 						<?php
 							$lopdk = "";
@@ -256,22 +256,24 @@
 				<div id="contenttable1">
 				</div><!-- end #contenttable1 -->
 				
-				<div id="form">
-					<form method="POST" action="<?php echo base_url()."index/index/register"; ?>" >
+				<div id="form">				
+					<form method="POST" action="<?php echo base_url()."index/register"; ?>" >
 						<input type="hidden" name="khoa" value="<?php echo $khoa; ?>" />
 						<input type="hidden" name="MSSV" value="<?php echo $MSSV; ?>" />
 						<input type="hidden" id="DKHP" name="DKHP" value="<?php echo $lopdk; ?>" />
-						<input type="submit" value="Đăng ký" />
+						<input id="dangky" type="submit" value="Đăng ký" />
 					</form>
 				</div><!-- end #form -->
 				
             </div><!-- end #content -->
-            
-            <div id="taikhoan">
-                <div class="sidebarheader">
-                    <p><strong>Tài khoản</strong></p>
+            </div><!-- end #left -->
+			
+			<div id="right">
+            <div id="taikhoan" class="box">
+                <div class="box_header">
+                    <h3>Thông tin cá nhân</h3>
                 </div>
-                <div id="taikhoancontent">
+                <div id="taikhoancontent" class="box_data">
                     <p>MSSV: <strong><span id = "MSSV" style="color: red;"><?php echo $MSSV; ?></span></strong></p>
                     <p>Họ tên: <strong><?php echo $TenSV; ?></strong></p>
                     <p>Khoa: <strong><span id = "khoa" class = <?php echo $khoa; ?>><?php	
@@ -298,12 +300,12 @@
                 </div>
             </div>
             
-            <div id="TKB">
-                <div class="sidebarheader">
-                    <p><strong>Thời khóa biểu</strong></p>
+             <div id="TKB" class="box">
+                <div class="box_header">
+                    <h3>Thời khóa biểu</h3>
                 </div><!-- end #content -->
                 
-                <div id="TKBcontent">
+                <div id="TKBcontent" class="box_data">
                     <table id="TKBtable" cellspacing="0">
                         <tr>
                             <th colspan="2"></th>
@@ -385,15 +387,15 @@
 							?>
                         </tr>
                     </table>
-                    <p><a id="showTKB" href="<?php echo base_url()."index/index/showTKB?MSSV=".$MSSV."&khoa=".$khoa; ?>"  target="_blank">Chi tiết ...</a></p>
+                    <p><a id="showTKB" href="<?php echo base_url()."index/showTKB?MSSV=".$MSSV."&khoa=".$khoa; ?>"  target="_blank">Chi tiết ...</a></p>
                 </div><!-- end #TKBcontent -->
             </div><!-- end #TKB -->
                 
-                <div id="mondadk">
-                    <div class="sidebarheader">
-                        <p><strong>Môn đã đăng ký</strong></p>
+            <div id="mondadk" class="box">
+                    <div class="box_header">
+                        <h3>Môn đã đăng ký</h3>
                     </div><!-- end #mondakdheader -->
-                    <div id="lietkedk">
+                    <div id="lietkedk" class="box_data">
 						<ol>
 							<?php
 								foreach($MonDK->result() as $row)
@@ -403,18 +405,13 @@
 							?>
 						</ol>
                     </div><!-- end #lietkedk -->
-                </div><!-- end #mondadk -->
+            </div><!-- end #mondadk -->
                 
-                <div id="nhacnho">
-                    <div class="sidebarheader">
-                        <p><strong>Một số nhắc nhở</strong></p>
-                    </div><!-- end #nhacnhoheader -->
-                    <div id="lietkenhacnho">
-                    </div><!-- end #lietkenhacnho -->
-                </div><!-- end #nhacnho -->
+			</div><!-- end #right -->
 				            
         </div><!-- end #primary -->
         
+		
         <div id="footer">
             <div id="diachi">
                 <p>Trường Đại Học Công Nghệ Thông Tin</p>
