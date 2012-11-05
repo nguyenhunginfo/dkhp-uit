@@ -357,6 +357,7 @@ class Mlogin extends CI_Model
 		if($lopth->num_rows() <= 0)
 		{
 			echo "<div class='select'><p id='".$Maloplt."' class='lt' style='display:none;' >".$sllt."</p><p class='th' style='display:none;' >-1</p>OK</div>";
+			echo "<div class = 'note' ><p>*Chú ý: chọn 1 trong các lớp do phòng đào tạo mở</p><p>*Đối với môn có tín chỉ thực hành thì phải đăng ký kèm theo tín  chỉ thực hành</p></div>";
 			echo "</div>";	
 			return;
 		}
@@ -981,11 +982,11 @@ class Mlogin extends CI_Model
 					$temp = "<ol>";
 					foreach($loplt->result() as $row)
 					{
-						$temp = $temp."<li>".$row->Malop." ".$row->TenMH." ".$row->TenGV." P".$row->Phong."</li>";
+						$temp = $temp."<li>".$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong."</li>";
 					}
 					foreach($lopth->result() as $row)
 					{
-						$temp = $temp."<li>".$row->Malop." ".$row->TenMH." ".$row->TenGV." P".$row->Phong."</li>";
+						$temp = $temp."<li>".$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong."</li>";
 					}
 					$temp = $temp."</ol>";
 				}
@@ -994,11 +995,11 @@ class Mlogin extends CI_Model
 					$temp = "";
 					foreach($loplt->result() as $row)
 					{
-						$temp = $temp.$row->Malop." ".$row->TenMH." ".$row->TenGV." P".$row->Phong;
+						$temp = $temp.$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong;
 					}
 					foreach($lopth->result() as $row)
 					{
-						$temp = $temp.$row->Malop." ".$row->TenMH." ".$row->TenGV." P".$row->Phong;
+						$temp = $temp.$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong;
 					}
 				}
 				$result[] = $temp;
@@ -1027,7 +1028,7 @@ class Mlogin extends CI_Model
 				break;
 		}
 		
-		$query = $this->db->query("SELECT TenMH, loplt.Malop
+		$query = $this->db->query("SELECT TenMH, loplt.MaMH, SoTC, loplt.Malop
 									FROM ".$dangky.", loplt, monhoc
 									WHERE MaSV='".$MSSV."' AND ".$dangky.".Malop = loplt.Malop AND loplt.MaMH = monhoc.MaMH");
 		return $query;
@@ -1036,6 +1037,16 @@ class Mlogin extends CI_Model
 	function changePass($MSSV, $Pass)
 	{
 		$this->db->query("UPDATE taikhoan SET Password='".md5($Pass)."' WHERE Username='$MSSV'");
+	}
+	
+	function getTenKhoa($MaKhoa)
+	{
+		$this->db->where('MaKhoa', $MaKhoa);
+		$query = $this->db->get('khoa');
+		foreach ($query->result() as $row)
+		{
+			return $row->TenKhoa;
+		}	
 	}
 }
 
