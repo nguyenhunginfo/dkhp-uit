@@ -1,0 +1,157 @@
+*{margin:0px;padding:0px;}
+a{text-decoration:none;opacity:0.7;}
+a:hover{cursor:pointer;opacity:1;}
+#wrapper{width:1200px;margin:0px auto;background: #29abfe;}
+#wrapper #top{height:32px;background: url(../../images/index/top_bg.png);}
+#wrapper #top h4{line-height:31px;color:#fff;}
+
+#wrapper #header{height: 107px;background: url(../../images/index/header_bg.png);position:relative;}
+#wrapper #header img{ margin: 4px 65px; }
+#wrapper #header #banner{top: 13px;left: 183px; position: absolute;}
+#wrapper #header #banner p{    font: bold 22px "Times New Roman", Tahoma,arial,verdana,sans-serif;color: white;}
+#wrapper #header #menu{bottom: 5px;right: 12px;position: absolute;}
+#wrapper #header #menu ul li{display: inline-block;margin: 0px 5px 0px 10px;height:40px;}
+
+
+#wrapper #primary{padding:10px 10px;background:#fff;margin: 0px auto;width:1170px;-webkit-border-top-left-radius:5px;-moz-border-top-left-radius:5px;-border-top-left-radius:5px;position:relative;height:1000px;}
+#wrapper #linklogin{color: #fff;background: url(../../images/index/h4_bg.jpg) repeat-x;width:100px;height:20px;line-height:20px;padding:5px 10px;-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;text-align:center;margin:0px 0px 5px 1005px;}
+#wrapper #linklogin p:hover{font-weight:bold;cursor: pointer;}
+#wrapper #quyche{height: 800px;   border:1px solid #e8e9e8;-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;-webkit-box-shadow: 0 0  10px #646564;-moz-box-shadow: 0 0  6px #646564;padding:10px 20px;}
+#wrapper #quyche .box{padding:2px 2px;border:1px solid #e8e9e8;	-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;margin-bottom:20px;}
+#wrapper #quyche .box h4{color: #fff;-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;background: url(../../images/index/h4_bg.jpg) repeat-x;line-height:20px;padding:5px 10px;}
+#wrapper #quyche .box #box_data{margin-top:4px;border:1px solid #e8e9e8;-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;padding:5px 10px;}
+#wrapper #quyche .box #box_data ol{list-style-position: inside;}
+#wrapper #quyche .box #box_data ol li{line-height:40px;}
+
+#wrapper #footer
+{
+    
+    margin:0px 5px;
+    width:1190px;
+    height: 266px;
+    position:relative;
+    background: url(../../images/index/footer2_bg.jpg) repeat-x;
+	
+}
+#wrapper #footer #diachi
+{
+    top: 10px;
+    position: absolute;
+    font-size: 21px;
+    line-height: 30px;
+    margin: 0px 400px;
+    text-align: center;
+    z-index: 30;
+}
+
+#wrapper #footer #link
+{
+    position: absolute;
+    top: 189px;
+}
+
+#wrapper #footer #link img
+{
+    margin: 0px 0px 0px 35px;
+}
+
+#wrapper #footer #link img:first-child
+{
+    margin-left: 435px;
+}
+
+/* popup */
+#popup{top: 0px;height: 100%;width: 100%;position: fixed;background-color: #111;opacity: .65;z-index: 40;}
+#formlogin
+{
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+    margin-left: -192px;
+    margin-top: -248px;
+    width: 384px;
+    height: 497px;
+    position: fixed;
+    background: url(../../images/index/loginform_bg.png);
+    z-index: 50;
+}
+#formlogin input[type="text"]
+{
+    left: 40px;
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px #ccc;
+    -moz-box-shadow: 5px 3px 5px #ccc;
+    -webkit-box-shadow: 5px 3px 5px #ccc;
+    height: 28px;
+    width: 250px;
+    position: absolute;
+    font-size: 19px;
+    padding-left: 10px;
+}
+
+#username
+{
+    top: 110px;    
+}
+
+#password
+{
+    top: 220px;
+    left: 40px;
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px #ccc;
+    -moz-box-shadow: 5px 3px 5px #ccc;
+    -webkit-box-shadow: 5px 3px 5px #ccc;
+    height: 28px;
+    width: 250px;
+    position: absolute;
+    font-size: 19px;
+    padding-left: 10px;
+}
+
+#captcha
+{
+    top: 330px;
+}
+
+#dangnhap
+{
+    position: absolute;
+    top: 400px;
+    left: 40px;
+    width:128px;
+    height:64px;
+    color:#000;
+    font-size:18px;
+    background: url(../../images/index/dang.png);   
+    border:none;
+}
+#dangnhap:hover
+{cursor:pointer;
+font-weight:bold;
+}
+#imagecaptcha
+{
+    position: absolute;
+    height: 33px;
+    width: 200px;
+    top: 282px;
+    left: 122px;
+}
+
+.error
+{
+    position: absolute;
+    color: red;
+    left: 22px;
+}
+
+#captchaerror
+{
+    top: 370px;
+}
+
+#accounterror
+{
+	top: 471px;
+}
