@@ -15,17 +15,9 @@ class Welcome extends CI_Controller
 		$this->load->library('session');
 		//dã có session
 		$name = $this->session->userdata('name');
-		$khoa = $this->session->userdata('khoa');
 		if($name!= false)
 		{
-			if($name == 'admin')
-			{
-				$this->load->view('admin/vtrangchu');
-			}
-			else
-			{
-				$this->toVindex($name, $khoa);
-			}
+			header('Location: '.base_url().'dkhp');
 			return;
 		}
 		$this->load->model('index/mlogin');
