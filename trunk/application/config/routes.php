@@ -58,6 +58,7 @@ $route['quanly/monhoc/(:any)']='monhoc/index/$1';
 $route['quanly/giaovien']='giaovien/index';
 $route['giaovien']='';
 
+$route['dkhp']='index/login';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
