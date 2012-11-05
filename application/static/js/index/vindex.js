@@ -337,6 +337,42 @@ $(document).ready(function()
 		}
 	});
 	
+	$("#xuatfile").click(function(e)
+	{
+		var MSSV = $("#MSSV").html();
+		var khoa = $("#khoa").attr("class");
+		$.ajax(
+        {
+            url:"/index/xuatfile",
+            type:"POST",  
+            data:{MSSV:MSSV, khoa:khoa},
+            success:function(result)
+            {                
+            },
+			error:function(er)
+			{
+				alert("Quá trình xuất file bị lỗi!");
+			}
+        });
+	});
+	
+    //Sự kiện in file
+    $("#in").click(function()
+    {
+		var MSSV = $("#MSSV").html();
+		var khoa = $("#khoa").attr("class");	
+		var data = MSSV + " " + khoa;
+	
+        $("#holdIframe").html("");
+        $("#holdIframe").html("<iframe name='myname' src='index/in/" + data + "' />");
+        $("iframe").load(function() 
+        {
+			window.frames["myname"].focus();
+            window.frames["myname"].print();				
+        });
+        $("div#holdIframe").hide();
+	}); 
+	
 	function closePopup()
 	{
 		$("#popup").hide();
