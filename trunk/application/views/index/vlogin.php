@@ -12,7 +12,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 	<title>Đăng ký học phần</title>
-	<link href="<?php echo static_url();?>/css/index/style.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo static_url();?>/css/index/login.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="<?php echo static_url();?>/js/jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo static_url();?>/js/index/vlogin.js"></script>	
 	<script type="text/javascript">
@@ -36,7 +36,7 @@
 	<div id="popup">      
     </div>      
     <div id="formlogin">
-		<form method="post" action="<?php echo base_url(); ?>index/index/login">
+		<form method="post" action="<?php echo base_url(); ?>dkhp">
             <input type="text" name="username" value="" id="username" />
             <input type="password" name="password"  id="password" />
 			<span id="accounterror" class="error" ><?php 
@@ -61,9 +61,7 @@
             
         </div><!-- end #top -->
         
-        <div id="header">
-        
-            
+        <div id="header">                    
             <img src="<?php echo static_url();?>/images/index/logo.png" />
             <div id="banner">
                 <p>Đại Học Quốc Gia Thành Phố Hồ Chí Minh</p>
@@ -127,7 +125,6 @@
         </div><!-- end #primary1 -->
         
         <div id="footer">
-            <img src="<?php echo static_url();?>/images/index/_copyright.png" id="hoatiet" />
             <div id="diachi">
                 <p>Trường Đại Học Công Nghệ Thông Tin</p>
                 <p>Đại Học Quốc Gia Thành Phố Hồ Chí Minh</p>
