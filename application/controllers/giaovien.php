@@ -9,8 +9,8 @@ class Teacher extends CI_Controller {
     }
 	public function index()
 	{  
-	   $data["title"]="Trang qu?n lý giáo viên";
-		$this->load->view('admin/vteacher',$data);           
+	   $data["title"]="Trang quáº£n lÃ½ giÃ¡o viÃªn";
+		$this->load->view('admin/vgiaovien',$data);           
    	}
    
 }
