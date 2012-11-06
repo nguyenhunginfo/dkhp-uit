@@ -2,7 +2,7 @@
 
 
 class Sinhvien extends CI_Controller {
-    var $file_upload_ext="";
+    
 
     function __construct()
     {
@@ -406,7 +406,7 @@ class Sinhvien extends CI_Controller {
                 $data["import_type"]=$import_type;//$_POST rebuild
                 $data["error_array"]="Lỗi khi đọc tập tin";
                 $data["error_data"]=array();
-                $data["num_errors"]=1;
+                $data["num_errors"]=0;
                
                 if($khoa!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->msinhvien->ten_khoa($khoa)."   <img src='".static_url()."/images/delete.png' />";
                 else $data['right_title']="Thao tác nhập dữ liệu từ tập tin";  
@@ -843,15 +843,48 @@ class Sinhvien extends CI_Controller {
                     }
                 
                 }
-            
-           
-            
+                else//word 2007
+                {
+                    $inputFileType = 'EXCEL2007';
+                    
+                    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                    $objPHPExcel = $objReader->load($full_name);
+                    
+                    $str_col= $objPHPExcel->getActiveSheet()->getHighestColumn();
+                    $num_col=PHPExcel_Cell::columnIndexFromString($str_col);
+                    $num_row=$str_row=$objPHPExcel->getActiveSheet()->getHighestRow();
+                    $sinhvien_array=array();                
+                          
+                    for($row_index=2;$row_index<=$num_row;$row_index++)
+                    {   
+                        $MaSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                        $TenSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                        $Lop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                        $K=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                        $NgaySinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                        $NoiSinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
+                        $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
+                        $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                        
+                        $MaSV=ltrim($MaSV,"'");
+                        $SoDT=ltrim($SoDT,"'");
+                        if($MaSV!="")
+                        {
+                            $tempt=array("MaSV"=>$MaSV,
+                                     "TenSV"=>$TenSV,
+                                     "Lop"=>$Lop,
+                                     "K"=>$K,
+                                     "NgaySinh"=>$NgaySinh,
+                                     "NoiSinh"=>$NoiSinh,
+                                     "SDT"=>$SoDT,
+                                     "Email"=>$Email);
+                            $sinhvien_array[]=$tempt;
+                        }
+                       
+                    }
+                }
             return $sinhvien_array;
     
    }
 }//end CONTROLLER SINHVIEN
-    
-    
-
- 
 ?>
