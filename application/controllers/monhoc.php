@@ -6,7 +6,9 @@ class Monhoc extends CI_Controller {
     {
         parent::__construct();
         $this->load->helper("url");
+        $this->load->library("form_validation");        
         $this->load->model("admin/mmonhoc");
+        $this->load->library('PHPExcel');
     }
 	public function index($loai="tatca")
 	{  
@@ -15,16 +17,19 @@ class Monhoc extends CI_Controller {
         //get data to dump into table
         $monhoc_result=$this->mmonhoc->get_monhoc("",$loai,0,15);//lay danh sach monhoc cac loai 15 record dau tien
         
-        $data['data_title']="Danh sách môn học";
+        if($loai=="DC") $data["data_title"]="Thao tác thêm môn học đại cương";
+        else if($loai=="CN") $data["data_title"]="Thao tác thêm môn học chuyên nghành";
+        else $data["data_title"]="Thao tác thêm môn học";
         
         
         //tong so hang de tao phan trang
-        $num_rows=$this->mmonhoc->get_num_rows();
+        $num_rows=$this->mmonhoc->get_num_rows("",$loai);
         
         //make pagination
         $this->load->library("pagination");        
         $config["base_url"]="http://dkhp.uit.edu.vn/quanly/monhoc/ajax_full_data";
         $config["total_rows"]=$num_rows;
+        
         $config["per_page"]=15;
         $this->pagination->initialize($config);
         $data["pagination"]=$this->pagination->create_links();
@@ -32,14 +37,20 @@ class Monhoc extends CI_Controller {
         $data["khoa_result"]=$khoa_result;        
         $data["monhoc_result"]=$monhoc_result;
         $data["loai"]=$loai;
+        $data["total_rows"]=$num_rows;
         $data["title"]="Trang quản lý môn học";        
         
 		$this->load->view('admin/vmonhoc',$data);        
    	}
-    public function themmh()
+    public function themmh($loai="")
     {
          $khoa_result=$this->mmonhoc->get_khoa();
         $data["khoa_result"]=$khoa_result;
+        $data["loai"]=$loai;        
+        if($loai=="DC") $data["data_title"]="Danh sách môn học đại cương";
+        else if($loai=="CN") $data["data_title"]="Danh sách môn học chuyên nghành";
+        else $data["data_title"]="Danh sách môn học";
+        
         
         $data["title"]="Trang thêm môn học";  
         $this->load->view("admin/vmonhoc_add",$data);  
@@ -61,9 +72,7 @@ class Monhoc extends CI_Controller {
             
             $config["per_page"]=$limit;
             $this->pagination->initialize($config);
-            
-          
-            echo "<div id='pagination'>";
+            echo "<div id='pagination' class='".$config["total_rows"]."'>";
             echo $this->pagination->create_links();
 		    echo "</div><!--end #pagintion -->";
             
@@ -164,11 +173,6 @@ class Monhoc extends CI_Controller {
             $this->form_validation->set_rules('tclt', 'tín chỉ lý thuyết', 'numeric');
             $this->form_validation->set_rules('tcth', 'tín chỉ thực hành', 'numeric');
             
-            
-           // $this->form_validation->set_rules("noisinh","Nơi sinh","required");
-           // $this->form_validation->set_rules("cmnd","CMND","required|exact_length[9]");
-            
-            
             if($this->form_validation->run() ==false)
             {
                 //echo validation_errors();
@@ -263,6 +267,466 @@ class Monhoc extends CI_Controller {
             else return true;
         }
         else return true;
+   }
+//==============================================XUAT DU LIEU=================================================================================================================================================    
+    function xuatdl()
+	{  
+	       
+           $loai=$this->input->post("loai");
+           $start=$this->input->post("start");
+           $end=$this->input->post("end");
+           $limit=$end-$start;        
+           $search=$this->input->post("search");
+           $file=$this->input->post("file");
+           
+           $this->form_validation->set_rules("loai","Loai","required");
+           if($this->form_validation->run())
+            {
+    //=================================================CSV================================================================================================================================================      
+                if($file=="CSV")
+                {
+                    $objPHPExcel = new PHPExcel();
+                    
+                    
+                    $monhoc_result=$this->mmonhoc->get_monhoc($search,$loai,$start,$limit);
+                    $fields=array("MaMH","TenMH","SoTC","TCLT","TCTH","Loai");
+                    $ncol=0;
+                    $nrow=1;
+                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);    
+                    
+                    foreach($monhoc_result as $row)
+                    {
+                                                                      
+                        $sheet_dsmh->setCellValueByColumnAndRow(0,$nrow,$row->MaMH);
+                        $sheet_dsmh->setCellValueByColumnAndRow(1,$nrow,$row->TenMH);
+                        $sheet_dsmh->setCellValueByColumnAndRow(2,$nrow,$row->SoTC);
+                        $sheet_dsmh->setCellValueByColumnAndRow(3,$nrow,$row->TCLT);
+                        $sheet_dsmh->setCellValueByColumnAndRow(4,$nrow,$row->TCTH);                        
+                        $sheet_dsmh->setCellValueByColumnAndRow(5,$nrow,$row->Loai);
+                        
+                        $nrow++; 
+                        
+                        
+                    }
+                   
+                    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    $filename="Danh_Sach_MH_".$loai;
+                    header('Content-Type: text/csv');
+                    header('Content-Disposition: attachment;filename="'.$filename.'.csv"');
+                    header('Cache-Control: max-age=0');
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+                    $objWriter->setDelimiter(',');
+                    $objWriter->setEnclosure('');
+                    $objWriter->setLineEnding("\r\n");
+                    $objWriter->setSheetIndex(0);
+                    
+                    $objWriter->save('php://output');
+                    exit();
+                }
+                
+                
+    //============================================EXCEL 2003============================================================================================================           
+                else if($file=="EXCEL2003")
+                {
+                    
+                    $objPHPExcel = new PHPExcel();
+                    // Add some data
+                    $monhoc_result=$this->mmonhoc->get_monhoc($search,$loai,$start,$limit);
+                    $fields=array("MaMH","TenMH","SoTC","TCLT","TCTH","Loai");
+                    $ncol=0;
+                    $nrow=2;
+                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);
+            //======TITLE============================================================================================================            
+                    $sheet_dsmh->getCell("A1")->setValue("Mã Môn Học"); 
+                    $sheet_dsmh->getColumnDimension('A')->setAutoSize(true);
+                    
+                    $sheet_dsmh->getCell("B1")->setValue("Tên Môn Học");        
+                    $sheet_dsmh->getColumnDimension('B')->setWidth(35);
+                    
+                    $sheet_dsmh->getCell("C1")->setValue("Số Tín Chỉ");
+                    $sheet_dsmh->getColumnDimension('C')->setWidth(12);
+                    
+                    
+                    $sheet_dsmh->getCell("D1")->setValue("Tín Chỉ LT");
+                    $sheet_dsmh->getColumnDimension('D')->setWidth(12);
+                    
+                    $sheet_dsmh->getCell("E1")->setValue("Tín Chỉ TH");
+                    $sheet_dsmh->getColumnDimension('E')->setWidth(12);
+                    
+                    $sheet_dsmh->getCell("F1")->setValue("Loại Môn");
+                    $sheet_dsmh->getColumnDimension('F')->setWidth(20);
+                    
+                    $sheet_dsmh->getStyle("A1:F1")->getFont()->setSize(12)->setBold(true);
+            //======DATA============================================================================================================            
+                    foreach($monhoc_result as $row)
+                    {
+                        $ncol=0;
+                        foreach($fields as $field)
+                        {
+                            if($field=="Loai" && $row->$field=="DC")$sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue("Đại Cương");
+                            else if($field=="Loai" && $row->$field=="CN") $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue("Chuyên Nghành");
+                            else $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue($row->$field);
+                            $ncol++;
+                        }                
+                        $nrow++;
+                    }
+                    // Rename worksheet
+                    $objPHPExcel->getActiveSheet()->setTitle('DSMH_'.$loai);
+                    
+                    
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    $filename="Danh_Sach_MH_".$loai;
+                    header('Content-Type: application/vnd.ms-excel');
+                    header('Content-Disposition: attachment;filename="'.$filename.'.xls"');
+                    header('Cache-Control: max-age=0');
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+                    $objWriter->save('php://output');
+                    exit();
+                    
+                }//END 2003 OUTPUT
+                
+                
+                
+                
+//==============================================EXCEL 2007===================================================================================================================================            
+                else if($file=="EXCEL2007")
+                {
+                    $objPHPExcel = new PHPExcel();
+                    // Add some data
+                    $monhoc_result=$this->mmonhoc->get_monhoc($search,$loai,$start,$limit);
+                    $fields=array("MaMH","TenMH","SoTC","TCLT","TCTH","Loai");
+                    $ncol=0;
+                    $nrow=2;
+                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);
+            //======TITLE============================================================================================================            
+                    $sheet_dsmh->getCell("A1")->setValue("Mã Môn Học"); 
+                    $sheet_dsmh->getColumnDimension('A')->setAutoSize(true);
+                    
+                    $sheet_dsmh->getCell("B1")->setValue("Tên Môn Học");        
+                    $sheet_dsmh->getColumnDimension('B')->setWidth(35);
+                    
+                    $sheet_dsmh->getCell("C1")->setValue("Số Tín Chỉ");
+                    $sheet_dsmh->getColumnDimension('C')->setWidth(12);
+                    
+                    
+                    $sheet_dsmh->getCell("D1")->setValue("Tín Chỉ LT");
+                    $sheet_dsmh->getColumnDimension('D')->setWidth(12);
+                    
+                    $sheet_dsmh->getCell("E1")->setValue("Tín Chỉ TH");
+                    $sheet_dsmh->getColumnDimension('E')->setWidth(12);
+                    
+                    $sheet_dsmh->getCell("F1")->setValue("Loại Môn");
+                    $sheet_dsmh->getColumnDimension('F')->setWidth(20);
+                    
+                    $sheet_dsmh->getStyle("A1:F1")->getFont()->setSize(12)->setBold(true);
+            //======DATA============================================================================================================            
+                    foreach($monhoc_result as $row)
+                    {
+                        $ncol=0;
+                        foreach($fields as $field)
+                        {
+                            if($field=="Loai" && $row->$field=="DC")$sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue("Đại Cương");
+                            else if($field=="Loai" && $row->$field=="CN") $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue("Chuyên Nghành");
+                            else $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue($row->$field);
+                            $ncol++;
+                        }                
+                        $nrow++;
+                    }
+                    // Rename worksheet
+                    $objPHPExcel->getActiveSheet()->setTitle('DSMH_'.$loai);
+                    
+                    
+                    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    
+                    $filename="Danh_Sach_MH_".$loai;
+                    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                    header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
+                    header('Cache-Control: max-age=0');                
+                    
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                    $objWriter->save('php://output');
+                    exit();
+                }//END 2007 OUTPUT
+                
+            }
+            else
+            {
+                $khoa_result=$this->mmonhoc->get_khoa();
+                $data["khoa_result"]=$khoa_result;
+        
+                $data["title"]="Trang xuất dữ liệu";  
+                $this->load->view("admin/vmonhoc_export",$data);   
+                  
+            }
+	    
+        
+   	}//END EXPORT DATA
+   
+   
+   function nhapdl()
+    {
+        $this->load->helper("url");
+        $this->load->library("form_validation");
+        $this->form_validation->set_rules("file_upload","Tập tin","callback_exist_file");              
+        if($this->form_validation->run())
+        {  
+            
+            $file_data=$this->upload->data();
+            $import_type=$this->input->post("import_type");
+            
+            
+            try
+            {
+                $monhoc_array=$this->read_import_file($file_data);    
+                $num_errors=$this->check_error_data($monhoc_array,$import_type);
+                
+                //LOI=============================================================================================
+                if($num_errors>0) 
+                {
+                    
+                    $khoa_result=$this->mmonhoc->get_khoa();
+                    $data["khoa_result"]=$khoa_result;
+                    $data["import_type"]=$import_type;
+                    $data["error_data"]=$monhoc_array;
+                    $data["num_errors"]=$num_errors;
+                    $data['right_title']="Thao tác nhập dữ liệu từ tập tin <img src='".static_url()."/images/delete.png' />";   
+                    
+                    
+                    $data["title"]="Trang nhập dữ liệu";  
+                    $this->load->view("admin/vmonhoc_import_error",$data);    
+                }
+                //=OK IMPORT INTO DATA======================================================================================
+                else
+                {
+                    
+                    $this->mmonhoc->import_monhoc($monhoc_array,$import_type);
+                    
+                   header('Location: '.base_url().'/quanly/monhoc');
+                }
+                
+            }
+            catch(exception $ex)
+            {
+                $khoa_result=$this->mmonhoc->get_khoa();
+                $data["khoa_result"]=$khoa_result;
+                
+                
+                $data["import_type"]=$import_type;//$_POST rebuild
+                $data["error_array"]="Lỗi khi đọc tập tin";
+                $data["error_data"]=array();
+                $data["num_errors"]=0;
+                $data["title"]="Trang nhập dữ liệu";  
+                $this->load->view("admin/vmonhoc_import_error",$data); 
+                
+            }
+            
+            
+             
+           
+        }
+        else//load binh thuong khong co form
+        {
+            $khoa_result=$this->mmonhoc->get_khoa();
+            $data["khoa_result"]=$khoa_result;
+            
+            $data["title"]="Trang nhập dữ liệu";  
+            $this->load->view("admin/vmonhoc_import",$data);    
+        }
+           
+    }//END IMPORT FROM FILE    
+    
+    
+    //============VALID SINHVIEN WHEN IMPORT==============================================================================================================
+    public function valid_mamh($mamh,$arr_unique,$type="insert")
+       {
+          if(in_array($mamh,$arr_unique)) return false;
+          else if ($this->mmonhoc->mamh_exist($mamh,$type)) return false;
+          return true;
+       }
+    public function check_error_data($data,$import_type="insert")
+    {
+        $num_errors=0;
+        $array_unique=array();
+        foreach($data as $row)
+        {
+            if($this->valid_mamh($row["MaMH"],$array_unique,$import_type)==false) $num_errors++;
+            $array_unique[]=$row["MaMH"];
+            
+        }
+        return $num_errors;
+    }
+//============VALID FILE_UPLOAD WHEN IMPORT==============================================================================================================
+    public function exist_file()
+       {   
+           if($_FILES["file_upload"])
+            {
+                $config["upload_path"]="C:\\xampp\\htdocs\\dkhp\\application\\uploads";
+                $config["allowed_types"]="xls|xlsx|csv";
+                $config["max_size"]="2048";
+                $config["file_name"]="upload_file";                
+                $config["max_filename"]="30";
+                $config["overwrite"]=true;
+                $this->load->library("upload",$config);
+                $this->upload->initialize($config);
+                if($this->upload->do_upload("file_upload"))
+                {                      
+                    return true;
+                }
+                else
+                {
+                    $error=$this->upload->display_errors("<span title='Thông báo lỗi'>","</span>");
+                    $this->form_validation->set_message("exist_file",$error);
+                    return false;
+                }
+            }
+            else
+            {
+                $this->form_validation->set_message("exist_file","<span title='Thông báo lỗi'> Hãy chọn tập tin.</span>");
+                return false;
+            }
+            
+       }
+
+   public function read_import_file($file_data)   
+   {
+        $file_name=$file_data["file_name"];
+        $full_name=$file_data["full_path"];
+        $file_ext=$file_data["file_ext"];
+            
+            
+        $objPHPExcel = new PHPExcel();
+        $monhoc_array=array();  
+        
+   
+            if($file_ext==".csv")
+            {                                    
+                $inputFileType = 'CSV';
+                    
+                $objReader = PHPExcel_IOFactory::createReader($inputFileType);                 
+                $objReader->setDelimiter(',');
+                $objReader->setEnclosure('');
+                $objReader->setLineEnding("\r\n");
+                $objReader->setSheetIndex(0);                
+                    
+                    
+                    
+                $objPHPExcel = $objReader->load($full_name);
+    
+                $str_col= $objPHPExcel->getActiveSheet()->getHighestColumn();
+                $num_col=PHPExcel_Cell::columnIndexFromString($str_col);
+                $num_row=$str_row=$objPHPExcel->getActiveSheet()->getHighestRow();
+                    
+                    
+                    
+                                  
+                          
+                for($row_index=1;$row_index<=$num_row;$row_index++)
+                {
+                    $MaMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                    $TenMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                    $SoTC=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                    $TCLT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                    $TCTH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                    $Loai=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();                    
+                    if($MaMH!="")
+                    {
+                        $tempt=array("MaMH"=>$MaMH,
+                                 "TenMH"=>$TenMH,
+                                 "SoTC"=>$SoTC,
+                                 "TCLT"=>$TCLT,
+                                 "TCTH"=>$TCTH,
+                                 "Loai"=>$Loai);
+                                 
+                        $monhoc_array[]=$tempt;
+                    }
+                   
+                       
+                }//end for
+            }//end extension .csv
+            
+            else if($file_ext==".xls")
+                {
+                    $inputFileType = 'EXCEL5';
+                    
+                    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                    $objPHPExcel = $objReader->load($full_name);
+                    
+                    $str_col= $objPHPExcel->getActiveSheet()->getHighestColumn();
+                    $num_col=PHPExcel_Cell::columnIndexFromString($str_col);
+                    $num_row=$str_row=$objPHPExcel->getActiveSheet()->getHighestRow();
+                    
+                    
+                    
+                    $monhoc_array=array();                
+                          
+                    for($row_index=2;$row_index<=$num_row;$row_index++)
+                    {
+                        
+                        
+                        $MaMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                        $TenMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                        $SoTC=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                        $TCLT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                        $TCTH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                        $Loai=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();    
+                        if($Loai=="Đại Cương") $Loai="DC";
+                        else $Loai="CN";                
+                        if($MaMH!="")
+                        {
+                            $tempt=array("MaMH"=>$MaMH,
+                                     "TenMH"=>$TenMH,
+                                     "SoTC"=>$SoTC,
+                                     "TCLT"=>$TCLT,
+                                     "TCTH"=>$TCTH,
+                                     "Loai"=>$Loai);
+                                     
+                            $monhoc_array[]=$tempt;
+                        }
+                       
+                    }
+                
+                }
+                else//word 2007
+                {
+                    $inputFileType = 'EXCEL2007';
+                    
+                    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                    $objPHPExcel = $objReader->load($full_name);
+                    
+                    $str_col= $objPHPExcel->getActiveSheet()->getHighestColumn();
+                    $num_col=PHPExcel_Cell::columnIndexFromString($str_col);
+                    $num_row=$str_row=$objPHPExcel->getActiveSheet()->getHighestRow();
+                    $monhoc_array=array();                
+                          
+                    for($row_index=2;$row_index<=$num_row;$row_index++)
+                    {   
+                        $MaMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                        $TenMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                        $SoTC=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                        $TCLT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                        $TCTH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                        $Loai=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
+                        if($Loai=="Đại Cương") $Loai="DC";
+                        else $Loai="CN";                    
+                        if($MaMH!="")
+                        {
+                            $tempt=array("MaMH"=>$MaMH,
+                                     "TenMH"=>$TenMH,
+                                     "SoTC"=>$SoTC,
+                                     "TCLT"=>$TCLT,
+                                     "TCTH"=>$TCTH,
+                                     "Loai"=>$Loai);
+                                     
+                            $monhoc_array[]=$tempt;
+                        }
+                       
+                       
+                    }
+                }
+            return $monhoc_array;
+    
    }
    
 }
