@@ -174,21 +174,6 @@
 								$dk = 0;
 								$lop = "";
 								$temp = $row->MaMH;
-								echo "<tr><td>";
-								echo $row->HK;
-								echo "</td><td>";
-								echo $row->MaMH;
-								echo "</td><td align = 'left'>";
-								echo $row->TenMH;
-								echo "</td><td>";
-								echo $row->SoTC;
-								echo "</td><td>";
-								echo $row->TCLT;
-								echo "</td><td>";
-								echo $row->TCTH;
-								echo "</td><td>";
-								echo $row->Diem;
-								echo "</td><td>";
 								foreach ($loplt->result() as $row1)
 								{
 									if($row1->MaMH == $row->MaMH)
@@ -217,6 +202,35 @@
 								}
 								if($full <= 0)
 								{
+									echo "<tr class='lopmo'><td>";
+								}
+								else
+								{
+									if($full < 200)
+									{
+										echo "<tr class='lopday'><td>";
+									}
+									else
+									{
+										echo "<tr><td>";
+									}
+								}
+								echo $row->HK;
+								echo "</td><td>";
+								echo $row->MaMH;
+								echo "</td><td align = 'left'>";
+								echo $row->TenMH;
+								echo "</td><td>";
+								echo $row->SoTC;
+								echo "</td><td>";
+								echo $row->TCLT;
+								echo "</td><td>";
+								echo $row->TCTH;
+								echo "</td><td>";
+								echo $row->Diem;
+								echo "</td><td>";
+								if($full <= 0)
+								{
 									echo "lớp mở</td><td>";
 								}
 								else
@@ -239,7 +253,7 @@
 									if($dk != 0)
 									{
 										if($full <= 0)
-											echo "<p id='showdiv".$row->MaMH."'>đăng ký</p></td></tr>";
+											echo "<p id='showdiv".$row->MaMH."'>chọn lớp</p></td></tr>";
 										else
 											echo "</td></tr>";
 									}
@@ -387,7 +401,7 @@
 							?>
                         </tr>
                     </table>
-                    <p><a id="showTKB" href="<?php echo base_url()."index/showTKB?MSSV=".$MSSV."&khoa=".$khoa; ?>"  target="_blank">Chi tiết ...</a></p>
+                    <p><a id="showTKB" href="<?php echo base_url()."tkb/index"; ?>"  target="_blank">Chi tiết ...</a></p>
                 </div><!-- end #TKBcontent -->
             </div><!-- end #TKB -->
                 
