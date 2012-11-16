@@ -1,15 +1,5 @@
 $(document).ready(function()
-{	
-	$("#popup").hide(); 
-	$(".popupdetail").hide();
-	$("#divchangepass").hide();
-		
-	$("#closechangepass").click(function(e)
-	{
-		$("#popup").hide(); 
-		$("#divchangepass").hide();
-	});
-	
+{			
 	$("input.cbdangkylt").live("change", function(e)
 	{
 		var myString = $("#DKHP").val();
@@ -300,42 +290,13 @@ $(document).ready(function()
 		}
 	});
 	
-	$("#showchangepass").click(function(e)
+	function closePopup()
 	{
-		$("#popup").show();
-		$("#divchangepass").show();
-		$("#divchangepass input").val("");
-		$("#errorNewPassword").html("");
-		$("#errorOldPassword").html("");
-	});
+		$("#popup").hide();
+		$(".popupdetail").hide();
+		$("#divchangepass").hide();
+	}
 	
-	$("#password2").blur(function(e)
-	{
-		pass1 = $("#password1").val();
-		pass2 = $("#password2").val();
-		if(pass1 != pass2)
-		{
-			$("#errorNewPassword").html("Password không trùng!");
-		}
-		else 
-		{
-			$("#errorNewPassword").html("");
-		}
-	});
-	
-	$("#password1").blur(function(e)
-	{
-		pass1 = $("#password1").val();
-		pass2 = $("#password2").val();
-		if(pass1 != pass2)
-		{
-			$("#errorNewPassword").html("Password không trùng!");
-		}
-		else 
-		{
-			$("#errorNewPassword").html("");
-		}
-	});
 	
 	$("#xuatfile").click(function(e)
 	{
@@ -372,13 +333,6 @@ $(document).ready(function()
         });
         $("div#holdIframe").hide();
 	}); 
-	
-	function closePopup()
-	{
-		$("#popup").hide();
-		$(".popupdetail").hide();
-		$("#divchangepass").hide();
-	}
 		
 	function TKB_them(s)
 	{
