@@ -4,78 +4,286 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 	<title>Thời khóa biểu</title>
+	<link href="<?php echo static_url();?>/css/index/dkhp.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo static_url();?>/css/index/vtkb.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="<?php echo static_url();?>/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<?php echo static_url();?>/js/index/dkhp.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function()
-		{	
+		{
 		});
 	</script>	
 </head>
 
+
 <body>
-	<div id="thu">
-		<ul>
-			<li>Thứ 2</li>
-			<li>Thứ 3</li>
-			<li>Thứ 4</li>
-			<li>Thứ 5</li>
-			<li>Thứ 6</li>
-			<li>Thứ 7</li>
-		</ul>
+	
+	<div id="popup">
+	</div><!-- end #popup -->
+	<div id = "divchangepass">
+		<div id="topchangepass" >Đổi mật khẩu</div>
+		<button id="closechangepass" ></button>
+		<div class="nottop">Mật khẩu cũ:<br> <input type="password" name="oldPassword" id="oldPassword" /><br></div>
+		<div class="nottop">Mật khẩu mới:<br> <input type="password" name="password1" id="password1" /><br></div>
+		<div class="nottop">Xác nhận mật khẩu mới:<br> <input type="password" name="password2" id="password2" /><br></div>
+		<span id="errorOldPassword"></span>
+		<span id="errorNewPassword"></span>
+		<button id="btn_changepass" ></button>
+		
 	</div>
-	<table id="TKBtable" cellspacing="0">
-        <!--<tr>
-			<th colspan="2"></th>
-            <th>Thứ 2</th>
-            <th>Thứ 3</th>
-            <th>Thứ 4</th>
-            <th>Thứ 5</th>
-            <th>Thứ 6</th>
-			<th>Thứ 7</th>
-		</tr> -->
-        <tr>
-			<td rowspan="2" style="width: 60px;">Sáng</td>
-			<td class="ca">ca 1</td>
-			<?php
-				for($thu = 2; $thu <= 7; $thu++)
-				{
-					echo "<td class='lop'>".$TKB[$thu - 2]."</td>";
-				}
-			?>
-        </tr>
-        <tr>
-			<td class="ca" style="border-left: 1px solid #DCDDDE;">ca 2</td>
-			<?php
-				for($thu = 2; $thu <= 7; $thu++)
-				{
-					echo "<td class='lop'>".$TKB[$thu + 4]."</td>";
-				}
-			?>
-        </tr>
-        <tr>
-            <td rowspan="2">Chiều</td>
-			<td class="ca">ca 3</td>
-			<?php
-				for($thu = 2; $thu <= 7; $thu++)
-				{
-					echo "<td class='lop'>".$TKB[$thu + 10]."</td>";
-				}
-			?>
-            </tr>
-        <tr>
-			<td class="ca" style="border-left: 1px solid #DCDDDE">ca 4</td>
-			<?php
-				for($thu = 2; $thu <= 7; $thu++)
-				{
-					echo "<td class='lop'>".$TKB[$thu + 16]."</td>";
-				}
-			?>
-        </tr>
-    </table>
-	
-	<button id="btnTaiFile">Tải file</button>
-	<button id="btnInTKB">In TKB</button>
-	
+
+    <div id="wrapper">
+        
+        <div id="top">            
+            <ul>
+                <li><a href="#"><strong>Trang chủ</strong></a></li>
+                <li><a href="#">Chương trình đào tạo</a></li>
+                <li><a href="#">Liên kết &raquo;</a></li>
+                <li><a href="#"><?php echo $MSSV; ?></a> | <a href="<?php echo base_url(); ?>logout">Thoát</a></li>
+            </ul>
+            
+        </div><!-- end #top -->
+        
+        <div id="header">
+        
+            
+            <img src="<?php echo static_url();?>/images/index/logo.png" />
+            <div id="banner">
+                <p>Đại Học Quốc Gia Thành Phố Hồ Chí Minh</p>
+                <p>Trường Đại Học Công Nghệ Thông Tin</p>
+                <p>Hệ Thống Đăng Ký Học Phần</p>
+            </div><!-- end #banner -->
+            
+            <div id="menu">
+                <ul>
+                    <li id="dkhp">   <a href="#" class="active">Đăng Ký Học Phần</a></li>
+                    <li id="hd">     <a href="#">Hướng Dẫn</a></li>
+                    <li id="inphieu"><a href="#">In Phiếu</a></li>
+                </ul>
+            </div><!-- end #menu -->
+        
+        </div><!-- end #header -->
+        
+        <div id="primary">
+            <div id="left">
+            <div id="content" class="box">
+                <div id="contentheader" class="box_header">
+                    <h3>Thời khóa biểu</h3>
+                </div><!-- end #contentheader -->
+                
+                <div id="contenttable" class="box_data">
+                    <table id="TKBtable">
+                        <tr id="first">
+                            <th colspan="2"></th>
+                            <th>Thứ 2</th>
+                            <th>Thứ 3</th>
+                            <th>Thứ 4</th>
+                            <th>Thứ 5</th>
+                            <th>Thứ 6</th>
+                            <th>Thứ 7</th>
+                        </tr>
+                        <tr>
+							<td rowspan="2" style="width: 60px;"><strong>S<br>á<br>n<br>g</strong></td>
+							<td class="ca">c<br>a<br>1</td>
+							<?php
+							for($thu = 2; $thu <= 7; $thu++)
+							{
+								echo "<td class='lop'>".$TKB[$thu - 2]."</td>";
+							}
+							?>
+						</tr>
+						<tr>
+							<td class="ca" style="border-left: 1px solid #DCDDDE;">c<br>a<br>2</td>
+							<?php
+							for($thu = 2; $thu <= 7; $thu++)
+							{
+								echo "<td class='lop'>".$TKB[$thu + 4]."</td>";
+							}
+							?>
+						</tr>
+						<tr>
+							<td rowspan="2"><strong>C<br>h<br>i<br>ề<br>u</strong></td>
+							<td class="ca">c<br>a<br>3</td>
+							<?php
+								for($thu = 2; $thu <= 7; $thu++)
+								{
+									echo "<td class='lop'>".$TKB[$thu + 10]."</td>";
+								}
+							?>
+						</tr>
+						<tr>
+							<td class="ca" style="border-left: 1px solid #DCDDDE">c<br>a<br>4</td>
+							<?php
+								for($thu = 2; $thu <= 7; $thu++)
+								{
+									echo "<td class='lop'>".$TKB[$thu + 16]."</td>";
+								}
+							?>
+						</tr>
+                    </table>
+                    
+                </div><!-- end #contenttable -->
+								
+            </div><!-- end #content -->
+            </div><!--end #left -->
+            
+            <div id="right">
+            <div id="taikhoan" class="box">
+                <div class="box_header">
+                    <h3>Thông tin cá nhân</h3>
+                </div>
+                <div id="taikhoancontent" class="box_data">
+                    <p>MSSV: <strong><span id = "MSSV" style="color: red;"><?php echo $MSSV; ?></span></strong></p>
+                    <p>Họ tên: <strong><?php echo $TenSV; ?></strong></p>
+                    <p>Khoa: <strong><span id = "khoa" class = <?php echo $khoa; ?> ><?php	
+											switch($khoa)
+											{
+												case "mmt": 
+													echo "Mạng máy tính và truyền thông";
+													break;
+												case "khmt": 
+													echo "Khoa học máy tính";
+													break;
+												case "ktmt": 
+													echo "Kỹ thuật máy tính";
+													break;
+												case "httt": 
+													echo "Hệ thống thông tin";
+													break;
+												case "cnpm": 
+													echo "Công nghệ phần mềm";
+													break;
+											}
+										?></span></strong></p>
+                    <p><a id="showchangepass" >Đổi mật khẩu</a></p>
+                </div>
+            </div><!--end #tai khoan -->
+            
+            <div id="TKB" class="box">
+                <div class="box_header">
+                    <h3>Thời khóa biểu</h3>
+                </div><!-- end #content -->
+                
+                <div id="TKBcontent" class="box_data">
+                    <table id="TKBtable">
+                        <tr>
+                            <th colspan="2"></th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Sáng</td>
+                            <td>ca 1</td>
+							<?php
+								for($thu = 2; $thu <= 7; $thu++)
+								{
+									$tempTKB = explode("|",$TKBfull[$thu - 2]);
+									if($tempTKB != "")
+									{
+										echo "<td class='lich' id='1".$thu."' title='".$tempTKB[1]."' >".$tempTKB[0]."</td>";
+									}
+									else
+									{
+										echo "<td class='lich' id='1".$thu."' ></td>";
+									}
+								}
+							?>
+                        </tr>
+                        <tr>
+                            <td style="border-left: 1px solid #DCDDDE;">ca 2</td>
+							<?php
+								for($thu = 2; $thu <= 7; $thu++)
+								{
+									$tempTKB = explode("|",$TKBfull[$thu + 4]);
+									if($tempTKB != "")
+									{
+										echo "<td class='lich' id='2".$thu."' title='".$tempTKB[1]."' >".$tempTKB[0]."</td>";
+									}
+									else
+									{
+										echo "<td class='lich' id='2".$thu."' ></td>";
+									}
+								}
+							?>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Chiều</td>
+                            <td>ca 3</td>
+							<?php
+								for($thu = 2; $thu <= 7; $thu++)
+								{
+									$tempTKB = explode("|",$TKBfull[$thu + 10]);
+									if($tempTKB != "")
+									{
+										echo "<td class='lich' id='3".$thu."' title='".$tempTKB[1]."' >".$tempTKB[0]."</td>";
+									}
+									else
+									{
+										echo "<td class='lich' id='3".$thu."' ></td>";
+									}
+								}
+							?>
+                        </tr>
+                        <tr>
+                            <td style="border-left: 1px solid #DCDDDE">ca 4</td>
+							<?php
+								for($thu = 2; $thu <= 7; $thu++)
+								{
+									$tempTKB = explode("|",$TKBfull[$thu + 16]);
+									if($tempTKB != "")
+									{
+										echo "<td class='lich' id='4".$thu."' title='".$tempTKB[1]."' >".$tempTKB[0]."</td>";
+									}
+									else
+									{
+										echo "<td class='lich' id='4".$thu."' ></td>";
+									}
+								}
+							?>
+                        </tr>
+                    </table>
+                    <p><a id="showTKB" href="<?php echo base_url()."index/index/showTKB?MSSV=".$MSSV."&khoa=".$khoa; ?>"  target="_blank">Chi tiết ...</a></p>
+                </div><!-- end #TKBcontent -->
+            </div><!-- end #TKB -->
+            
+            
+             <div id="mondadk" class="box">
+                    <div class="box_header">
+                        <h3>Môn đã đăng ký</h3>
+                    </div><!-- end #mondakdheader -->
+                    <div id="lietkedk" class="box_data">
+						<ol>
+							<?php
+								foreach($MonDK->result() as $row)
+								{
+									echo "<li id='mondk".$row->Malop."'>".$row->TenMH."</li>";
+								}
+							?>
+						</ol>
+                    </div><!-- end #lietkedk -->
+                </div><!-- end #mondadk -->
+            
+            </div><!--end #right -->
+        
+				            
+        </div><!-- end #primary -->
+        
+        <div id="footer">
+            <div id="diachi">
+                <p>Trường Đại Học Công Nghệ Thông Tin</p>
+                <p>Đại Học Quốc Gia Thành Phố Hồ Chí Minh</p>
+                <p>Khu phố 6, Phường Linh Trung Thủ Đức</p>
+                <p>Mail: Admin.uit@gmail.com</p>
+                <p>Fax: 016888898</p>
+                <p>Phone: 01699938919</p>
+            </div><!-- end #diachi -->           
+        </div><!-- end #footer -->
+        
+    </div><!-- end #wrapper -->
+
 </body>
 </html>
