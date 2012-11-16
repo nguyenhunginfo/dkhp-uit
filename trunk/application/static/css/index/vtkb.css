@@ -1,101 +1,17 @@
-*
-{
-    padding: 0px;
-    margin: 0px;
-}
+*{padding: 0px;margin: 0px;}
 
-div#thu
-{
-    box-shadow: 5px 0px 5px #ccc;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
-    width: 1119px;
-    height: 50px;
-    line-height: 50px;
-    background-color: #29abff;
-    cursor: default;
-    border-right: 1px solid #DCDDDE;
-}
+#wrapper #primary #left #content table{border: 1px solid #DCDDDE;border-collapse: collapse;}
+#wrapper #primary #left #content table tr#first{height:30px;background: #DCDDDE;}
+#wrapper #primary #left #content table tr{height:24px;}
+#wrapper #primary #left #content table th{text-align:center;font-size:18px;line-height:40px;}
+#wrapper #primary #left #content table td{border-top:1px solid #DCDDDE;border-right:1px solid #DCDDDE;text-align:center;}
+#wrapper #primary #left #content table tr td.ca{width: 40px;}
+#wrapper #primary #left #content table td.lop{width:160px;height:200px;overflow:hidden;}
+#wrapper #primary #left #content table td.lop:hover{background-color: #eef;opacity: 0.9;}
+#wrapper #primary #left #content table td.lop p{border-bottom: 1px dashed #DCDDDE;}
+#wrapper #primary #left #content table td.lop p:last-child{border-bottom: none;}
+#wrapper #primary #left #content table td.lop p.thuchanh{color: #29abcc;}
 
-ul
-{
-    padding-left: 170px;
-    color: white;
-}
-
-ul li
-{
-    font-size: 22px;
-    font-weight: bold;
-    padding-right: 105px;
-    display: inline;
-}
-
-ul li:last-child
-{
-    padding-right: 0px;
-}
-
-table
-{
-    padding-top: 0px;
-    margin-top: 0px;
-    width: 1120px;
-    border: 1px solid #DCDDDE;
-    font-size: 18px;
-    text-align: center;
-    margin-left: 10px;
-    cursor: default;
-    box-shadow: 5px 0px 5px #ccc;
-    border-top: none;
-}
-
-table tr td
-{	
-    border: 1px solid #DCDDDE;
-}
-
-table tr td.lop
-{
-    width: 170px;
-    height: 190px;
-    font-size: 14px;
-}
-
-table tr td.lop:hover
-{
-    background-color: #eef;
-    opacity: 0.9;
-}
-
-table tr td:nth-of-type(1)
-{
-    width: 50px;
-    font-size: 22px;
-}
-
-table tr td.ca
-{
-    font-size: 20px;
-    width: 45px;
-}
-
-table tr td.lop p
-{
-    border-bottom: 1px dashed #DCDDDE;
-}
-
-table tr td.lop p:last-child
-{
-    border-bottom: none;
-}
-
-.thuchanh
-{
-    color: #29abbc;
-}
 
 button
 {
