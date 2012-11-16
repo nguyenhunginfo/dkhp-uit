@@ -219,6 +219,8 @@ class Index extends CI_Controller
 		}
 	}
 	
+	
+	
 	function in($data)
 	{
 		$array = explode("%20",$data);
