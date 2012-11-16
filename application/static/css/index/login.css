@@ -61,7 +61,7 @@ a:hover{cursor:pointer;opacity:1;}
 }
 
 /* popup */
-#popup{top: 0px;height: 100%;width: 100%;position: fixed;background-color: #111;opacity: .65;z-index: 40;}
+#popup{top: 0px;height: 100%;width: 100%;position: fixed;background-color: #111;opacity: .65;z-index: 40;display:none;}
 #formlogin
 {
     opacity: 1;
@@ -74,6 +74,7 @@ a:hover{cursor:pointer;opacity:1;}
     position: fixed;
     background: url(../../images/index/loginform_bg.png);
     z-index: 50;
+	display:none;
 }
 #formlogin input[type="text"]
 {

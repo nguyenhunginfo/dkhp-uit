@@ -122,3 +122,20 @@ a:hover{cursor:pointer;opacity:1;}
 {
     margin-left: 435px;
 }
+
+/* popup */
+#popup{top: 0px;height: 100%;width: 100%;position: fixed;background-color: #111;opacity: .65;z-index: 40;display:none;}
+
+/* change pass*/
+
+#divchangepass{top: 50%;left: 50%;margin-left: -260px;margin-top: -180px;width: 520px;height: 360px;position: fixed;z-index: 50;background-color: white;display:none;}
+#divchangepass #topchangepass{height: 50px;background-color: #4DB9FE;padding-left: 170px;font-size: 25px;font-weight: bold;color: white;line-height: 50px;}
+#divchangepass #closechangepass{height: 39px;width: 38px;top: 7px;right: 10px;border: none;position: absolute;background: url(../../images/index/btndeny.png);}
+#divchangepass #closechangepass:hover{background: url(../../images/index/btndeny_hover.png);cursor: pointer;}
+#divchangepass div.nottop{left: 5px;padding: 15px 30px;font-size: 20px;}
+#divchangepass div.nottop:hover{border: 5px 5px 5px 5px;background-color: #eee;opacity: 0.9;}
+#divchangepass div.nottop input{border-radius: 5px;box-shadow: 5px 3px 5px #ccc;-moz-box-shadow: 5px 3px 5px #ccc;-webkit-box-shadow: 5px 3px 5px #ccc;height: 23px;width: 200px;left: 230px;position: absolute;font-size: 19px;padding-left: 5px;}
+#divchangepass #errorOldPassword{position: absolute;top: 295px;left: 200px;color: red;}
+#divchangepass #errorNewPassword{position: absolute;top: 320px;left: 200px;color: red;}
+#divchangepass #btn_changepass{height: 59px;width: 56px;top: 290px;left: 60px;border: none;position: absolute;background: url(../../images/index/btnaccept.png);}
+#divchangepass #btn_changepass:hover{background: url(../../images/index/btnaccept_hover.png);cursor: pointer;}
