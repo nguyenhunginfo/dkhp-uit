@@ -356,7 +356,7 @@ class Mlogin extends CI_Model
 		echo "</table>";
 		if($lopth->num_rows() <= 0)
 		{
-			echo "<div class='select'><p id='".$Maloplt."' class='lt' style='display:none;' >".$sllt."</p><p class='th' style='display:none;' >-1</p>OK</div>";
+			echo "<div class='select'><p id='".$Maloplt."' class='lt' style='display:none;' >".$sllt."</p><p class='th' style='display:none;' >-1</p></div>";
 			echo "<div class = 'note' ><p>*Chú ý: chọn 1 trong các lớp do phòng đào tạo mở</p><p>*Đối với môn có tín chỉ thực hành thì phải đăng ký kèm theo tín  chỉ thực hành</p></div>";
 			echo "</div>";	
 			return;
@@ -979,27 +979,26 @@ class Mlogin extends CI_Model
 				}
 				if($loplt->num_rows() + $lopth->num_rows() > 1)
 				{
-					$temp = "<ol>";
+					$temp = "";
 					foreach($loplt->result() as $row)
 					{
-						$temp = $temp."<li>".$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong."</li>";
+						$temp = $temp."<p>".$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong."</p>";
 					}
 					foreach($lopth->result() as $row)
 					{
-						$temp = $temp."<li>".$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong."</li>";
+						$temp = $temp."<p class='thuchanh'>".$row->Malop."<br>TH ".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong."</p>";
 					}
-					$temp = $temp."</ol>";
 				}
 				else
 				{
 					$temp = "";
 					foreach($loplt->result() as $row)
 					{
-						$temp = $temp.$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong;
+						$temp = $temp."<p>".$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong."</p>";
 					}
 					foreach($lopth->result() as $row)
 					{
-						$temp = $temp.$row->Malop."<br>".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong;
+						$temp = $temp."<p class='thuchanh'>".$row->Malop."<br>TH ".$row->TenMH."<br>".$row->TenGV."<br>P".$row->Phong."</p>";
 					}
 				}
 				$result[] = $temp;
