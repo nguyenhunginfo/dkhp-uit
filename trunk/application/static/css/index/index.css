@@ -2,12 +2,12 @@
 #wrapper #primary #left #content table tr#first{height:30px;background: #DCDDDE;}
 #wrapper #primary #left #content table tr{height:24px;}
 #wrapper #primary #left #content table tr:hover{background-color:#ddd;}
-#wrapper #primary #left #content table tr.lopday{color:red;}
-#wrapper #primary #left #content table tr.lopmo{color:#a5fecd;}
+#wrapper #primary #left #content table tr.lopday{background-color:#fbbbbb;}
+#wrapper #primary #left #content table tr.lopmo{background-color:#a5fecd;}
 #wrapper #primary #left #content table td,
 #wrapper #primary #left #content table th{border-top:1px dashed #DCDDDE;border-right:1px solid #DCDDDE;text-align:center;}
 #wrapper #primary #left #content table td:nth-child(3){text-align:left;}
-#wrapper #primary #left #content table tr td:last-child p{color: #a5fecd;}/*3761FF*/
+#wrapper #primary #left #content table tr td:last-child p{color: #000;}/*3761FF*/
 #wrapper #primary #left #content table tr td:last-child p:hover{cursor: pointer;font-weight: bold;}
 #wrapper #primary #left #content table th#hk{width:60px;}
 #wrapper #primary #left #content table th#mamh{width:100px;}
