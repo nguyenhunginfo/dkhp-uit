@@ -17,7 +17,7 @@ class Welcome extends CI_Controller
 		$name = $this->session->userdata('name');
 		if($name!= false)
 		{
-			header('Location: '.base_url().'dkhp');
+			header('Location: '.base_url().'dang-ky-hoc-phan');
 			return;
 		}
 		$this->load->model('index/mlogin');
