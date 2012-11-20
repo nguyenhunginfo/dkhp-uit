@@ -290,7 +290,7 @@ class Sinhvien extends CI_Controller {
                $data["email"]=$this->input->post("email");
                
                $khoa=$this->input->post("khoa");
-               $this->db->insert("sv_".$khoa,$data);
+               $this->msinhvien->insert_sinhvien($khoa,$data);
                echo "success";
             }
     
@@ -443,7 +443,7 @@ class Sinhvien extends CI_Controller {
            $search=$this->input->post("search");
            $file=$this->input->post("file");
            
-           $this->form_validation->set_rules("khoa","khoa","required");
+           $this->form_validation->set_rules("file","file","required");
            if($this->form_validation->run())
             {
     //=================================================CSV================================================================================================================================================      
@@ -665,7 +665,8 @@ class Sinhvien extends CI_Controller {
         $data["khoa_result"]=$khoa_result;
         $data["K_result"]=$K_result;
         $data["SL"]=$SL;
-        $data["title"]="Trang thống kê tổng quát sinh viên";  
+        $data["title"]="Trang thống kê tổng quát sinh viên";
+        $data["data_title"]="Thống kê tổng quát";    
         $this->load->view("admin/vsinhvien_statistic",$data); 
           
     }
