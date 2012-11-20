@@ -226,7 +226,7 @@ class Monhoc extends CI_Controller {
             else 
             {
                
-               $data["mamh"]=$this->input->post("mamh");
+               $data["mamh"]=strtoupper($this->input->post("mamh"));
                $data["tenmh"]=$this->input->post("tenmh");
                $data["sotc"]=$this->input->post("sotc");
                $data["tclt"]=$this->input->post("tclt");
@@ -279,7 +279,7 @@ class Monhoc extends CI_Controller {
            $search=$this->input->post("search");
            $file=$this->input->post("file");
            
-           $this->form_validation->set_rules("loai","Loai","required");
+           $this->form_validation->set_rules("file","File","required");
            if($this->form_validation->run())
             {
     //=================================================CSV================================================================================================================================================      
@@ -501,9 +501,16 @@ class Monhoc extends CI_Controller {
                 else
                 {
                     
-                    $this->mmonhoc->import_monhoc($monhoc_array,$import_type);
+                    $this->mmonhoc->import_monhoc($monhoc_array,$import_type);                    
                     
-                   header('Location: '.base_url().'/quanly/monhoc');
+                    $khoa_result=$this->mmonhoc->get_khoa();
+                    $data["khoa_result"]=$khoa_result;
+                    $data["success_data"]=$monhoc_array;
+                    $data["num_success"]=count($monhoc_array);
+                    $data['right_title']="Thao tác nhập dữ liệu";
+                     
+                     $data["title"]="Trang nhập dữ liệu";  
+                    $this->load->view("admin/vmonhoc_import_success",$data); 
                 }
                 
             }
@@ -728,6 +735,16 @@ class Monhoc extends CI_Controller {
             return $monhoc_array;
     
    }
+   public function thongke()
+    {
+         $khoa_result=$this->mmonhoc->get_khoa();
+        $data["khoa_result"]=$khoa_result;              
+        $data["data_title"]="Thống kê môn học";
+        
+        $data["title"]="Trang thêm môn học";  
+        $this->load->view("admin/vmonhoc_statistic",$data);  
+          
+    }
    
 }
 
