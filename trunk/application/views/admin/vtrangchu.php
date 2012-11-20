@@ -34,7 +34,7 @@
                         <li><a href="/quanly/sinhvien">Quản lý sinh viên</a></li>
                         <li><a href="/quanly/giaovien">Quản lý giáo viên</a></li>
                         <li><a href="/quanly/monhoc">Quản lý môn học</a></li>
-                        <li><a href="/quanly/lophoc">Quản lý lớp học</a></li>
+                        <li><a href="/quanly/lop">Quản lý lớp học</a></li>
                         <li><a href="/quanly/he-thong-diem">Quản lý hệ thống điểm</a></li>
                         <li><a href="/quanly/chuong-trinh-dao-tao">Quản lý chương trình đào tạo</a></li>
                         <li><a href="/quanly/qua-trinh-dang-ky">Quản lý quá trình đăng ký</a></li>             
