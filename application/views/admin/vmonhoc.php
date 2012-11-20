@@ -36,20 +36,24 @@
         <ul>
         <li><a class="active" href="/quanly/monhoc">Danh sách môn học</a>
         <?php
+            $num_tatca=$this->mmonhoc->get_num_rows("","tatca");
+            $num_DC=$this->mmonhoc->get_num_rows("","DC");
+            $num_CN=$this->mmonhoc->get_num_rows("","CN");
             echo "<ul>";
-            if($loai=="tatca") echo "<li id='tatca'  class='active'>Tất cả</li>";
-            else               echo "<li id='tatca'  >Tất cả</li>";
+            if($loai=="tatca") echo "<li id='tatca'  class='active'><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a></li>";
+            else               echo "<li id='tatca'  ><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
             
-            if($loai=="DC") echo "<li id='DC'  class='active'>Đại Cương</li>";
-            else               echo "<li id='DC'  >Đại Cương</li>";
+            if($loai=="DC") echo "<li id='DC'  class='active'><a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
+            else               echo "<li id='DC'  >           <a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
             
-            if($loai=="CN") echo "<li id='CN'  class='active'>Chuyên Nghành</li>";
-            else               echo "<li id='CN'  >Chuyên Nghành</li>";
+            if($loai=="CN") echo "<li id='CN'  class='active'><a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
+            else               echo "<li id='CN'  ><a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
             echo "</ul>";
         ?>        
         </li>
-        <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>        
-        <li><a href="/quanly/monhoc/thongke">Thống kê</a></li>
+        <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
+        <li><a href="/quanly/monhoc/nhap-du-lieu">Nhập dữ liệu</a></li>        
+        <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>
         
             
         </ul>
@@ -67,7 +71,9 @@
                 </select>
                 <div id="action">
                     <img id="del" title="Xóa" src="<?php echo static_url(); ?>/images/bin.png" alt="bin" />
-                    
+                    <a href="/quanly/monhoc/them-mon-hoc/<?php echo $loai ?>"><img title="Thêm môn học" src="<?php echo static_url(); ?>/images/mh_add.png" alt="export" /></a>
+                    <a href="/quanly/monhoc/nhap-du-lieu"><img title="Nhập dữ liệu từ tập tin" src="<?php echo static_url(); ?>/images/import.png" alt="export" /></a>
+                    <img id="export" title="Xuất dữ liệu" src="<?php echo static_url(); ?>/images/export.png" alt="export" />
                 </div>
                 <div id="search" title="Tìm kiếm">
                     <form action="post" action="">
@@ -100,7 +106,7 @@
                 <div id="change_data">
                 <?php //pagination                    
                                          
-            			echo "<div id='pagination'>";
+            			echo "<div id='pagination' class='".$total_rows."'>";
                         echo $pagination;
             			echo "</div>";	
                     	
@@ -148,7 +154,50 @@
    
 </div><!--end #wrapper -->   
 
-<?php include_once("vpopup.php"); ?>
+
+
+
+<!--=======POPUP========================================================================================================== -->
+    <!--popup div -->
+    <div class="overflow"></div>
+    <!--=======VIEW POPUP============================================================================================== -->
+    <div class="popup_detail" id="view">
+        <div id="pheader">
+            <p id="ptitle">This is popup title here</p>
+            <img id="pclose" title="Đóng" src="<?php echo static_url(); ?>/images/close.png" />        
+        </div>
+        <div id="pdata">
+        
+        </div>
+        <div id="pfooter">
+        <h4 title="Phát hiện lỗi"><img src="<?php echo static_url(); ?>/images/error.png" />Phát hiện lỗi trong quá trình kiểm tra dữ liệu.Thao tác chỉ thành công khi không còn lỗi</h4>
+        <img id="save" title="Lưu" src="<?php echo static_url(); ?>/images/accept.png" />
+        <img id="process" title="Đang kiểm tra" src="<?php echo static_url(); ?>/images/process.gif" />
+        
+        
+        </div>
+    </div>
+    <!--=======EXPORT POPUP============================================================================================== -->
+    <div class="popup_detail" id="export">
+        <form method="post" action="/monhoc/xuatdl">
+            <div id="pheader">
+                <p id="ptitle">Thao tác xuất dữ liệu</p>
+                <img id="pclose" title="Đóng" src="<?php echo static_url(); ?>/images/close.png" />        
+            </div>
+            
+            <div id="pdata">            
+                    
+               
+            </div>
+            <div id="pfooter">
+            <h4 title="Phát hiện lỗi"><img src="<?php echo static_url(); ?>/images/error.png" />Phát hiện lỗi trong quá trình kiểm tra dữ liệu.Thao tác chỉ thành công khi không còn lỗi</h4>
+            <input name="submit" type="image" src="<?php echo static_url(); ?>/images/accept.png" title="Đồng ý"/>
+            
+         </form>
+        
+        </div>
+    </div><!-- end popup div -->
+
 
 </body>
 </html>

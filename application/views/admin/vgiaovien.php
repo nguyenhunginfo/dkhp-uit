@@ -68,7 +68,7 @@
                 </select>
                 <div id="action">
                     <img id="del" title="Xóa" src="<?php echo static_url(); ?>/images/bin.png" alt="bin" />
-                    <a href="/quanly/sinhvien/them-sinh-vien/<?php echo $khoa ?>"><img title="Thêm sinh viên" src="<?php echo static_url(); ?>/images/sv_add.png" alt="export" /></a>
+                    <a href="/quanly/sinhvien/them-sinh-vien/<?php echo $khoa ?>"><img title="Thêm sinh viên" src="<?php echo static_url(); ?>/images/add.png" alt="export" /></a>
                     <a href="/quanly/sinhvien/nhap-du-lieu/<?php echo $khoa ?>"><img title="Nhập dữ liệu từ tập tin" src="<?php echo static_url(); ?>/images/import.png" alt="export" /></a>
                     <img id="export" title="Xuất dữ liệu" src="<?php echo static_url(); ?>/images/export.png" alt="export" />
                     
