@@ -40,8 +40,8 @@
                 echo "<ul>";
                 foreach($khoa_result as $row)
                 { 
-                    
-                    echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."</a></li>"; 
+                    $num_sinhvien=$this->msinhvien->get_num_rows("",$row->MaKhoa);
+                    echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."(".$num_sinhvien.")</a></li>";
                 }
                 echo "</ul>";
                 ?>

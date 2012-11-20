@@ -35,23 +35,29 @@
         <h3>Quản lý môn học</h3>
         <ul>
         <li><a  href="/quanly/monhoc">Danh sách môn học</a>
-            <ul>
-            <li><a href="/quanly/monhoc">Tất cả</a></li>
-            <li><a href="/quanly/monhoc/DC">Đại Cương</a></li>
-            <li><a href="/quanly/monhoc/CN">Chuyên Nghành</a></li>
-            </ul>
+            <?php
+            $num_tatca=$this->mmonhoc->get_num_rows("","tatca");
+            $num_DC=$this->mmonhoc->get_num_rows("","DC");
+            $num_CN=$this->mmonhoc->get_num_rows("","CN");
+            echo "<ul>";            
+                echo "<li id='tatca'  > <a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
+                echo "<li id='DC'  >    <a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
+                echo "<li id='CN'  >    <a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
+            echo "</ul>";
+            ?> 
         </li>
         
         
-        <li><a class="active" href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>        
-        <li><a href="/quanly/monhoc/thongke">Thống kê</a></li>
+        <li><a class="active" href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>   
+        <li><a href="/quanly/monhoc/nhap-du-lieu">Nhập dữ liệu</a></li>       
+        <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>
         
             
         </ul>
         </div><!--end #left -->
         
         <div id="right"> 
-                    <h3>Thao tác thêm môn học</h3>
+                    <h3><?php echo $data_title; ?></h3>
                     <div class='box'>
                     <form>        
                         <table class="info"> 
@@ -61,10 +67,18 @@
                             <tr><td>Tín chỉ lý thuyết</td><td><input  name='tclt'  id='tclt'  type='text' title="Số tín chỉ=lý thuyết + thực hành"/></td></tr>
                             <tr><td>Tín chỉ thực hành</td><td><input  name='tcth'  id='tcth'  type='text' disabled="disabled" title="tự động tính" /></td></tr>             
                             <tr><td>Loại môn</td>
-                                <td>
+                                <td>                                
                                 <select id="loai">
-                                    <option value="DC">Đại Cương</option>
-                                    <option value="CN">Chuyên Nghành</option>
+                                    <?php
+                                        if($loai=="DC") echo'<option value="DC">Đại Cương</option>';
+                                        else if($loai=="CN") echo'<option value="CN">Chuyên Nghành</option>';
+                                        else
+                                        {
+                                            echo '<option value="DC">Đại Cương</option>
+                                                  <option value="CN">Chuyên Nghành</option>';
+                                        }
+                                    ?>
+                                    
                                 </select>
                                 </td>
                             </tr>
