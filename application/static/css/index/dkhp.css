@@ -7,7 +7,7 @@ a:hover{cursor:pointer;opacity:1;}
 #wrapper #top ul{list-style: none;float:right;}
 #wrapper #top ul li{display:inline-block;line-height: 31px;margin:0px 5px 0px 10px;color:#fff;}
 #wrapper #top ul li a{color:#fff;}
-
+#wrapper #top ul li a.active{opacity:1;}
 #wrapper #header{height: 107px;background: url(../../images/index/header_bg.png);position:relative;}
 #wrapper #header img{ margin: 4px 65px; }
 #wrapper #header #banner{top: 13px;left: 183px; position: absolute;}

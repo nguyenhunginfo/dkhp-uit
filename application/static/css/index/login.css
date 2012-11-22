@@ -9,12 +9,41 @@ a:hover{cursor:pointer;opacity:1;}
 #wrapper #header img{ margin: 4px 65px; }
 #wrapper #header #banner{top: 13px;left: 183px; position: absolute;}
 #wrapper #header #banner p{    font: bold 22px "Times New Roman", Tahoma,arial,verdana,sans-serif;color: white;}
+
 #wrapper #header #menu{bottom: 5px;right: 12px;position: absolute;}
 #wrapper #header #menu ul li{display: inline-block;margin: 0px 5px 0px 10px;height:40px;}
+#wrapper #header #menu ul li#kehoach a{width:180px;}
+#wrapper #header #menu ul li#hd a{width:140px;}
+
+#wrapper #header #menu ul li a
+					{
+						font-size: 14px;color:#000;
+                        background: url(../../images/index/blue_bg.jpg) repeat-x;
+                        padding:5px 20px;height:20px;display:block;
+                        -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        border-radius: 7px;                      
+                        -webkit-box-shadow: 2px 2px  6px #646564;
+                        -moz-box-shadow: 2px 2px 6px #646564;
+                        line-height:20px;
+                        text-align:center;
+                        border:1px dashed #ebebeb;
+                        font-size:14px;
+                    }
+#wrapper #header #menu ul li a:hover,
+#wrapper #header #menu ul li a.active{font-weight:bold;color:#fff;opacity:1;}
 
 
 #wrapper #primary{padding:10px 10px;background:#fff;margin: 0px auto;width:1170px;-webkit-border-top-left-radius:5px;-moz-border-top-left-radius:5px;-border-top-left-radius:5px;position:relative;height:1000px;}
-#wrapper #linklogin{color: #fff;background: url(../../images/index/h4_bg.jpg) repeat-x;width:100px;height:20px;line-height:20px;padding:5px 10px;-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;text-align:center;margin:0px 0px 5px 1005px;}
+#wrapper #linklogin{color: #fff;background: url(../../images/index/h4_bg.jpg) repeat-x;width:100px;height:20px;line-height:20px;padding:5px 10px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                -o-border-radius: 5px;
+                border-radius: 5px;
+                text-align:center;
+                margin:0px 0px 5px 1005px;
+                }
 #wrapper #linklogin p:hover{font-weight:bold;cursor: pointer;}
 #wrapper #quyche{height: 800px;   border:1px solid #e8e9e8;-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;-webkit-box-shadow: 0 0  10px #646564;-moz-box-shadow: 0 0  6px #646564;padding:10px 20px;}
 #wrapper #quyche .box{padding:2px 2px;border:1px solid #e8e9e8;	-webkit-border-radius: 5px;-moz-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;margin-bottom:20px;}
@@ -72,73 +101,29 @@ a:hover{cursor:pointer;opacity:1;}
     width: 384px;
     height: 497px;
     position: fixed;
-    background: url(../../images/index/loginform_bg.png);
+    background: url("../../images/index/loginform_bg.png");
     z-index: 50;
+    box-shadow:0px 0px 10px #fff;
+    -webkit-box-shadow:0px 0px 10px #fff;
+    -moz-box-shadow:0px 0px 10px #fff;
+    -o-box-shadow:0px 0px 10px #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 7px;  
 	display:none;
 }
-#formlogin input[type="text"]
-{
-    left: 40px;
-    border-radius: 5px;
-    box-shadow: 5px 3px 5px #ccc;
-    -moz-box-shadow: 5px 3px 5px #ccc;
-    -webkit-box-shadow: 5px 3px 5px #ccc;
-    height: 28px;
-    width: 250px;
-    position: absolute;
-    font-size: 19px;
-    padding-left: 10px;
-}
+#formlogin img#close{position: absolute;top:-2px;right:-2px;opacity:0.6;}
+#formlogin img#close:hover{opacity:1;cursor: pointer;}
+#formlogin table{margin:80px 10px 10px  30px;}
+#formlogin table tr{height:40px;}
+#formlogin table td{font-size:20px;}
+#formlogin table td input#username{width:320px;height:30px;font-size:18px;}
+#formlogin table td input#password{width:320px;height:30px;font-size:18px;}
+#formlogin table td input#captcha{width:320px;height:30px;font-size:18px;}
+#formlogin table td input#dangnhap{width:128px;height:64px;background: url("../../images/index/dang.png");border:none;font-size:18px;}
+#formlogin table td input#dangnhap:hover{cursor:pointer;font-weight:bold;}
 
-#username
-{
-    top: 110px;    
-}
-
-#password
-{
-    top: 220px;
-    left: 40px;
-    border-radius: 5px;
-    box-shadow: 5px 3px 5px #ccc;
-    -moz-box-shadow: 5px 3px 5px #ccc;
-    -webkit-box-shadow: 5px 3px 5px #ccc;
-    height: 28px;
-    width: 250px;
-    position: absolute;
-    font-size: 19px;
-    padding-left: 10px;
-}
-
-#captcha
-{
-    top: 330px;
-}
-
-#dangnhap
-{
-    position: absolute;
-    top: 400px;
-    left: 40px;
-    width:128px;
-    height:64px;
-    color:#000;
-    font-size:18px;
-    background: url(../../images/index/dang.png);   
-    border:none;
-}
-#dangnhap:hover
-{cursor:pointer;
-font-weight:bold;
-}
-#imagecaptcha
-{
-    position: absolute;
-    height: 33px;
-    width: 200px;
-    top: 282px;
-    left: 122px;
-}
 
 .error
 {

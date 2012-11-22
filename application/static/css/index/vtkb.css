@@ -4,15 +4,25 @@
 #wrapper #primary #left #content table tr#first{height:30px;background: #DCDDDE;}
 #wrapper #primary #left #content table tr{height:24px;}
 #wrapper #primary #left #content table th{text-align:center;font-size:18px;line-height:40px;}
-#wrapper #primary #left #content table td{border-top:1px solid #DCDDDE;border-right:1px solid #DCDDDE;text-align:center;}
-#wrapper #primary #left #content table tr td.ca{width: 40px;}
-#wrapper #primary #left #content table td.lop{width:160px;height:200px;overflow:hidden;}
+#wrapper #primary #left #content table td{border-top:1px solid #DCDDDE;border-right:1px solid #DCDDDE;text-align:center;vertical-align: top;}
+#wrapper #primary #left #content table tr td.ca{width: 40px;vertical-align: middle;}
+#wrapper #primary #left #content table td.lop{width:160px;overflow:hidden;padding:5px 2px;}
 #wrapper #primary #left #content table td.lop:hover{background-color: #eef;opacity: 0.9;}
 #wrapper #primary #left #content table td.lop p{border-bottom: 1px dashed #DCDDDE;}
 #wrapper #primary #left #content table td.lop p:last-child{border-bottom: none;}
-#wrapper #primary #left #content table td.lop p.thuchanh{color: #29abcc;}
+#wrapper #primary #left #content table td.lop p.thuchanh{color: blue;}
 
-
+#wrapper #primary #left #content #xuatfile
+{
+    color: #fff;background: url(../../images/index/h4_bg.jpg) repeat-x;width:100px;height:20px;line-height:20px;padding:5px 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    text-align:center;
+    margin:10px 0px 10px 770px;
+}
+#wrapper #primary #left #content #xuatfile:hover{cursor:pointer;font-weight:bold;}
 button
 {
     border:none;
