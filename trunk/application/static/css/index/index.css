@@ -1,14 +1,14 @@
 #wrapper #primary #left #content table{border: 1px solid #DCDDDE;border-collapse: collapse;}
 #wrapper #primary #left #content table tr#first{height:30px;background: #DCDDDE;}
 #wrapper #primary #left #content table tr{height:24px;}
-#wrapper #primary #left #content table tr:hover{background-color:#ddd;}
-#wrapper #primary #left #content table tr.lopday{background-color:#fbbbbb;}
-#wrapper #primary #left #content table tr.lopmo{background-color:#a5fecd;}
+#wrapper #primary #left #content table tr:hover{background-color:#eeecec;}
+#wrapper #primary #left #content table tr.lopday{background-color:#fcdddb;}
+#wrapper #primary #left #content table tr.lopmo{background-color:#cbfbe0;}
 #wrapper #primary #left #content table td,
 #wrapper #primary #left #content table th{border-top:1px dashed #DCDDDE;border-right:1px solid #DCDDDE;text-align:center;}
 #wrapper #primary #left #content table td:nth-child(3){text-align:left;}
-#wrapper #primary #left #content table tr td:last-child p{color: #000;}/*3761FF*/
-#wrapper #primary #left #content table tr td:last-child p:hover{cursor: pointer;font-weight: bold;}
+#wrapper #primary #left #content table tr td:last-child p{text-decoration: underline;}/*3761FF*/
+#wrapper #primary #left #content table tr td:last-child p:hover{cursor: pointer;color: blue;}
 #wrapper #primary #left #content table th#hk{width:60px;}
 #wrapper #primary #left #content table th#mamh{width:100px;}
 #wrapper #primary #left #content table th#tenmh{width:260px;}
@@ -36,7 +36,7 @@
                                                 font-size:14px;
                                                 }
 
-#wrapper #primary #left #content input#dangky:hover{font-weight:bold;cursor:pointer;font-weight:bold;color:#fff;}
+#wrapper #primary #left #content input#dangky:hover{font-weight:bold;cursor:pointer;color:#fff;}
 
 div.popupdetail{   opacity: 1;
                 top: 50%;
