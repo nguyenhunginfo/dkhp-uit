@@ -9,6 +9,10 @@ $(document).ready(function()
 	{
 		closePopup();
 	});
+    $("#formlogin img#close").click(function(e)
+	{
+		closePopup();
+	});
 	
 	 $('*').keyup(function(e){
 
