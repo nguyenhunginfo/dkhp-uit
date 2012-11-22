@@ -230,7 +230,7 @@ $(document).ready(function()
 		{
 			if(sllt == 0)
 			{
-				$("#" + id).html("đăng ký");
+				$("#" + id).html("Chọn lớp");
 			}
 			else
 			{
@@ -252,7 +252,7 @@ $(document).ready(function()
 			if(sllt == 0)
 			{
 				//chưa đăng ký
-				$("#" + id).html("đăng ký");
+				$("#" + id).html("Chọn lớp");
 				closePopup();
 			}
 			else
