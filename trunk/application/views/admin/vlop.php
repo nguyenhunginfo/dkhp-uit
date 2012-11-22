@@ -54,7 +54,8 @@
             <li><a href="/quanly/lop/lop-de-nghi">Lớp đề nghị</a></li>
             <li><a href="/quanly/lop/them-lop">Thêm lớp</a></li>
             <li><a href="/quanly/lop/nhap-du-lieu">Nhập dữ liệu</a></li>
-            <li><a href="/quanly/lop/thongke">Thống kê</a></li>
+            <li><a href="/quanly/lop/lich-giang-day">Lịch giảng dạy</a></li>
+            <li><a href="/quanly/lop/thong-ke">Thống kê</a></li>
             
             
         </ul>
@@ -73,7 +74,7 @@
                 <div id="action">
                     <img id="del" title="Xóa" src="<?php echo static_url(); ?>/images/bin.png" alt="bin" />
                     <a href="/quanly/lop/them-lop/<?php echo $loai ?>"><img title="Thêm lớp mới" src="<?php echo static_url(); ?>/images/mh_add.png" alt="export" /></a>
-                    <a href="/quanly/lop/nhap-du-lieu"><img title="Nhập dữ liệu từ tập tin" src="<?php echo static_url(); ?>/images/import.png" alt="export" /></a>
+                    <a href="/quanly/lop/nhap-du-lieu/<?php echo $loai ?>"><img title="Nhập dữ liệu từ tập tin" src="<?php echo static_url(); ?>/images/import.png" alt="export" /></a>
                     <img id="export" title="Xuất dữ liệu" src="<?php echo static_url(); ?>/images/export.png" alt="export" />
                 </div>
                 <div id="search" title="Tìm kiếm">
@@ -161,7 +162,46 @@
    
 </div><!--end #wrapper -->   
 
-<?php include_once("vpopup.php"); ?>
+<!--=======POPUP========================================================================================================== -->
+    
+    <div class="overflow"></div>
+    <!--=======VIEW POPUP============================================================================================== -->
+    <div class="popup_detail" id="view">
+        <div id="pheader">
+            <p id="ptitle">This is popup title here</p>
+            <img id="pclose" title="Đóng" src="<?php echo static_url(); ?>/images/close.png" />        
+        </div>
+        <div id="pdata">
+        
+        </div>
+        <div id="pfooter">
+        <h4 title="Phát hiện lỗi"><img src="<?php echo static_url(); ?>/images/error.png" />Phát hiện lỗi trong quá trình kiểm tra dữ liệu.Thao tác chỉ thành công khi không còn lỗi</h4>
+        <img id="save" title="Lưu" src="<?php echo static_url(); ?>/images/accept.png" />
+        <img id="process" title="Đang kiểm tra" src="<?php echo static_url(); ?>/images/process.gif" />
+        
+        
+        </div>
+    </div>
+    <!--=======EXPORT POPUP============================================================================================== -->
+    <div class="popup_detail" id="export">
+        <form method="post" action="/lop/xuatdl">
+            <div id="pheader">
+                <p id="ptitle">Thao tác xuất dữ liệu</p>
+                <img id="pclose" title="Đóng" src="<?php echo static_url(); ?>/images/close.png" />        
+            </div>
+            
+            <div id="pdata">            
+                    
+               
+            </div>
+            <div id="pfooter">
+            <h4 title="Phát hiện lỗi"><img src="<?php echo static_url(); ?>/images/error.png" />Phát hiện lỗi trong quá trình kiểm tra dữ liệu.Thao tác chỉ thành công khi không còn lỗi</h4>
+            <input name="submit" type="image" src="<?php echo static_url(); ?>/images/accept.png" title="Đồng ý"/>
+            
+         </form>
+        
+        </div>
+    </div><!-- end popup div -->
 
 </body>
 </html>

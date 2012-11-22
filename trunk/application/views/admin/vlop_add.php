@@ -50,7 +50,8 @@
                 <li><a href="/quanly/lop/lop-de-nghi">Lớp đề nghị</a></li>
                 <li><a href="/quanly/lop/them-lop" class='active' >Thêm lớp</a></li>
                 <li><a href="/quanly/lop/nhap-du-lieu">Nhập dữ liệu</a></li>
-                <li><a href="/quanly/lop/thongke">Thống kê</a></li>
+                <li><a href="/quanly/lop/lich-giang-day">Lịch giảng dạy</a></li>
+                <li><a href="/quanly/lop/thong-ke">Thống kê</a></li>
                 
                 
             </ul>
@@ -82,7 +83,7 @@
                         <td><input  name='malop'  id='malop'  type='text' title='Mã Lớp' /></td>
                         </tr>
                         <?php 
-                        $monhoc_result=$this->mlop->get_monhoc();
+                        $monhoc_result=$this->mlop->get_monhoc($loai);
                         echo "<tr><td>Tên Môn Học</td>
                                   <td>
                                   <select name='mamh' id='mamh' >";
