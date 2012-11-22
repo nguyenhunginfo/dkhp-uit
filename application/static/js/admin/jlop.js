@@ -9,13 +9,18 @@ $(document).ready(function()
                      
 			$.ajax(
             {
-                url:"/monhoc/ajax_full_data",
+                url:"/lop/ajax_full_data",
                 type:"POST",  
                 data:{search:search,loai:loai,limit:display},
+                timeout: 10000,//10s
                 beforeSend: function()
-                {
-                    $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' alt='Đang tải...' />");	
-                },             
+                    {
+                        $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                    },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#content #change_data").html("Dữ liệu bị lỗi");
+                   
+                },                     
                 success:function(result)
                 {                   
                     $("#content #change_data").html(result); 
@@ -40,13 +45,18 @@ $(document).ready(function()
             
 			$.ajax(
             {
-                url:"/monhoc/ajax_full_data/"+num,
+                url:"/lop/ajax_full_data/"+num,
                 type:"POST",                  
                 data:{search:search,loai:loai,limit:display},
+                timeout: 10000,//10s
                 beforeSend: function()
-                {
-                    $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' alt='Đang tải...' />");	
-                },       
+                    {
+                        $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                    },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#content #change_data").html("Dữ liệu bị lỗi");
+                   
+                },                
                 success:function(result)
                 {                    
                    $("#content #change_data").html(result);                   
@@ -99,55 +109,34 @@ $(document).ready(function()
         
     });
  
-    //event when you click in mssv to see detail
-    current_row=null;
     
-    $("#table_data td.mamh").live("click",function()
-    {	
-        current_row=$(this).parent("tr");
-        current_row.addClass("active").find(".checkbox_row").attr("checked","checked");
-        $("#tool #action").css("visibility","visible");
-        mamh=current_row.children("td.mamh").html();      
-            
-        $(".popup_detail#view #ptitle").html("Thông tin chi tiết môn học");
-        open_popup(".popup_detail#view");         	           
-         $.ajax(
-         {
-            url:"/monhoc/ajax_data",
-            type:"POST",
-            data:{mamh:mamh},
-            beforeSend:function()
-            {
-                $(".popup_detail #pdata").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' alt='Đang tải...' />");
-            },
-            success:function(result)
-            {                
-                $(".popup_detail #pdata").html(result);
-                 
-            }
-        });
-        
-    });
+    
     
     
     //tim kiem
     $("#search form").submit(function(e)
     {            
         var search=$(this).children().val();//input value
-        var loai="tatca";        
+        var loai="";        
         var display=parseInt($("select#view_num").val());//hien thi bao nhiu?       
      
         if(search!="")
         {
             $.ajax(
                 {
-                    url:"/monhoc/ajax_full_data",
+                    url:"/lop/ajax_full_data",
                     type:"POST",                  
                     data:{search:search,loai:loai,limit:display},
+                    timeout: 10000,//10s
                     beforeSend: function()
-                    {
-                        $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' alt='Đang tải...' />");	
-                    },        
+                        {
+                            $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                        },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        
+                        $("#content #change_data").html("Dữ liệu bị lỗi");
+                       
+                    },              
                     success:function(result)
                     {                    
                        $("#content #change_data").html(result);                      
@@ -160,41 +149,87 @@ $(document).ready(function()
         }
        e.preventDefault();//prevent to reload when submit
     });
-     
+    //event when you click in malop to see detail
+    current_row=null;
+    
+    $("#table_data td.malop").live("click",function()
+    {	
+        current_row=$(this).parent("tr");
+        current_row.addClass("active").find(".checkbox_row").attr("checked","checked");
+        $("#tool #action").css("visibility","visible");
+        malop=current_row.children("td.malop").html();      
+        loai=$("#data #left li li.active").attr("id");
+        $(".popup_detail#view #ptitle").html("Thông tin chi tiết lớp");
+        open_popup(".popup_detail#view");         	           
+         $.ajax(
+         {
+            url:"/lop/ajax_data",
+            type:"POST",
+            data:{malop:malop,loai:loai},
+            timeout: 10000,//10s
+            beforeSend: function()
+                {
+                    $(".popup_detail #pdata").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $(".popup_detail #pdata").html("Dữ liệu bị lỗi");
+               
+            },          
+            success:function(result)
+            {                
+                $(".popup_detail #pdata").html(result);
+                 
+            }
+        });
+        
+    });
     //luu sua doi
     $(".popup_detail#view img#save").click(function()
     {
         
-        
+        loai=$("#data #left li li.active").attr("id");
         key=$(".popup_detail#view table.info").attr("id");
-        mamh=$(".popup_detail#view input#mamh").val();
-        tenmh=$(".popup_detail#view  input#tenmh").val();
-        sotc=$(".popup_detail#view  input#sotc").val();
-        tclt=$(".popup_detail#view  input#tclt").val();
-        tcth=$(".popup_detail#view  input#tcth").val();
-        loai=$(".popup_detail#view  select#loai").val();
+        malop=$(".popup_detail#view input#malop").val().toUpperCase();//IN HOA thong nhat
+        mamh=$(".popup_detail#view  select#mamh").val();
+        magv=$(".popup_detail#view  select#magv").val();
+        thu=$(".popup_detail#view  select#thu").val();
+        ca=$(".popup_detail#view  select#ca").val();
+        phong=$(".popup_detail#view  select#phong").val();
+        
+        min=$(".popup_detail#view  input#min").val();
+        max=$(".popup_detail#view  input#max").val();
+        
        
-       
-       
+       //alert(key+" "+malop+" "+mamh+" "+magv+" "+thu+" "+ca+" "+phong+" "+max+" "+min);
+        
         enable_footer(0,0);       
         $.ajax(
          {
-            url:"/monhoc/ajax_update",
+            url:"/lop/ajax_update",
             type:"POST",
-            data:{key:key,mamh:mamh,tenmh:tenmh,sotc:sotc,tclt:tclt,tcth:tcth,loai:loai},
+            data:{key:key,loai:loai,malop:malop,mamh:mamh,magv:magv,thu:thu,ca:ca,phong:phong,min:min,max:max},
             success:function(result)
             {   
-                //alert(result);
+               // alert(result);
                 if(result=="success")
                 {
-                   //cap nhat lai bang danh sach
-                   current_row.children("td.mamh").html(mamh);
+                   //cap nhat lai bang danh sach                   
+                   current_row.children("td.malop").html(malop);
+                   
+                   tenmh=$(".popup_detail#view select#mamh :selected").html();
                    current_row.children("td.tenmh").html(tenmh);
-                   current_row.children("td.sotc").html(sotc);
-                   current_row.children("td.tclt").html(tclt);
-                   current_row.children("td.tcth").html(tcth);
-                   if(loai=="DC") current_row.children("td.loai").html("Đại Cương");
-                   else current_row.children("td.loai").html("Chuyên Nghành");
+                   
+                   tengv=$(".popup_detail#view select#magv :selected").html();
+                   current_row.children("td.tengv").html(tengv);
+                   
+                   
+                   current_row.children("td.thu").html(thu);
+                   current_row.children("td.ca").html(ca);
+                   current_row.children("td.phong").html(phong);
+                   
+                   current_row.children("td.min").html(min);
+                   current_row.children("td.max").html(max);
+                   
                    
                    $("#content #message").fadeIn(1000).fadeOut(2000);                   
                    close_popup();
@@ -205,9 +240,9 @@ $(document).ready(function()
                   enable_footer(1,1);  
                 } 
               
-            }
+            }//end success
             
-        });       
+        }); //end ajax      
       
     });//end save action
 //=======DELETE MONHOC=================================================================================================================================
@@ -216,22 +251,23 @@ $(document).ready(function()
     { 
         
         checkbox=$("#table_data").find(":checked");
+        loai=$("#data #left li li.active").attr("id");
         count=checkbox.length;
-        mamh_array=new Array();
+        malop_array=new Array();
         checkbox.each(function()
         {
-           mamh=$(this).attr("id");
-           mamh_array.push(mamh);
+           malop=$(this).attr("id");
+           malop_array.push(malop);
            
         });
-        conf=confirm("Nhắc nhở: Bạn có thật sự muốn xóa "+count+" môn học này không?\nDanh sách mã môn học: "+mamh_array ); 
+        conf=confirm("Nhắc nhở: Bạn có thật sự muốn xóa "+count+" lớp này không?\nDanh sách mã lớp: "+malop_array ); 
           
         if(conf) 
         {            
             $.ajax({
-                        url:"/monhoc/ajax_delete",
+                        url:"/lop/ajax_delete",
                         type:"POST",
-                        data:{mamh_array:mamh_array},
+                        data:{malop_array:malop_array,loai:loai},
                         success: function(result)
                         {
                             window.location.reload(true);
@@ -248,8 +284,8 @@ $(document).ready(function()
             loai=$("#data #left li li.active").attr("id");  
             
             if(loai=='tatca') ten_loai="Tất cả";
-            else if(loai=='DC') ten_loai="Đại Cương";
-                 else ten_loai="Chuyên Nghành";
+            else if(loai=='lt') ten_loai="Lý thuyết";
+                 else ten_loai="Thực hành";
             display=parseInt($("select#view_num").val())//hien thi bao nhiu?			
             search=$("#search form").children().val();
             total_rows=$("#pagination").attr("class");
@@ -262,15 +298,16 @@ $(document).ready(function()
             if(display==0)end_index=total_rows;
             else          end_index=start_index+display;
             
+            if(end_index>total_rows) end_index=total_rows;
             
             html="";
             if(search=="")
             {
                 html+='<table>';
-                html+='<tr><td>Loại môn học</td><td><input name="loai"  type="hidden" value="'+loai+'" readonly="true"/>'+ten_loai+'</td></tr>'+
-                      '<tr><td>Từ môn học thứ</td><td><input name="start"  type="hidden" value="'+start_index+'" readonly="true"/>'+start_index+'</td></tr>'+
-                      '<tr><td>Đến môn học thứ</td><td><input name="end"   type="hidden" value="'+end_index+'"   readonly="true"/>'+end_index+'</td></tr>'+
-                      '<tr><td>Tổng số môn học</td><td><input         type="hidden" value="'+total_rows+'"  readonly="true"/>'+total_rows+'</tr>'+
+                html+='<tr><td>Loại</td><td><input name="loai"  type="hidden" value="'+loai+'" readonly="true"/>'+ten_loai+'</td></tr>'+
+                      '<tr><td>Từ lớp thứ</td><td><input name="start"  type="hidden" value="'+start_index+'" readonly="true"/>'+start_index+'</td></tr>'+
+                      '<tr><td>Đến lớp học thứ</td><td><input name="end"   type="hidden" value="'+end_index+'"   readonly="true"/>'+end_index+'</td></tr>'+
+                      '<tr><td>Tổng số lớp</td><td><input         type="hidden" value="'+total_rows+'"  readonly="true"/>'+total_rows+'</tr>'+
                       '<tr><td>Kiểu dữ liệu</td>'+
                             '<td><select name="file">'+
                                 '<option value="CSV">CSV(tập tin đơn giản)</option>'+
@@ -288,7 +325,7 @@ $(document).ready(function()
                 
                 search=$("#search form").children().val();//input value
                 html+='<table>';
-                html+='<tr><td>Loại</td><td><input name="loai" type="hidden" value=""  /><input name="search" type="hidden" value="'+search+'" readonly="true"  />Tìm kiếm</td></tr>';
+                html+='<tr><td>Loại</td><td><input name="loai" type="hidden" value=""  /><input name="search" type="hidden" value="'+search+'" />Tìm kiếm</td></tr>';
                  
                 html+='<tr><td>Kiểu dữ liệu</td>'+
                             '<td><select name="file">'+
@@ -324,35 +361,88 @@ $(".popup_detail #pdata table.info input,.popup_detail #pdata table.info textare
 
 
 //tu dong tinh so tinh chi thuc hanh
-$(".popup_detail #pdata input#sotc").live("keyup",function()
+$(".popup_detail #pdata select#magv").live("change",function()
 {
-    sotc=$(this).val();
-    tclt=$(".popup_detail #pdata input#tclt").val();
-    if(isNaN(sotc)==false&& isNaN(tclt)==false)
-    {
-        
-        if(sotc-tclt>=0)tcth=sotc-tclt;
-        else tcth="SoTC=TCLT+TCTH";
-        
-        $(".popup_detail #pdata input#tcth").val(tcth);
-    }
+    magv_old=$(this).attr("class");
+    magv_new=$(this).val();
+    thu_old=$(".popup_detail #pdata select#thu").attr("class");
+    thu_new=$(".popup_detail #pdata select#thu").val();
+    
+     
+    //alert("load ca: "+magv_new+" "+magv_old+" "+thu_old+" "+thu_new);
+    load_ca(magv_old,magv_new,thu_old,thu_new);
     
 });
-
-$(".popup_detail #pdata input#tclt").live("keyup",function()
+$(".popup_detail #pdata select#thu").live("change",function()
 {
-    sotc=$(".popup_detail #pdata input#sotc").val();
-    tclt=$(this).val();
     
-    if(isNaN(sotc)==false&& isNaN(tclt)==false)
-    {
-        
-        if(sotc-tclt>=0)tcth=sotc-tclt;
-        else tcth="SoTC=TCLT+TCTH";
-        $(".popup_detail #pdata input#tcth").val(tcth);
-    }
+    magv_old=$(".popup_detail #pdata select#magv").attr("class");
+    magv_new=$(".popup_detail #pdata select#magv").val();
+    thu_old=$(this).attr("class");
+    thu_new=$(this).val();
+    
+    
+     
+    //alert("load ca: "+magv_new+" "+magv_old+" "+thu_old+" "+thu_new);
+    load_ca(magv_old,magv_new,thu_old,thu_new);
     
 });
+$(".popup_detail #pdata select#ca").live("change",function()
+{  
+    thu_old=$(".popup_detail #pdata select#thu").attr("class");
+    thu_new=$(".popup_detail #pdata select#thu").val();
+    ca_old=$(this).attr("class");
+    ca_new=$(this).val();
+    //alert("load phong: "+thu_new+" "+thu_old+" "+ca_old+" "+ca_new);
+    load_phong(thu_old,thu_new,ca_old,ca_new);
+});
+function load_ca(magv_old,magv_new,thu_old,thu_new)
+{
+    //alert("load ca");
+    ca_old="";
+    if(magv_old==magv_new&&thu_old==thu_new)
+    {
+        ca_old=$(".popup_detail #pdata select#ca").attr("class");
+    }   
+    else ca_old="";
+    
+    $.ajax({
+               url:"/lop/ajax_ca",
+               type:"POST",
+               data:{magv:magv_new,thu:thu_new,ca_old:ca_old},
+               success: function(result)
+               {                
+                    $(".popup_detail #pdata select#ca").html(result);
+                    thu_old=$(".popup_detail #pdata select#thu").attr("class");
+                    thu_new=$(".popup_detail #pdata select#thu").val();
+                    
+                    ca_old=$(".popup_detail #pdata select#ca").attr("class");
+                    ca_new=$(".popup_detail #pdata select#ca").val();
+                    
+                    load_phong(thu_old,thu_new,ca_old,ca_new);
+               }
+           });//end ajax_del
+}
+function load_phong(thu_old,thu_new,ca_old,ca_new)
+{
+    //alert("load phong");
+    phong_old="";
+    if(thu_old==thu_new&&ca_old==ca_new)//neu thu, ca cu thi phai con phong cu(xem nhu chua thay doi)
+    {
+        phong_old=$(".popup_detail #pdata select#phong").attr("class");
+    }   
+    else phong_old="";
+    
+    $.ajax({
+               url:"/lop/ajax_phong",
+               type:"POST",
+               data:{thu:thu_new,ca:ca_new,phong_old:phong_old},
+               success: function(result)
+               {                
+                    $(".popup_detail #pdata select#phong").html(result);
+               }
+           });//end ajax_del
+}
 function active_search_interface()
 {
     $("#right #tool p#data_title").html("Kết quả tìm kiếm");
