@@ -45,7 +45,13 @@
         <tr><td><input type="password" name="password"  id="password" /></td></tr>
         <tr><td>Mã xác nhận &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $cap['image'];?> <input type="hidden" name="captchavalue" value="<?php echo $cap['word'] ?>" /></td>	</tr>
 		<tr><td><input type="text" name="captcha" id="captcha" value="<?PHP echo $cap['word']; ?>" /></td></tr>
-        <tr><td>Thông báo lỗi ở đây...</td></tr>					
+        <tr><td class="error"><?php 
+					if(isset($accounterror)) 
+						echo $accounterror;
+					if(isset($captchaerror)) 
+						echo "Mã xác nhận sai!";
+				?>
+			</td></tr>					
 		<tr><td><input type="submit" name="submit" value="Đăng nhập" id="dangnhap" /></td></tr>	
         </table>
         </form>
