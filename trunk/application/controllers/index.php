@@ -84,6 +84,7 @@ class Index extends CI_Controller
 			$data['old'] = $_POST['captcha'];
 			$data['new'] = $_POST['captchavalue'];
 			$data['cap'] = $this->mlogin->getCaptcha(33, 200, 3000);
+			$data['formeload'] = '1';
 			$data['formerror'] = '1';
 			$data['captchaerror'] = '1';
 			$this->load->view('index/vlogin', $data);
