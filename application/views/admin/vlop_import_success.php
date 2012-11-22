@@ -8,8 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/admin/common.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/menu/menu_css.css" />
     
-    <script type="text/javascript" src="<?php echo static_url(); ?>/js/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo static_url(); ?>/js/admin/jsinhvien_import.js"></script>        
+       
 	<title><?php echo $title ?></title>
 </head>
 <style type="text/css">
@@ -89,15 +88,16 @@
 
 #wrapper #data #data_checking  table tr.active,
 #wrapper #data #data_checking  table tr:hover{background:#bdf7f5;}  
-#wrapper #data #data_checking  table th#im_error{width:50px;}
-#wrapper #data #data_checking  table th#mssv{width:80px;}
-#wrapper #data #data_checking  table th#tensv{width:180px;}
-#wrapper #data #data_checking  table th#lop{width:100px;}
-#wrapper #data #data_checking  table th#k{width:50px;}
-#wrapper #data #data_checking  table th#ngaysinh{width:100px;}
-#wrapper #data #data_checking  table th#noisinh{width:120px;}
-#wrapper #data #data_checking  table th#sdt{width:100px;}
-#wrapper #data #data_checking  table th#email{width:180px;}
+#wrapper #data #data_checking table th#im_success{width:70px;}
+#wrapper #data #data_checking table th#malop{width:120px;}
+#wrapper #data #data_checking table th#mamh{width:240px;text-align:left;}
+#wrapper #data #data_checking table th#magv{width:160px;text-align:left;}
+#wrapper #data #data_checking table th#phong{width:60px;}
+#wrapper #data #data_checking table th#thu{width:60px;}
+#wrapper #data #data_checking table th#ca{width:60px;}
+#wrapper #data #data_checking table th#min{width:60px;}
+#wrapper #data #data_checking table th#max{width:60px;}
+#wrapper #data #data_checking table th#slht{width:60px;}
 
                  
 #wrapper #data  #action {height: 50px;
@@ -143,34 +143,41 @@
            
         <div id="data">  
             <div id="left">
-            <h3>Quản lý sinh viên</h3>
+            <h3>Quản lý lớp</h3>
             <ul>
-                <li><a href="/quanly/sinhvien">Danh sách sinh viên</a>
-                
-                
                 <?php
-                echo "<ul>";
-                foreach($khoa_result as $row)
-                { 
-                    $num_sinhvien=$this->msinhvien->get_num_rows("",$row->MaKhoa);
-                    echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."(".$num_sinhvien.")</a></li>";
-                }
+                $num_lt=$this->mlop->get_num_rows("","lt");
+                $num_th=$this->mlop->get_num_rows("","th");
+                $num_all=$num_lt+$num_th;
+                echo "<li><a href='/quanly/lop'>Lớp đã mở(".$num_all.")</a>";
+                echo "<ul>";                                       
+                echo "<li id='lt'  ><a href='/quanly/lop/ly-thuyet'>Lý thuyết(".$num_lt.")</a></li>";
+                echo "<li id='th'  ><a href='/quanly/lop/thuc-hanh'>Thực hành(".$num_th.")</a></li>";
                 echo "</ul>";
-                ?>   
-                               
+                ?>
+                 
                 </li>
-                <li><a href="/quanly/sinhvien/them-sinh-vien">Thêm sinh viên</a></li>
-                <li><a href="/quanly/sinhvien/nhap-du-lieu" class="active">Nhập dữ liệu</a></li> 
-                <li><a href="/quanly/sinhvien/xuat-du-lieu">Xuất dữ liệu</a></li>   
-                <li><a href="/quanly/sinhvien/thongke">Thống kê</a></li>
+                
+                <li><a href="/quanly/lop/lop-de-nghi">Lớp đề nghị</a></li>
+                <li><a href="/quanly/lop/them-lop">Thêm lớp</a></li>
+                <li><a href="/quanly/lop/nhap-du-lieu" class='active'>Nhập dữ liệu</a></li>
+                <li><a href="/quanly/lop/lich-giang-day">Lịch giảng dạy</a></li>
+                <li><a href="/quanly/lop/thongke">Thống kê</a></li>
             </ul>
             </div><!--end #left -->
+            
             <div id="right"> 
                 <h3><?php echo $right_title; ?></h3>
                 <div id="info">
                 <p>Quá trình nhập dữ liệu thành công</p>
-                <p>Khoa: <?php echo $TenKhoa; ?>  <a href="/quanly/sinhvien/<?php echo $khoa ?>">(Xem danh sách đầy đủ)</a> </p>
-                <p>Chi tiết danh sách sinh viên:</p>
+                <p>Loại lớp: <?php if($loai=="lt") echo "Lý thuyết";
+                                   else echo "Thực hành"; 
+                             ?>  
+                <a href="/quanly/lop/<?php if($loai=="lt") echo "ly-thuyet";
+                                           else echo "thuc-hanh";
+                                     ?>">
+                (Xem danh sách đầy đủ)</a> </p>
+                <p>Chi tiết danh sách lớp:</p>
                 <p></p>
                 </div><!--end info -->
                 <div id="data_checking">
@@ -179,37 +186,38 @@
                 {
                     echo "
                         <table>
-                                <tr id='first'>
-                                <th id='im_error'></th>
-                                <th id='mssv'>MSSV</th>
-                                <th id='tensv'>Tên SV</th>                    
-                                <th id='lop'>Lớp</th>
-                                <th id='k'>Khóa</th>
-                                <th id='ngaysinh'>Ngày Sinh</th>
-                                <th id='noisinh'>Nơi Sinh</th>
-                                <th id='sdt'>Số ĐT</th>
-                                <th id='email'>E-mail</th>
-                                </tr>";
-                                  
+                            <tr id='first'>
+                            <th id='im_success'></th>
+                            <th id='malop'>Mã Lớp</th>
+                            <th id='mamh'>Tên Môn Học</th>                    
+                            <th id='magv'>Tên Giáo Viên</th>
+                            <th id='thu'>Thứ</th>
+                            <th id='ca'>Ca</th>
+                            <th id='phong'>Phòng</th>
+                            <th id='min'>Min</th>
+                            <th id='max'>Max</th>
+                            <th id='slht'>SLHT</th>
+                            </tr>";
+                              
+                            
+                            foreach($success_data as $row)
+                            {
                                 
-                                foreach($success_data as $row)
-                                {
-                                    
-                                    echo "<tr class='success'>";
-                                    echo "<td class='im_success'><img title='Đã thêm thành công' src='".static_url()."/images/tick.png' alt='OK' /></td>";                           
-                                    echo "<td class='masv'>".$row["MaSV"]."</td>";
-                                    echo "<td class='tensv' style='text-align:left' >".$row["TenSV"]."</td>";                            
-                                    echo "<td class='lop'>".$row["Lop"]."</td>";
-                                    echo "<td class='k'>".$row["K"]."</td>";
-                                    echo "<td class='ngaysinh'>".$row["NgaySinh"]."</td>";
-                                    echo "<td class='noisinh'>".$row["NoiSinh"]."</td>";
-                                    echo "<td class='sdt'>".$row["SDT"]."</td>";
-                                    echo "<td class='email'>".$row["Email"]."</td>";
-                                    echo "</tr>";
-                                    
-                                }
+                                echo "<tr>";
+                                echo "<td class='im_success'><img title='Trùng phòng giảng dạy' src='".static_url()."/images/tick.png' /></td>";                                
+                                echo "<td>".$row["MaLop"]."</td>";
+                                echo "<td style='text-align:left' >".$row["TenMH"]."</td>";                            
+                                echo "<td style='text-align:left'>".$row["TenGV"]."</td>";
+                                echo "<td>".$row["Thu"]."</td>";
+                                echo "<td>".$row["Ca"]."</td>";
+                                echo "<td>".$row["Phong"]."</td>";
+                                echo "<td>".$row["Min"]."</td>";
+                                echo "<td>".$row["Max"]."</td>";
+                                echo "<td>".$row["SLHT"]."</td>";
+                                echo "</tr>";
                                 
-                                                                                    
+                            }
+                                                                                
                         echo "
                             <tr>
                                 <td colspan='2'><b>Tổng cộng</b></td>
@@ -220,10 +228,10 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                
+                                <td></td>
                                 </tr>
                             </table>";
-                 }                        
+                    }
                  ?>
                  </div><!--end data checking -->
                    
@@ -235,5 +243,6 @@
     <?php $this->load->view("admin/vfooter"); ?>
     <!-- End #footer-->
    
-</div><!--end #wrapper -->   </body>
+</div><!--end #wrapper -->   
+</body>
 </html>
