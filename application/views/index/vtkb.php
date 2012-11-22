@@ -36,7 +36,7 @@
         
         <div id="top">            
             <ul>
-                <li><a href="#"><strong>Trang chủ</strong></a></li>
+                <li><a href="http://dkhp.uit.edu.vn"><strong>Trang chủ</strong></a></li>
                 <li><a href="#">Chương trình đào tạo</a></li>
                 <li><a href="#">Liên kết &raquo;</a></li>
                 <li><a href="#"><?php echo $MSSV; ?></a> | <a href="<?php echo base_url(); ?>logout">Thoát</a></li>
@@ -56,7 +56,7 @@
             
             <div id="menu">
                 <ul>
-                    <li id="dkhp">   <a href="#" class="active">Đăng Ký Học Phần</a></li>
+                    <li id="dkhp">   <a href="/dang-ky-hoc-phan">Đăng Ký Học Phần</a></li>
                     <li id="hd">     <a href="#">Hướng Dẫn</a></li>
                     <li id="inphieu"><a href="#">In Phiếu</a></li>
                 </ul>
@@ -66,12 +66,15 @@
         
         <div id="primary">
             <div id="left">
+            
             <div id="content" class="box">
+            
                 <div id="contentheader" class="box_header">
-                    <h3>Thời khóa biểu</h3>
+                    <h3>Thời khóa biểu(Chi tiết)</h3>
                 </div><!-- end #contentheader -->
                 
                 <div id="contenttable" class="box_data">
+                    
                     <table id="TKBtable">
                         <tr id="first">
                             <th colspan="2"></th>
@@ -120,8 +123,10 @@
 								}
 							?>
 						</tr>
-                    </table>
-                    
+                    </table><!--end table -->
+                    <div id="xuatfile">
+                    <p title="Tải thời khóa biểu về máy(PDF)">Tải về</p>
+                    </div>
                 </div><!-- end #contenttable -->
 								
             </div><!-- end #content -->

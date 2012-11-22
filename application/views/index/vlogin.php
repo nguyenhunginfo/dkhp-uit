@@ -36,21 +36,18 @@
 	<div id="popup">      
     </div>      
     <div id="formlogin">
-		<form method="post" action="<?php echo base_url(); ?>dkhp">
-            <input type="text" name="username" value="" id="username" />
-            <input type="password" name="password"  id="password" />
-			<span id="accounterror" class="error" ><?php 
-				if(isset($accounterror)) 
-					echo $accounterror; ?></span>
-            <div id="imagecaptcha">
-			<?php
-				echo $cap['image'];				
-			?>
-			</div>
-			<input type="hidden" name="captchavalue" value="<?php echo $cap['word'] ?>" />
-            <input type="text" name="captcha" id="captcha" value="<?PHP echo $cap['word']; ?>" />
-			<span id="captchaerror" class="error"><?php if(isset($captchaerror)) echo "Mã xác nhận sai!"; ?></span>
-            <input type="submit" name="submit" value="Đăng nhập" id="dangnhap" />
+        <img id="close" title="Đóng" src="<?php echo static_url(); ?>/images/close.png" />
+		<form method="post" action="<?php echo base_url(); ?>dang-ky-hoc-phan">
+        <table>
+        <tr><td>Mã số tài khoản</td></tr>
+        <tr><td><input type="text" name="username" value="" id="username" /></td></tr>
+        <tr><td>Mật khẩu</td></tr>
+        <tr><td><input type="password" name="password"  id="password" /></td></tr>
+        <tr><td>Mã xác nhận &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $cap['image'];?> <input type="hidden" name="captchavalue" value="<?php echo $cap['word'] ?>" /></td>	</tr>
+		<tr><td><input type="text" name="captcha" id="captcha" value="<?PHP echo $cap['word']; ?>" /></td></tr>
+        <tr><td>Thông báo lỗi ở đây...</td></tr>					
+		<tr><td><input type="submit" name="submit" value="Đăng nhập" id="dangnhap" /></td></tr>	
+        </table>
         </form>
     </div>
 
@@ -71,8 +68,8 @@
             
             <div id="menu">
                 <ul>
-                    <li><a><strong>Quy chế & kế hoạch ĐKHP</strong></a></li>
-                    <li><a>Hướng Dẫn Chi Tiết</a></li>
+                    <li id="kehoach"><a href="#" class="active">Quy chế & kế hoạch ĐKHP</a></li>
+                    <li id="hd"><a href="#">Hướng Dẫn Chi Tiết</a></li>
                 </ul>
             </div><!-- end #menu -->
         
