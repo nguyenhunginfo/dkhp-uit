@@ -14,10 +14,15 @@ $(document).ready(function()
             url:"/sinhvien/ajax_full_data",
             type:"POST",  
             data:{search:search,khoa:khoa,k:k,limit:display},
+            timeout: 10000,//10s
             beforeSend: function()
                 {
                     $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                },             
+                },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#content #change_data").html("Dữ liệu bị lỗi");
+               
+            },             
             success:function(result)
             {                
                 $("#content #change_data").html(result);
@@ -41,10 +46,15 @@ $(document).ready(function()
                 url:"/sinhvien/ajax_full_data",
                 type:"POST",  
                 data:{search:search,khoa:khoa,k:k,limit:display},
+                timeout: 10000,//10s
                 beforeSend: function()
-                {
-                    $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                },             
+                    {
+                        $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                    },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#content #change_data").html("Dữ liệu bị lỗi");
+                   
+                },         
                 success:function(result)
                 {                   
                     $("#content #change_data").html(result);                    
@@ -73,10 +83,15 @@ $(document).ready(function()
                 url:"/sinhvien/ajax_full_data/"+num,
                 type:"POST",                  
                 data:{search:search,khoa:khoa,k:k,limit:display},
+                timeout: 10000,//10s
                 beforeSend: function()
-                {
-                    $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                },        
+                    {
+                        $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                    },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#content #change_data").html("Dữ liệu bị lỗi");
+                   
+                },    
                 success:function(result)
                 {                    
                    $("#content #change_data").html(result);                   
@@ -113,6 +128,15 @@ $(document).ready(function()
             url:"/sinhvien/ajax_data",
             type:"POST",
             data:{masv:masv,khoa:khoa},
+            timeout: 10000,//10s
+            beforeSend: function()
+                {
+                    $(".popup_detail#view #pdata").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $(".popup_detail#view #pdata").html("Dữ liệu bị lỗi");
+               
+            },    
             success:function(result)
             {                
                 $(".popup_detail#view #pdata").html(result);
@@ -136,14 +160,24 @@ $(document).ready(function()
         noisinh=$(".popup_detail#view  textarea#noisinh").val();
         sdt=$(".popup_detail#view  input#sdt").val();
         email=$(".popup_detail#view  input#email").val();
-        alert(key+" "+masv+" "+tensv+" "+khoa_old+" "+lop+" "+khoa_new+" "+sdt+" "+email);
+        //alert(key+" "+masv+" "+tensv+" "+khoa_old+" "+lop+" "+khoa_new+" "+sdt+" "+email);
        
-        enable_footer(0,0);       
+           
         $.ajax(
          {
             url:"/sinhvien/ajax_update",
             type:"POST",
             data:{key:key,masv:masv,tensv:tensv,khoa_old:khoa_old,khoa_new:khoa_new,lop:lop,k:k,ngaysinh:ngaysinh,noisinh:noisinh,sdt:sdt,email:email},
+            timeout: 10000,//10s
+            beforeSend: function()
+                {
+                    enable_footer(0,0);                	
+                },
+            error: function (xhr, ajaxOptions, thrownError) {
+                enable_footer(1,1);  
+                alert("Thao tác sửa đổi thất bại. Thử lại sau.");
+                
+                },   
             success:function(result)
             {   
                 //alert(result);
@@ -168,8 +202,8 @@ $(document).ready(function()
                   $(".popup_detail#view table.error").html(result);
                   enable_footer(1,1);  
                 } 
-              //  $(".popup_detail#view .error").html(result);
-            }
+             
+            }//end success
         });       
       
     });//end UPDATE SINHVIEN
@@ -217,10 +251,15 @@ $(document).ready(function()
                                     url:"/sinhvien/ajax_full_data",
                                     type:"POST",  
                                     data:{search:search,khoa:khoa,k:k,start:start_num,limit:display},
+                                    timeout: 10000,//10s
                                     beforeSend: function()
-                                    {
-                                        $("#content #change_data").html("<img id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");
-                                    },          
+                                        {
+                                            $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                                        },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        $("#content #change_data").html("Dữ liệu bị lỗi");
+                                       
+                                    },                                                
                                     success:function(result)
                                     {                   
                                         $("#content #change_data").html(result);                   
@@ -250,19 +289,23 @@ $(document).ready(function()
                     url:"/sinhvien/ajax_full_data",
                     type:"POST",                  
                     data:{search:search,k:k,limit:display},
+                    timeout: 10000,//10s
                     beforeSend: function()
-                    {
-                        $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                    },        
+                        {
+                            $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                        },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        $("#content #change_data").html("Dữ liệu bị lỗi");
+                       
+                    },      
                     success:function(result)
                     {                    
                        $("#content #change_data").html(result);
                     }
                     
                 });
-            $("#tool #action img#del").css("visibility","hidden");
-            $("#data #left li li").removeClass("active");
-            active_search_interface()
+            
+            active_search_interface();
         }
        e.preventDefault();//prevent to reload when submit
     });//END SEARCH SINH VIEN
@@ -294,15 +337,14 @@ $(document).ready(function()
             html+='<table>';
             html+='<tr><td>Khoa</td><td><input name="khoa"      type="hidden" value="'+khoa+'"      readonly="true" />'+tenkhoa+'</td></tr>'+
                   '<tr><td>Khóa</td><td><input name="k"         type="hidden" value="'+k+'"         readonly="true" />'+tenk+'</td></tr>'+                    
-                  '<tr><td>Từ hàng</td><td><input name="start"  type="hidden" value="'+start_index+'" readonly="true"/>'+start_index+'</td></tr>'+
-                  '<tr><td>Đến hàng</td><td><input name="end"   type="hidden" value="'+end_index+'"   readonly="true"/>'+end_index+'</td></tr>'+
-                  '<tr><td>Tổng số hàng</td><td><input         type="hidden" value="'+total_rows+'"  readonly="true"/>'+total_rows+'</tr>'+
+                  '<tr><td>Từ sinh viên thứ</td><td><input name="start"  type="hidden" value="'+start_index+'" readonly="true"/>'+start_index+'</td></tr>'+
+                  '<tr><td>Đến sinh viên thứ</td><td><input name="end"   type="hidden" value="'+end_index+'"   readonly="true"/>'+end_index+'</td></tr>'+
+                  '<tr><td>Tổng số sinh viên</td><td><input         type="hidden" value="'+total_rows+'"  readonly="true"/>'+total_rows+'</tr>'+
                   '<tr><td>Kiểu dữ liệu</td>'+
                         '<td><select name="file">'+
                             '<option value="CSV">CSV(tập tin đơn giản)</option>'+
                             '<option value="EXCEL2003">EXCEL 2003(*.XLS)</option>'+
-                            '<option value="EXCEL2007">EXCEL 2007(*.XLSX)</option>'+
-                            '<option value="PDF">PDF(*.PDF)</option>'+
+                            '<option value="EXCEL2007">EXCEL 2007(*.XLSX)</option>'+                            
                             '</select>'+
                         '</td>'+
                     '</tr>';             
@@ -313,9 +355,9 @@ $(document).ready(function()
         else
         {
             
-            alert(num_search);
+            search=$("#search form").children().val();
             html+='<table>';
-            html+='<tr><td>Tìm kiếm</td><td><input name="search" type="text" value="Kết quả tìm kiếm" readonly="true"  /></td></tr>';
+            html+='<tr><td>Tìm kiếm</td><td><input name="khoa" type="hidden" value="" readonly="true"  />Tìm kiếm <input name="search" type="hidden" value="'+search+'" readonly="true"  /></td></tr>';
             html+='<tr><td>Kiểu dữ liệu</td>'+
                         '<td><select name="file">'+
                             '<option value="CSV">CSV(tập tin đơn giản)</option>'+
@@ -331,9 +373,7 @@ $(document).ready(function()
         open_popup(".popup_detail#export");
     });//END EXPORT
     $(".popup_detail#export form").submit(function()
-    {
-        
-               
+    {          
         close_popup();
     });
 //=========================CHECK ALL=========================================================================================================================
@@ -442,6 +482,9 @@ function enable_footer(save,h4)
 function active_search_interface()
 {
     $("#right #tool p#data_title").html("Kết quả tìm kiếm");
+    $("#tool #action img#del").css("visibility","hidden");
+    
+    $("#data #left li li").removeClass("active");
     $("#right #tool select#view_num").hide();
 }
     
