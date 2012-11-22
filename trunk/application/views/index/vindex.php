@@ -8,6 +8,7 @@
 	<link href="<?php echo static_url();?>/css/index/index.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="<?php echo static_url();?>/js/jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo static_url();?>/js/index/vindex.js"></script>
+	<script type="text/javascript" src="<?php echo static_url();?>/js/index/dkhp.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function()
 		{	
@@ -118,7 +119,7 @@
         <div id="top">
             
             <ul>
-                <li><a href="#"><strong>Trang chủ</strong></a></li>
+                <li><a href="#" class="active">Trang chủ</a></li>
                 <li><a href="#">Chương trình đào tạo</a></li>
                 <li><a href="#">Liên kết &raquo;</a></li>
                 <li><a href="#"><?php echo $MSSV; ?></a> | <a href="<?php echo base_url(); ?>index/logout">Thoát</a></li>
@@ -253,7 +254,7 @@
 									if($dk != 0)
 									{
 										if($full <= 0)
-											echo "<p id='showdiv".$row->MaMH."'>chọn lớp</p></td></tr>";
+											echo "<p id='showdiv".$row->MaMH."'>Chọn lớp</p></td></tr>";
 										else
 											echo "</td></tr>";
 									}
@@ -401,7 +402,7 @@
 							?>
                         </tr>
                     </table>
-                    <p><a id="showTKB" href="<?php echo base_url()."tkb/index"; ?>"  target="_blank">Chi tiết ...</a></p>
+                    <p><a id="showTKB" href="<?php echo base_url()."thoi-khoa-bieu"; ?>"  target="_blank">Chi tiết ...</a></p>
                 </div><!-- end #TKBcontent -->
             </div><!-- end #TKB -->
                 
