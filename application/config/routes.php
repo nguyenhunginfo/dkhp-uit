@@ -40,7 +40,9 @@
 
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
-
+$route['dang-ky-hoc-phan']='index/login';
+$route['login']='welcome';
+$route['logout']='index/logout';
 $route['quanly/sinhvien']='sinhvien/index';
 $route['quanly/sinhvien/them-sinh-vien']='sinhvien/themsv';
 $route['quanly/sinhvien/them-sinh-vien/(:any)']='sinhvien/themsv/$1';
@@ -54,11 +56,29 @@ $route['sinhvien']='';
 
 $route['quanly/monhoc']='monhoc/index';
 $route['quanly/monhoc/them-mon-hoc']='monhoc/themmh';
+$route['quanly/monhoc/them-mon-hoc/(:any)']='monhoc/themmh/$1';
+$route['quanly/monhoc/nhap-du-lieu']='monhoc/nhapdl';
+$route['quanly/monhoc/thong-ke']='monhoc/thongke';
 $route['quanly/monhoc/(:any)']='monhoc/index/$1';
+
+$route['quanly/lop']='lop/index';
+$route['quanly/lop/ly-thuyet']='lop/index/lt';
+$route['quanly/lop/thuc-hanh']='lop/index/th';
+$route['quanly/lop/them-lop']='lop/themlop';
+$route['quanly/lop/them-lop/lt']='lop/themlop/lt';
+$route['quanly/lop/them-lop/th']='lop/themlop/th';
+
+$route['quanly/lop/nhap-du-lieu']='lop/nhapdl';
+$route['quanly/lop/nhap-du-lieu/lt']='lop/nhapdl/lt';
+$route['quanly/lop/nhap-du-lieu/th']='lop/nhapdl/th';
+$route['quanly/lop/lich-giang-day']='lop/lichgiangday';
+
+
+
 $route['quanly/giaovien']='giaovien/index';
 $route['giaovien']='';
 
-$route['dkhp']='index/login';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
