@@ -877,6 +877,31 @@ class Mlogin extends CI_Model
 		}
 	}
 	
+	function deNghi($MSSV, $strDN)
+	{		
+		$strDN = trim($strDN,' ');
+		$kq = explode(" ", $strDN);
+		for($i=0; $i<count($kq); $i++)
+		{
+			if($kq[$i] == "")
+				continue;
+			$this->db->query("INSERT INTO denghi VALUES ('$MSSV', '$kq[$i]', NOW())");
+		}
+	}
+	
+	function getDeNghi($MSSV)
+	{
+		$lopdn = $this->db->query("SELECT MaMH
+									FROM denghi
+									WHERE MaSV='".$MSSV."'");
+		$kq = " ";
+		foreach($lopdn->result() as $row)
+		{
+			$kq = $kq.$row->MaMH." ";
+		}
+		return $kq;
+	}
+	
 	function getTKB($MSSV, $khoa)
 	{
 		$dangky = "";
