@@ -104,6 +104,7 @@ class Index extends CI_Controller
 		$this->load->model('index/mlogin');
 		$data['MSSV'] = $MSSV;	
 		$data['khoa'] = $khoa;
+		$data['lopdn'] = $this->mlogin->getDeNghi($MSSV);
 		switch($khoa)
 		{
 			case "mmt":
@@ -172,8 +173,25 @@ class Index extends CI_Controller
 		}
 		
 		$this->load->model('index/mlogin');
-		$this->mlogin->registerMMT($_POST['MSSV'], $_POST['DKHP']);
-		
+		$this->mlogin->deNghi($_POST['MSSV'], $_POST['denghi']);
+		switch($_POST['$khoa'])
+		{
+			case "mmt":
+				$this->mlogin->registerMMT($_POST['MSSV'], $_POST['DKHP']);
+				break;
+			case "khmt":
+				$this->mlogin->registerKHMT($_POST['MSSV'], $_POST['DKHP']);
+				break;
+			case "ktmt":
+				$this->mlogin->registerKTMT($_POST['MSSV'], $_POST['DKHP']);
+				break;
+			case "httt":
+				$this->mlogin->registerHTTT($_POST['MSSV'], $_POST['DKHP']);
+				break;
+			case "cnpm":
+				$this->mlogin->registerCNPM($_POST['MSSV'], $_POST['DKHP']);
+				break;
+		}		
 		header('Location: '.base_url());
 	}
 	
