@@ -12,7 +12,7 @@
 	<script type="text/javascript">
 		$(document).ready(function()
 		{	
-			$("#contenttable tr td p").click(function(e)
+			$("#contenttable tr td p.show").click(function(e)
 			{
 				var id1 = $(this).attr("id"); 
 				var id = id1.substr(4, id1.length - 4);
@@ -27,7 +27,7 @@
 						url: "<?php echo base_url()."index/getLop"; ?>",
 						data: "MaMH="+MaMH+"&MSSV="+MSSV+"&khoa="+khoa,
 						type: "POST",
-						success:function(res) 
+						success:function(res)
 						{
 							$("#" + id).html(res.replace("showTenMH", TenMH));
 							$("#popup").show();
@@ -40,7 +40,23 @@
 					$("#popup").show();
 					$("#" + id).show();
 				}
-			});		
+			});
+			
+			$("#contenttable tr td p.denghi").live("click", function(e)
+			{
+				var c = confirm("Tên bạn sẽ được thêm vào lớp này nếu được mở.");
+				if(c == false)
+				{
+					return;
+				}
+				var p = $(this);
+				var td = p.parents("td");
+				var MaMH = td.attr("class");
+				var dn = $("#denghi").val();
+				$("#denghi").val(dn + " " + MaMH);
+				p.removeClass("denghi");
+				p.html("đã lưu thao tác");
+			});
 	
 			$("#btn_changepass").click(function(e)
 			{
@@ -232,35 +248,45 @@
 								echo "</td><td>";
 								if($full <= 0)
 								{
-									echo "lớp mở</td><td>";
+									echo "lớp mở</td>";
 								}
 								else
 								{
 									if($full < 200)
 									{
-										echo "lớp đầy</td><td>";
+										echo "lớp đầy</td>";
 									}
 									else
 									{
-										echo "</td><td>";
+										echo "</td>";
 									}
 								}
 								if($dk >= 200)
 								{
-									echo "<p id='showdiv".$row->MaMH."'>".$lop."</p></td></tr>";
+									echo "<td><p id='showdiv".$row->MaMH."' class = 'show'>".$lop."</p></td></tr>";
 								}
 								else
 								{
 									if($dk != 0)
 									{
 										if($full <= 0)
-											echo "<p id='showdiv".$row->MaMH."'>Chọn lớp</p></td></tr>";
+											echo "<td><p id='showdiv".$row->MaMH."' class = 'show'>Chọn lớp</p></td></tr>";
 										else
-											echo "</td></tr>";
+											if(strpos($lopdn, $row->MaMH) != null)
+											{
+												echo "<td>đã đề nghị mở</td></tr>";
+											}
+											else
+												echo "<td class='".$row->MaMH."'><p class = 'denghi'>đề nghị mở<p></td></tr>";
 									}
 									else
 									{
-										echo "</td></tr>";
+										if(strpos($lopdn, $row->MaMH) != null)
+										{
+											echo "<td>đã đề nghị mở</td></tr>";
+										}
+										else
+											echo "<td class='".$row->MaMH."'><p class = 'denghi'>đề nghị mở<p></td></tr>";
 									}
 								}
 							}
@@ -275,6 +301,7 @@
 					<form method="POST" action="<?php echo base_url()."index/register"; ?>" >
 						<input type="hidden" name="khoa" value="<?php echo $khoa; ?>" />
 						<input type="hidden" name="MSSV" value="<?php echo $MSSV; ?>" />
+						<input type="hidden" id="denghi" name="denghi" value="" />
 						<input type="hidden" id="DKHP" name="DKHP" value="<?php echo $lopdk; ?>" />
 						<input id="dangky" type="submit" value="Đăng ký" />
 					</form>
