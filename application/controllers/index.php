@@ -174,7 +174,7 @@ class Index extends CI_Controller
 		
 		$this->load->model('index/mlogin');
 		$this->mlogin->deNghi($_POST['MSSV'], $_POST['denghi']);
-		switch($_POST['$khoa'])
+		switch($_POST['khoa'])
 		{
 			case "mmt":
 				$this->mlogin->registerMMT($_POST['MSSV'], $_POST['DKHP']);
