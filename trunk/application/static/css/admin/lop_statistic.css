@@ -1,0 +1,69 @@
+
+/*It uses with almost interface */
+
+#wrapper #data h3{background-color: #e8e9e8;padding:10px 10px;
+                        -webkit-border-top-right-radius: 5px;
+                        -moz-border-top-right-radius: 5px;
+                        -o-border-top-right-radius: 5px;
+                        border-top-right-radius: 5px;
+                        
+                        -webkit-border-top-left-radius: 5px;
+                        -moz-border-top-left-radius: 5px;
+                        -o-border-top-left-radius: 5px;
+                        border-top-left-radius: 5px; 
+                        height:22px;
+                         }
+#wrapper #data #left{float:left;width:168px;
+                     min-height:600px;
+                     border:1px solid #a1a2a1;
+                     -webkit-border-radius: 5px;
+                     -moz-border-radius: 5px;
+                     -o-border-radius: 5px;
+                     border-radius: 5px; 
+                     -webkit-box-shadow: 0 0  8px #646564;
+                     -moz-box-shadow: 0 0  8px #646564;
+                                          
+                     }
+
+#wrapper #data #left h3{text-align:center;}
+#wrapper #data #left ul li{margin:2px 0px 10px 0px;}
+#wrapper #data #left ul li a{background: #e8e9e8;padding:8px 10px;display:block;
+                        
+                        }
+#wrapper #data #left ul li a:hover{color: #023bfe;font-weight:bold;}
+#wrapper #data #left ul li a.active{font-weight:bold;color: #023bfe;}
+#wrapper #data #left ul li ul li{margin:5px 0px 0px 20px;}
+#wrapper #data #left ul li ul li a{background:none;padding:0px;border:none;}
+
+#wrapper #data #left ul li ul li a:hover{color: red;font-weight:bold;cursor:pointer;}
+#wrapper #data #left ul li ul li.active a{color:red;font-weight:bold;}
+
+#wrapper #data #right{float:right;width:978px;
+                      min-height:600px;
+                      -webkit-border-radius: 5px;
+                      -moz-border-radius: 5px;
+                      -o-border-radius: 5px;
+                      border-radius: 5px; 
+                      position:relative;
+                        
+                      border:1px solid #a1a2a1;
+                      -webkit-box-shadow: 0 0  8px #646564;
+                      -moz-box-shadow: 0 0  8px #646564;
+                      }
+#wrapper #data #right table{border-collapse: collapse;margin:10px;width: 960px;}  
+#wrapper #data #right table th,
+#wrapper #data #right table td{border:1px solid #e8e9e8;text-align:center;font-size:14px;}
+
+#wrapper #data #right table tr#first{height: 30px;background-color:#e8e9e8;}
+#wrapper #data #right table tr:hover{background:#bdf7f5; }
+
+
+#wrapper #data #right table th.total{width:500px;}
+#wrapper #data #right table th.stt{width:100px;}
+#wrapper #data #right table th.mamh{width:100px;}
+#wrapper #data #right table th.magv{width:100px;}
+
+#wrapper #data #right table th.tenmh{width:300px;}
+#wrapper #data #right table th.tengv{width:300px;}
+
+#wrapper #data #right table a{color:blue;text-decoration: underline;}
