@@ -24,7 +24,7 @@ class Lop extends CI_Controller {
             
             //make pagination
             $this->load->library("pagination");        
-            $config["base_url"]="http://dkhp.uit.edu.vn/quanly/sinhvien/ajax_full_data";
+            $config["base_url"]="http://dkhp.uit.edu.vn/quanly/lop/ajax_full_data";
             $config["total_rows"]=$num_rows;
             $config["per_page"]=15;
             $this->pagination->initialize($config);
@@ -43,7 +43,7 @@ class Lop extends CI_Controller {
         
    	}
         
-//DANH SACH SINHVIEN====================================================================================================================================================
+//=========DANH SACH LOP ======================================================================================================================================
     //ajax load lai datas
     public function ajax_full_data($start=0)
     {
@@ -94,7 +94,7 @@ class Lop extends CI_Controller {
                 echo "<td class='phong'>".$row->Phong."</td>";
                 echo "<td class='min'>".$row->Min."</td>";
                 echo "<td class='max'>".$row->Max."</td>";
-                echo "<td class='slht'>".$row->SLHT."</td>" ;           
+                echo "<td class='slht'><a href='/quanly/lop/danh-sach/".$row->MaLop."' title='Xem danh sách' target='_blank'>".$row->SLHT."</a></td>";           
                 echo "</tr>";
              }
                              
@@ -108,7 +108,7 @@ class Lop extends CI_Controller {
     }//end ajax_full_data
     
 //==============================================DATA POPUP======================================================================================================   
-    //tra ve 1 record sinh vien theo masv
+    //tra ve 1 record sinh vien theo malop
     public function ajax_data()
    {
 
@@ -215,16 +215,155 @@ class Lop extends CI_Controller {
         }
         else echo "Lỗi dữ liệu";
         
-   }
+   }//end ajax data
+   
+//============TAO GIAO DIEN MO LOP==============================================================================================================
+    public function ajax_lop_request()
+   {
+
+        $mamh=$this->input->post("mamh");
+        $tenmh=$this->input->post("tenmh");
+        $slht=$this->input->post("slht");
+        
+        echo "<table class='info'>";
+        echo "<tr><td>Mã Lớp</td>
+                  <td><input  name='malop'  id='malop'  type='text' title='Mã Lớp' value=''/></td>
+             </tr>";
+                //===============================================================================================
+        
+        echo "<tr><td>Tên Môn Học</td>
+                  <td>$tenmh</td>
+             </tr>";
+                //==============================================================================================
+                $giaovien_result=$this->mlop->get_giaovien();
+                        echo "<tr><td>Tên Giáo Viên</td>
+                                  <td>
+                                  <select name='magv' id='magv' >";
+                                      echo "<option value=''>Chọn giáo viên</option>";
+                                      foreach($giaovien_result as $giaovien_row)
+                                      {                                        
+                                        echo "<option value='".$giaovien_row->MaGV."'>".$giaovien_row->TenGV."</option>";                                       
+                                      }
+                        echo     "</select>
+                                  </td>
+                              </tr>";
+                        //==============================================================================================                        
+                       $thu_result=$this->mlop->get_thu();
+                        echo "<tr><td>Thứ</td>
+                                  <td>
+                                  <select name='thu' id='thu'>";
+                                      foreach($thu_result as $thu_row)
+                                      {                                        
+                                        echo "<option value='".$thu_row->TenThu."'>".$thu_row->TenThu."</option>";                                       
+                                      }
+                        echo     "</select>
+                                  </td>
+                              </tr>";
+                              
+                        //==============================================================================================
+                        
+                        echo "<tr><td>Ca</td>
+                                  <td>
+                                  <select name='ca' id='ca'>";
+                                      echo "<option value=''>Chọn ca</option>";                                      
+                        echo     "</select>
+                                  </td>
+                              </tr>";
+                        //==============================================================================================
+                        
+                        echo "<tr><td>Phòng</td>
+                                  <td>
+                                  <select name='phong' id='phong'>";
+                                      echo "<option value=''>Chọn phòng</option>";                                      
+                        echo     "</select>
+                                  </td>
+                              </tr>";
+                      
+                echo "<tr><td>Min</td>
+                          <td><input  name='min'  id='min'  type='text' title='Số lượng tối thiểu' value='30'/></td>
+                      </tr>";
+                echo "<tr><td>Max</td>
+                          <td><input  name='max'  id='max'  type='text' title='Số lượng tối đa' value='100'/></td>
+                      </tr>";   
+                 echo "<tr><td>SLHT</td>
+                          <td title='$slht sinh viên đã đề nghị'>$slht</td>
+                      </tr>";               
+                               
+                echo "</table>";
+              
+                
+                
+               // echo "<div class='error'></div>";
+                echo "<table class='error'>";
+                
+                echo "</table>";
+                
+            
+        
+        
+        
+   }//end ajax data
+   
+     
+//==============================================OPEN REQUEST LOP==========================================================================================================================================      
+   public function ajax_open_lop()
+   {
+
+            $this->load->library("form_validation");            
+             
+            $min=$this->input->post("min");     
+            $this->form_validation->set_rules('malop', 'Mã Lớp', "required|max_length[12]|callback_check_malop['']");//kiem tra khoa chinh            
+            $this->form_validation->set_rules('magv', 'Tên giáo viên', 'required');
+            $this->form_validation->set_rules('thu', 'Thứ', 'required');
+            $this->form_validation->set_rules('ca', 'Ca', 'required');
+            $this->form_validation->set_rules('phong', 'Phòng', 'required');
+            $this->form_validation->set_rules('min', 'Số lượng tối thiểu', 'required|numeric');
+            $this->form_validation->set_rules('max', 'Số lượng tối đa', "required|numeric|callback_check_max[$min]");
+            
+           
+            
+            
+            if($this->form_validation->run() ==false)
+            {
+                //echo validation_errors();
+                echo "<tr><td>".form_error("malop","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("mamh","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("magv","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("thu","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("ca","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("phong","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("min","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                echo "<tr><td>".form_error("max","<span title='Thông báo lỗi'>","</span>")."</td></tr>";
+                                               
+            } 
+            else 
+            {               
+               $data["malop"]=$this->input->post("malop");
+               $data["mamh"]=$this->input->post("mamh");
+               $data["magv"]=$this->input->post("magv");
+               $data["thu"]=$this->input->post("thu");               
+               $data["ca"]=$this->input->post("ca");
+               $data["phong"]=$this->input->post("phong");
+               $data["min"]=$this->input->post("min");
+               $data["max"]=$this->input->post("max");
+               $data["slht"]=$this->input->post("slht");                            
+            
+                $this->mlop->open_request_lop("lt",$data);
+               
+               echo "success";
+            }
+    
+     
+   }//end ajax_update
   
-//==============================================UPDATE SINHVIEN==========================================================================================================================================      
+//==============================================UPDATE LOP==========================================================================================================================================      
    public function ajax_update()
    {
 
             $this->load->library("form_validation");            
             $key=$this->input->post("key"); 
             $min=$this->input->post("min");     
-            $this->form_validation->set_rules('malop', 'Mã Lớp', "required|callback_check_malop[$key]");//kiem tra khoa chinh
+            $this->form_validation->set_rules('malop', 'Mã Lớp', "required|max_length[12]|callback_check_malop[$key]");//kiem tra khoa chinh
             $this->form_validation->set_rules('mamh', 'Tên môn học', 'required');
             $this->form_validation->set_rules('magv', 'Tên giáo viên', 'required');
             $this->form_validation->set_rules('thu', 'Thứ', 'required');
@@ -268,7 +407,7 @@ class Lop extends CI_Controller {
     
      
    }//end ajax_update
-   //==========================CALLBACK OF FORM VALIDATTION==========================================================================================================================
+//==========================CALLBACK OF FORM VALIDATTION==========================================================================================================================
   public function check_malop($new_malop,$old_malop)
    {
         if($new_malop!=$old_malop)
@@ -293,14 +432,14 @@ class Lop extends CI_Controller {
         else return true;
    }
     
-//==============================================INSERT SINHVIEN====================================================================================================================================================    
+//==============================================INSERT LOP====================================================================================================================================================    
    public function ajax_insert()
    {
         $this->load->library("form_validation");            
         $key=$this->input->post("key"); 
         $min=$this->input->post("min");     
         $this->form_validation->set_rules('loai', 'Loại', 'required');
-        $this->form_validation->set_rules('malop', 'Mã Lớp', "required|callback_check_malop[$key]");//kiem tra khoa chinh
+        $this->form_validation->set_rules('malop', 'Mã Lớp', "required|max_length[12]|callback_check_malop[$key]");//kiem tra khoa chinh
         $this->form_validation->set_rules('mamh', 'Tên môn học', 'required');
         $this->form_validation->set_rules('magv', 'Tên giáo viên', 'required');
         $this->form_validation->set_rules('thu', 'Thứ', 'required');
@@ -343,13 +482,15 @@ class Lop extends CI_Controller {
      
    }//end ajax insert
    
-//==============================================DELETE SINHVIEN====================================================================================================================================================   
+//==============================================DELETE LOP====================================================================================================================================================   
    public function ajax_delete()
    {
         $malop_array=$this->input->post("malop_array");
         $loai=$this->input->post("loai");
         $this->mlop->delete_lop($malop_array,$loai);
+        //$this->mlop->delete_dangky($malop_array);
    }
+//==============================================HO TRO AJAX==========================================================================
    public function ajax_monhoc()
    {
         $loai=$this->input->post("loai");        
@@ -360,10 +501,6 @@ class Lop extends CI_Controller {
         {
             echo "<option value='".$monhoc_row->MaMH."'>".$monhoc_row->TenMH."</option>";
         }
-                
-        
-        
-        
    }
    public function ajax_ca()
    {
@@ -377,8 +514,7 @@ class Lop extends CI_Controller {
             foreach($ca_result as $ca_row)
             {
                 echo "<option value='".$ca_row->TenCa."'>".$ca_row->TenCa."</option>";
-            }
-                
+            }                
         }
         else
         {
@@ -413,7 +549,7 @@ class Lop extends CI_Controller {
    }
 
 
-//==============================================THEM SINHVIEN====================================================================================================================================================
+//==============================================THEM LOP====================================================================================================================================================
     function themlop($loai="lt")
     {
         $khoa_result=$this->mlop->get_khoa();
@@ -425,354 +561,202 @@ class Lop extends CI_Controller {
     }
     
    
-    /*
     
     
-//==============================================NHAP DU LIEU SINHVIEN====================================================================================================================================================
+    
+//==============================================NHAP DU LIEU ====================================================================================================================================================
    //them sv page
-   function nhapdl($khoa_active="")
+   function nhapdl($loai_active="lt")
     {
         $this->load->helper("url");
-        $this->load->library("form_validation");        
-        $this->form_validation->set_rules("khoa","Khoa","required");
+        $this->load->library("form_validation");
         $this->form_validation->set_rules("file_upload","Tập tin","callback_exist_file");              
         if($this->form_validation->run())
         {            
             $file_data=$this->upload->data();
-            $khoa=$this->input->post("khoa");
+            $loai=$this->input->post("loai");
             $import_type=$this->input->post("import_type");
-            
             
             try
             {
-                $sinhvien_array=$this->read_import_file($file_data);    
-                if($import_type=="insert")$num_errors=$this->check_error_data($sinhvien_array);
-                else $num_errors=$this->check_error_data($sinhvien_array,$khoa);
+                $lop_array=$this->read_import_file($file_data); 
+                $num_errors=$this->check_error_data($lop_array,$import_type,$loai);
+               
                 //LOI=============================================================================================
                 if($num_errors>0) 
                 {
                     
                     $khoa_result=$this->mlop->get_khoa();
                     $data["khoa_result"]=$khoa_result;
-                    $data["khoa_active"]=$khoa_active;
-                    $data["khoa"]=$khoa;
+                    $data["loai_active"]=$loai_active;
+                    $data["loai"]=$loai;
                     $data["import_type"]=$import_type;
-                    $data["error_data"]=$sinhvien_array;
+                    $data["error_data"]=$lop_array;
                     $data["num_errors"]=$num_errors;                   
                     
-                    if($khoa!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->mlop->ten_khoa($khoa)."   <img src='".static_url()."/images/delete.png' />";
-                    else $data['right_title']="Thao tác nhập dữ liệu từ tập tin";    
-                    
+                    if($loai_active=="lt")      $data['right_title']="Thao tác nhập dữ liệu lớp lý thuyết <img src='".static_url()."/images/delete.png' />";
+                    else if($loai_active=="th") $data['right_title']="Thao tác nhập dữ liệu từ lớp thực hành <img src='".static_url()."/images/delete.png' />";
+                         else $data['right_title']="Thao tác nhập dữ liệu <img src='".static_url()."/images/delete.png' />";
                     
                     $data["title"]="Trang nhập dữ liệu";  
-                    $this->load->view("admin/vsinhvien_import_error",$data);    
+                    $this->load->view("admin/vlop_import_error",$data);    
                 }
                 //=OK IMPORT INTO DATA======================================================================================
                 else
-                {
-                    $this->mlop->import_sinhvien($khoa,$sinhvien_array,$import_type);
+                {   
+                    $this->mlop->import_lop($lop_array,$import_type,$loai);
+                    
                     $khoa_result=$this->mlop->get_khoa();
                     $data["khoa_result"]=$khoa_result;
-                    $data["khoa"]=$khoa;
-                    $data["TenKhoa"]=$this->mlop->ten_khoa($khoa);
-                    $data["success_data"]=$sinhvien_array;
-                    $data["num_success"]=count($sinhvien_array);
-                    if($khoa!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->mlop->ten_khoa($khoa)."   <img src='".static_url()."/images/ok.png' />";
-                    else $data['right_title']="Thao tác nhập dữ liệu từ tập tin"; 
-                     $data["title"]="Trang nhập dữ liệu";  
-                    $this->load->view("admin/vsinhvien_import_success",$data);    
+                    $data["loai_active"]=$loai_active;
+                    $data["loai"]=$loai;
+                    $data["import_type"]=$import_type;
+                    $data["success_data"]=$lop_array;
+                    $data["num_success"]=count($lop_array);                   
+                    
+                    if($loai_active=="lt")      $data['right_title']="Thao tác nhập dữ liệu lớp lý thuyết <img src='".static_url()."/images/ok.png' />";
+                    else if($loai_active=="th") $data['right_title']="Thao tác nhập dữ liệu từ lớp thực hành <img src='".static_url()."/images/ok.png' />";
+                         else $data['right_title']="Thao tác nhập dữ liệu <img src='".static_url()."/images/ok.png' />";
+                    
+                    $data["title"]="Trang nhập dữ liệu";  
+                    $this->load->view("admin/vlop_import_success",$data);   
+                    
+                   // header("Location:/quanly/lop");    
                     
                 }
+                
             }
             catch(exception $ex)
             {
                 $khoa_result=$this->mlop->get_khoa();
                 $data["khoa_result"]=$khoa_result;
-                $data["khoa_active"]=$khoa_active;//neu co
-                $data["khoa"]=$khoa;//$_POST rebuild
+                $data["khoa_active"]=$loai_active;//neu co                
                 $data["import_type"]=$import_type;//$_POST rebuild
                 $data["error_array"]="Lỗi khi đọc tập tin";
                 $data["error_data"]=array();
                 $data["num_errors"]=0;
                
-                if($khoa!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->mlop->ten_khoa($khoa)."   <img src='".static_url()."/images/delete.png' />";
-                else $data['right_title']="Thao tác nhập dữ liệu từ tập tin";  
+                if($loai_active=="lt")      $data['right_title']="Thao tác nhập dữ liệu lớp lý thuyết <img src='".static_url()."/images/delete.png' />";
+                    else if($loai_active=="th") $data['right_title']="Thao tác nhập dữ liệu từ lớp thực hành <img src='".static_url()."/images/delete.png' />";
+                         else $data['right_title']="Thao tác nhập dữ liệu <img src='".static_url()."/images/delete.png' />";
+                         
                 $data["title"]="Trang nhập dữ liệu";  
-                $this->load->view("admin/vsinhvien_import_error",$data); 
+                $this->load->view("admin/vlop_import_error",$data); 
                 
             }
-            
-            
-             
-           
         }
         else//load binh thuong khong co form
         {
+            
+            
+            
             $khoa_result=$this->mlop->get_khoa();
             $data["khoa_result"]=$khoa_result;
-            $data["khoa_active"]=$khoa_active;
-            if($khoa_active!="") $data['right_title']="Thao tác nhập dữ liệu khoa ".$this->mlop->ten_khoa($khoa_active);
-            else $data['right_title']="Thao tác nhập dữ liệu từ tập tin";
+            $data["loai_active"]=$loai_active;
+            
+            if($loai_active=="lt")      $data['right_title']="Thao tác nhập dữ liệu lớp lý thuyết";
+            else if($loai_active=="th") $data['right_title']="Thao tác nhập dữ liệu từ lớp thực hành";
+                 else $data['right_title']="Thao tác nhập dữ liệu";
+                 
             $data["title"]="Trang nhập dữ liệu";  
-            $this->load->view("admin/vsinhvien_import",$data);    
+            $this->load->view("admin/vlop_import",$data);    
         }
            
-    }//END IMPORT FROM FILE    
-//==============================================XUAT DU LIEU=================================================================================================================================================    
-    function xuatdl()
-	{  
-	   
-           $khoa=$this->input->post("khoa");
-           $k=$this->input->post("k");
-           $start=$this->input->post("start");
-           $end=$this->input->post("end");
-           $limit=$end-$start;        
-           $search=$this->input->post("search");
-           $file=$this->input->post("file");
-           
-           $this->form_validation->set_rules("file","file","required");
-           if($this->form_validation->run())
-            {
-    //=================================================CSV================================================================================================================================================      
-                if($file=="CSV")
-                {
-                    $objPHPExcel = new PHPExcel();
-                    
-                    
-                    $sinhvien_result=$this->mlop->get_sinhvien($search,$khoa,$k,$start,$limit);
-                    $fields=array("MaSV","TenSV","Lop","K","NgaySinh","NoiSinh","SDT","email");
-                    $ncol=0;
-                    $nrow=1;
-                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);    
-                    
-                    foreach($sinhvien_result as $row)
-                    {
-                                                                      
-                        $sheet_dsmh->setCellValueByColumnAndRow(0,$nrow,"'".$row->MaSV);
-                        $sheet_dsmh->setCellValueByColumnAndRow(1,$nrow,$row->TenSV);
-                        $sheet_dsmh->setCellValueByColumnAndRow(2,$nrow,$row->Lop);
-                        $sheet_dsmh->setCellValueByColumnAndRow(3,$nrow,$row->K);
-                        $sheet_dsmh->setCellValueByColumnAndRow(4,$nrow,$row->NgaySinh);                        
-                        $sheet_dsmh->setCellValueByColumnAndRow(5,$nrow,trim($row->NoiSinh));
-                        $sheet_dsmh->setCellValueByColumnAndRow(6,$nrow,"'".$row->SDT);
-                        $sheet_dsmh->setCellValueByColumnAndRow(7,$nrow,$row->email);
-                        
-                        
-                        $nrow++; 
-                        
-                        
-                    }
-                   
-                    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-                    $objPHPExcel->setActiveSheetIndex(0);
-                    $filename="Danh sach sv ".$khoa;
-                    header('Content-Type: text/csv');
-                    header('Content-Disposition: attachment;filename="'.$filename.'.csv"');
-                    header('Cache-Control: max-age=0');
-                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
-                    $objWriter->setDelimiter(',');
-                    $objWriter->setEnclosure('');
-                    $objWriter->setLineEnding("\r\n");
-                    $objWriter->setSheetIndex(0);
-                    
-                    $objWriter->save('php://output');
-                    exit();
-                }
-                
-                
-    //============================================EXCEL 2003============================================================================================================           
-                else if($file=="EXCEL2003")
-                {
-                    
-                    $objPHPExcel = new PHPExcel();
-                    // Add some data
-                    $sinhvien_result=$this->mlop->get_sinhvien($search,$khoa,$k,$start,$limit);
-                    $fields=array("MaSV","TenSV","Lop","K","NgaySinh","NoiSinh","SDT","email");
-                    $ncol=0;
-                    $nrow=2;
-                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);
-            //======TITLE============================================================================================================            
-                    $sheet_dsmh->getCell("A1")->setValue("MSSV"); 
-                    $sheet_dsmh->getColumnDimension('A')->setAutoSize(true);
-                    
-                    $sheet_dsmh->getCell("B1")->setValue("Họ Tên");        
-                    $sheet_dsmh->getColumnDimension('B')->setWidth(25);
-                    
-                    $sheet_dsmh->getCell("C1")->setValue("Lớp");
-                    $sheet_dsmh->getColumnDimension('C')->setWidth(12);
-                    
-                    $sheet_dsmh->getCell("D1")->setValue("K");
-                    $sheet_dsmh->getColumnDimension('D')->setWidth(10);
-                    
-                    $sheet_dsmh->getCell("E1")->setValue("Ngày Sinh");
-                    $sheet_dsmh->getColumnDimension('E')->setWidth(20);
-                    
-                    $sheet_dsmh->getCell("F1")->setValue("Nơi sinh");
-                    $sheet_dsmh->getColumnDimension('F')->setWidth(25);
-                    
-                    $sheet_dsmh->getCell("G1")->setValue("Số ĐT");
-                    $sheet_dsmh->getColumnDimension('G')->setAutoSize(true);
-                    
-                    $sheet_dsmh->getCell("H1")->setValue("Email");
-                    $sheet_dsmh->getColumnDimension('H')->setAutoSize(true);
-                    
-                    $sheet_dsmh->getStyle("A1:H1")->getFont()->setSize(12)->setBold(true);
-            //======DATA============================================================================================================            
-                    foreach($sinhvien_result as $row)
-                    {
-                        $ncol=0;
-                        foreach($fields as $field)
-                        {
-                            $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit(trim($row->$field),PHPExcel_Cell_DataType::TYPE_STRING);
-                            $ncol++;
-                        }                
-                        $nrow++;
-                    }
-                    // Rename worksheet
-                    $objPHPExcel->getActiveSheet()->setTitle('DSSV '.$khoa);
-                    
-                    
-                    $objPHPExcel->setActiveSheetIndex(0);
-                    $filename="Danh sach sv ".$khoa;
-                    header('Content-Type: application/vnd.ms-excel');
-                    header('Content-Disposition: attachment;filename="'.$filename.'.xls"');
-                    header('Cache-Control: max-age=0');
-                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-                    $objWriter->save('php://output');
-                    exit();
-                    
-                }//END 2003 OUTPUT
-                
-                
-                
-                
-//==============================================EXCEL 2007===================================================================================================================================            
-                else if($file=="EXCEL2007")
-                {
-                    $objPHPExcel = new PHPExcel();
-                    // Add some data
-                    $sinhvien_result=$this->mlop->get_sinhvien($search,$khoa,$k,$start,$limit);
-                    $fields=array("MaSV","TenSV","Lop","K","NgaySinh","NoiSinh","SDT","email");
-                    $ncol=0;
-                    $nrow=2;
-                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);
-            //=======TITLE============================================================================================================            
-                    $sheet_dsmh->getCell("A1")->setValue("MSSV"); 
-                    $sheet_dsmh->getColumnDimension('A')->setAutoSize(true);
-                    
-                    $sheet_dsmh->getCell("B1")->setValue("Họ Tên");        
-                    $sheet_dsmh->getColumnDimension('B')->setWidth(25);
-                    
-                    $sheet_dsmh->getCell("C1")->setValue("Lớp");
-                    $sheet_dsmh->getColumnDimension('C')->setWidth(12);
-                    
-                    $sheet_dsmh->getCell("D1")->setValue("K");
-                    $sheet_dsmh->getColumnDimension('D')->setWidth(10);
-                    
-                    $sheet_dsmh->getCell("E1")->setValue("Ngày Sinh");
-                    $sheet_dsmh->getColumnDimension('E')->setWidth(20);
-                    
-                    $sheet_dsmh->getCell("F1")->setValue("Nơi sinh");
-                    $sheet_dsmh->getColumnDimension('F')->setWidth(25);
-                    
-                    $sheet_dsmh->getCell("G1")->setValue("Số ĐT");
-                    $sheet_dsmh->getColumnDimension('G')->setAutoSize(true);
-                    
-                    $sheet_dsmh->getCell("H1")->setValue("Email");
-                    $sheet_dsmh->getColumnDimension('H')->setAutoSize(true);
-                    
-                    $sheet_dsmh->getStyle("A1:H1")->getFont()->setSize(12)->setBold(true);
-        //==========DATA============================================================================================================            
-                    foreach($sinhvien_result as $row)
-                    {
-                        $ncol=0;
-                        foreach($fields as $field)
-                        {
-                            $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit($row->$field,PHPExcel_Cell_DataType::TYPE_STRING);
-                            $ncol++;
-                        }                
-                        $nrow++;
-                    }
-                   
-                    
-                    // Rename worksheet
-                    $objPHPExcel->getActiveSheet()->setTitle('DSSV '.$khoa);
-                    
-                    
-                    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-                    $objPHPExcel->setActiveSheetIndex(0);
-                    
-                    $filename="Danh sach sv ".$khoa;
-                    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                    header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
-                    header('Cache-Control: max-age=0');                
-                    
-                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-                    $objWriter->save('php://output');
-                    exit();
-                }//END 2007 OUTPUT
-                
-            }
-            else
-            {
-                $khoa_result=$this->mlop->get_khoa();
-                $data["khoa_result"]=$khoa_result;
-        
-                $data["title"]="Trang xuất dữ liệu";  
-                $this->load->view("admin/vsinhvien_export",$data);   
-                  
-            }
-	    
-        
-   	}//END EXPORT DATA
- //================================================THONG KE==================================================================================================================================================
-    public function count_sv($khoa="tatca",$k=0)
-    {
-         return $this->mlop->get_num_rows("",$khoa,$k);
-    }
-    public function thongke()
-    {
-        $khoa_result=$this->mlop->get_khoa();
-        $K_result=$this->mlop->get_K();
-         $SL["total"]=$this->mlop->get_num_rows();
-        foreach($khoa_result as $row)
-        {
-            $SL[$row->MaKhoa][0]=$this->mlop->get_num_rows("",$row->MaKhoa);
-            foreach($K_result as $k_row)
-            {                
-                $SL[$row->MaKhoa][$k_row->MaK]=$this->mlop->get_num_rows("",$row->MaKhoa,$k_row->MaK);
-               
-            }
-           
-        }
-       // echo "<pre>";
-        // print_r($SL);
-       // echo "</pre>";
-        
-        $data["khoa_result"]=$khoa_result;
-        $data["K_result"]=$K_result;
-        $data["SL"]=$SL;
-        $data["title"]="Trang thống kê tổng quát sinh viên";
-        $data["data_title"]="Thống kê tổng quát";    
-        $this->load->view("admin/vsinhvien_statistic",$data); 
-          
-    }
-//============VALID SINHVIEN WHEN IMPORT==============================================================================================================
-    public function valid_mssv($mssv,$arr_unique,$khoa="")
+    }//END IMPORT FROM FILE   
+     
+
+//============VALID LOP WHEN IMPORT==============================================================================================================
+    public function valid_lop($lop,$arr_unique,$import_type,$loai)
        {
-          if(in_array($mssv,$arr_unique)) return false;
-          else if ($this->mlop->mssv_exist_condition($mssv,$khoa)) return false;
-          return true;
+        
+          $malop=$lop["MaLop"];
+          $array_malop=$arr_unique["MaLop"];
+          
+          $magv_thu_ca=$lop["MaGV"].$lop["Thu"].$lop["Ca"];
+          $array_magv_thu_ca=$arr_unique["MaGV_Thu_Ca"];
+          
+          $thu_ca_phong=$lop["Thu"].$lop["Ca"].$lop["Phong"];
+          $array_thu_ca_phong=$arr_unique["Thu_Ca_Phong"];
+          
+          
+          //0: no error
+          //1: data_error
+          //2: malop error
+          //3: magv_thu_ca error
+          //4: thu_ca_phong_error
+          
+          //CHECK 1 CHECK DATA TYPE
+          if($lop["MaGV"]=="") return 11;//loai khi nhap ten giao vien ko ton tai;
+          if($lop["MaMH"]=="") return 12;//loai khi nhap ten giao vien ko ton tai;
+          if($this->mlop->thu_exist($lop["Thu"])==false) return 13;
+          if($this->mlop->ca_exist($lop["Ca"])==false) return 14;
+          if($this->mlop->phong_exist($lop["Phong"])==false) return 15;
+          if(is_numeric($lop["Min"])==false) return 16;
+          if(is_numeric($lop["Max"])==false) return 17;
+          if(is_numeric($lop["SLHT"])==false) return 18;
+          
+          
+          //CHECK 2 CHECK MALOP
+          if(in_array($malop,$array_malop)) return 2;
+          else
+          {
+            $tempt=$this->mlop->malop_exist_condition($malop,$import_type,$loai);            
+            if($tempt==true) return 2;
+          }
+          
+          //CHECK 3 KIEM TRA BO 3 MAGV,THU,CA
+          if(in_array($magv_thu_ca,$array_magv_thu_ca)) return 3;
+          else
+          {
+            $tempt=$this->mlop->magv_thu_ca_exist($lop,$import_type,$loai);
+            if($tempt==true) return 3;
+          }
+          
+          //CHECK 3 KIEM TRA BO 3 THU,CA,PHONG 
+          if(in_array($thu_ca_phong,$array_thu_ca_phong)) return 4;
+          else
+          {
+            $tempt=$this->mlop->thu_ca_phong_exist($lop,$import_type,$loai);
+            if($tempt==true) return 4;
+          }
+          return 0;
+          
+          
        }
-    public function check_error_data($data,$khoa="")
+//============HAM KIEM TRA LOI CUA DATA===========================================================================================================
+    public function check_error_data(&$data,$import_type,$loai)
     {
         $num_errors=0;
-        $array_unique=array();
+        $array_unique=array(
+                            "MaLop"=>array(),
+                            "MaGV_Thu_Ca"=>array(),
+                            "Thu_Ca_Phong"=>array()
+                        );
+        $i=0;
         foreach($data as $row)
         {
-            if($this->valid_mssv($row["MaSV"],$array_unique,$khoa)==false) $num_errors++;
-            $array_unique[]=$row["MaSV"];
+            $lop=array();
+            $lop["MaLop"]=$row["MaLop"];
+            $lop["MaMH"]=$row["MaMH"];
+            $lop["MaGV"]=$row["MaGV"];
+            $lop["Thu"]=$row["Thu"];
+            $lop["Ca"]=$row["Ca"];
+            $lop["Phong"]=$row["Phong"];
+            $lop["Min"]=$row["Min"];
+            $lop["Max"]=$row["Max"];
+            $lop["SLHT"]=$row["SLHT"];
             
+            $result=$this->valid_lop($lop,$array_unique,$import_type,$loai);
+            if($result!=0)
+            {
+                $data[$i]["error"]=$result;
+                $num_errors++;  
+            }  
+            
+            $array_unique["MaLop"][]=$row["MaLop"];
+            $array_unique["MaGV_Thu_Ca"][]=$row["MaGV"].$row["Thu"].$row["Ca"];
+            $array_unique["Thu_Ca_Phong"][]=$row["Thu"].$row["Ca"].$row["Phong"];
+            $i++;    
         }
         return $num_errors;
     }
@@ -807,9 +791,6 @@ class Lop extends CI_Controller {
             }
             
        }
-       */
-
-   /*
    public function read_import_file($file_data)   
    {
         $file_name=$file_data["file_name"];
@@ -818,7 +799,7 @@ class Lop extends CI_Controller {
             
             
         $objPHPExcel = new PHPExcel();
-        $sinhvien_array=array();  
+        $lop_array=array();  
         
    
             if($file_ext==".csv")
@@ -845,30 +826,35 @@ class Lop extends CI_Controller {
                           
                 for($row_index=1;$row_index<=$num_row;$row_index++)
                 {
-                    $MaSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
-                    $TenSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
-                    $Lop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
-                    $K=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
-                    $NgaySinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
-                    $NoiSinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
-                    $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
-                    $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
-                            
+                    $MaLop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                    $TenMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                    $TenGV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                    $Thu=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                    $Ca=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                    $Phong=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
+                    $Min=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
+                    $Max=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                    $SLHT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8,$row_index)->getValue();        
                           
-                    $MaSV=ltrim($MaSV,"'");
-                    $SoDT=ltrim($SoDT,"'");
-                    if($MaSV!="")
+                    
+                    if($MaLop!="")//it nhat phai co ma lop
                     {
-                        $tempt=array("MaSV"=>$MaSV,
-                                 "TenSV"=>$TenSV,
-                                 "Lop"=>$Lop,
-                                 "K"=>$K,
-                                 "NgaySinh"=>$NgaySinh,
-                                 "NoiSinh"=>$NoiSinh,
-                                 "SDT"=>$SoDT,
-                                 "Email"=>$Email);
-                        $sinhvien_array[]=$tempt;
-                    }
+                        $MaGV=$this->mlop->get_MaGV($TenGV);
+                        $MaMH=$this->mlop->get_MaMH($TenMH);
+                        $tempt=array("MaLop"=>$MaLop,
+                                 "MaMH"=>$MaMH,
+                                 "TenMH"=>$TenMH,
+                                 "MaGV"=>$MaGV,
+                                 "TenGV"=>$TenGV,
+                                 "Thu"=>$Thu,
+                                 "Ca"=>$Ca,
+                                 "Phong"=>$Phong,
+                                 "Min"=>$Min,
+                                 "Max"=>$Max,
+                                 "SLHT"=>$SLHT,
+                                 "error"=>0);
+                        $lop_array[]=$tempt;
+                    }//end if
                    
                        
                 }//end for
@@ -887,37 +873,41 @@ class Lop extends CI_Controller {
                     
                     
                     
-                    $sinhvien_array=array();                
+                    $lop_array=array();                
                           
                     for($row_index=2;$row_index<=$num_row;$row_index++)
                     {
                         
                         
-                        $MaSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
-                        $TenSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
-                        $Lop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
-                        $K=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
-                        $NgaySinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
-                        $NoiSinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
-                        $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
-                        $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                        $MaLop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                        $TenMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                        $TenGV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                        $Thu=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                        $Ca=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                        $Phong=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
+                        $Min=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
+                        $Max=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                        $SLHT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8,$row_index)->getValue();
                         
-                        $MaSV=ltrim($MaSV,"'");
-                        $SoDT=ltrim($SoDT,"'");
-                        if($MaSV!="")
+                        if($MaLop!="")//it nhat phai co ma lop
                         {
-                            $tempt=array("MaSV"=>$MaSV,
-                                     "TenSV"=>$TenSV,
-                                     "Lop"=>$Lop,
-                                     "K"=>$K,
-                                     "NgaySinh"=>$NgaySinh,
-                                     "NoiSinh"=>$NoiSinh,
-                                     "SDT"=>$SoDT,
-                                     "Email"=>$Email);
-                            $sinhvien_array[]=$tempt;
-                        }
-                       
-                    }
+                            $MaGV=$this->mlop->get_MaGV($TenGV);
+                            $MaMH=$this->mlop->get_MaMH($TenMH);
+                            $tempt=array("MaLop"=>$MaLop,
+                                     "MaMH"=>$MaMH,
+                                     "TenMH"=>$TenMH,
+                                     "MaGV"=>$MaGV,
+                                     "TenGV"=>$TenGV,
+                                     "Thu"=>$Thu,
+                                     "Ca"=>$Ca,
+                                     "Phong"=>$Phong,
+                                     "Min"=>$Min,
+                                     "Max"=>$Max,
+                                     "SLHT"=>$SLHT,
+                                     "error"=>0);
+                            $lop_array[]=$tempt;
+                        }//end if
+                    }//end for
                 
                 }
                 else//word 2007
@@ -930,40 +920,342 @@ class Lop extends CI_Controller {
                     $str_col= $objPHPExcel->getActiveSheet()->getHighestColumn();
                     $num_col=PHPExcel_Cell::columnIndexFromString($str_col);
                     $num_row=$str_row=$objPHPExcel->getActiveSheet()->getHighestRow();
-                    $sinhvien_array=array();                
+                    $lop_array=array();                
                           
                     for($row_index=2;$row_index<=$num_row;$row_index++)
                     {   
-                        $MaSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
-                        $TenSV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
-                        $Lop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
-                        $K=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
-                        $NgaySinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
-                        $NoiSinh=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
-                        $SoDT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
-                        $Email=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                        $MaLop=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0,$row_index)->getValue();
+                        $TenMH=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1,$row_index)->getValue();
+                        $TenGV=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2,$row_index)->getValue();
+                        $Thu=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3,$row_index)->getValue();
+                        $Ca=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4,$row_index)->getValue();
+                        $Phong=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5,$row_index)->getValue();
+                        $Min=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6,$row_index)->getValue();
+                        $Max=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7,$row_index)->getValue();
+                        $SLHT=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8,$row_index)->getValue();        
+                              
                         
-                        $MaSV=ltrim($MaSV,"'");
-                        $SoDT=ltrim($SoDT,"'");
-                        if($MaSV!="")
+                        if($MaLop!="")
                         {
-                            $tempt=array("MaSV"=>$MaSV,
-                                     "TenSV"=>$TenSV,
-                                     "Lop"=>$Lop,
-                                     "K"=>$K,
-                                     "NgaySinh"=>$NgaySinh,
-                                     "NoiSinh"=>$NoiSinh,
-                                     "SDT"=>$SoDT,
-                                     "Email"=>$Email);
-                            $sinhvien_array[]=$tempt;
+                            $MaGV=$this->mlop->get_MaGV($TenGV);
+                            $MaMH=$this->mlop->get_MaMH($TenMH);
+                            $tempt=array("MaLop"=>$MaLop,
+                                     "MaMH"=>$MaMH,
+                                     "TenMH"=>$TenMH,
+                                     "MaGV"=>$MaGV,
+                                     "TenGV"=>$TenGV,
+                                     "Thu"=>$Thu,
+                                     "Ca"=>$Ca,
+                                     "Phong"=>$Phong,
+                                     "Min"=>$Min,
+                                     "Max"=>$Max,
+                                     "SLHT"=>$SLHT,
+                                     "error"=>0);
+                            $lop_array[]=$tempt;
                         }
-                       
                     }
                 }
-            return $sinhvien_array;
+            return $lop_array;
     
-   }
-   */
-}//end CONTROLLER SINHVIEN
+   }//end read_data_file
+   
+//==============================================XUAT DU LIEU=================================================================================================================================================    
+    function xuatdl()
+	{  
+	   
+           
+           $malop=$this->input->post("malop");
+           //get data to dump into table             
+           
+           $file=$this->input->post("file");
+           
+           $this->form_validation->set_rules("file","file","required");
+           if($this->form_validation->run())
+            {    
+                
+    //============================================EXCEL 2003============================================================================================================           
+                if($file=="EXCEL2003")
+                {
+                    
+                    $objPHPExcel = new PHPExcel();
+                    // Add some data
+                    $danhsach_result=$this->mlop->get_lop_danh_sach($malop);    
+                    $fields=array("STT","MaSV","TenSV","diemgk","diemth","diemck","diemhp","ghichu");
+                    $ncol=0;
+                    $nrow=2;
+                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);
+            //======TITLE============================================================================================================            
+                    $sheet_dsmh->getCell("A1")->setValue("STT"); 
+                    $sheet_dsmh->getColumnDimension('A')->setWidth(6);
+                    
+                    $sheet_dsmh->getCell("B1")->setValue("MSSV");        
+                    $sheet_dsmh->getColumnDimension('B')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("C1")->setValue("Tên sinh viên");
+                    $sheet_dsmh->getColumnDimension('C')->setWidth(30);
+                    
+                    $sheet_dsmh->getCell("D1")->setValue("Điểm giữa kỳ");
+                    $sheet_dsmh->getStyle("D1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('D')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("E1")->setValue("Điểm thực hành");
+                    $sheet_dsmh->getStyle("E1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('E')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("F1")->setValue("Cuối kỳ");
+                    $sheet_dsmh->getStyle("F1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('F')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("G1")->setValue("Điểm học phần");
+                    $sheet_dsmh->getStyle("G1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('G')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("H1")->setValue("Ghi chú");
+                    $sheet_dsmh->getStyle("H1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('H')->setWidth(20);                     
+                    
+                    $sheet_dsmh->getStyle("A1:H1")->getFont()->setSize(12)->setBold(true);
+            //======DATA============================================================================================================
+                          
+                    foreach($danhsach_result as $row)
+                    {
+                        $ncol=0;
+                        foreach($fields as $field)
+                        {
+                            if($field=="STT") $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue($nrow-1);
+                            else 
+                                if($field=="diemgk"||$field=="diemth"||$field=="diemck"||$field=="diemhp"||$field=="ghichu")
+                                {
+                                    $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue("");
+                                }
+                                else
+                                {
+                                    $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit(trim($row->$field),PHPExcel_Cell_DataType::TYPE_STRING);        
+                                }
+                            
+                            $ncol++;
+                        }                
+                        $nrow++;
+                    }
+                    // Rename worksheet
+                    $objPHPExcel->getActiveSheet()->setTitle('DSLOP_'.$malop);
+                    
+                    
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    $filename="Danh sach lop_".$malop;
+                    header('Content-Type: application/vnd.ms-excel');
+                    header('Content-Disposition: attachment;filename="'.$filename.'.xls"');
+                    header('Cache-Control: max-age=0');
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+                    $objWriter->save('php://output');
+                    exit();
+                    
+                }//END 2003 OUTPUT
+                
+                
+                
+                
+//==============================================EXCEL 2007===================================================================================================================================            
+                else if($file=="EXCEL2007")
+                {
+                    $objPHPExcel = new PHPExcel();
+                    // Add some data
+                    $danhsach_result=$this->mlop->get_lop_danh_sach($malop);    
+                    $fields=array("STT","MaSV","TenSV","diemgk","diemth","diemck","diemhp","ghichu");
+                    $ncol=0;
+                    $nrow=2;
+                    $sheet_dsmh=$objPHPExcel->setActiveSheetIndex(0);
+            //======TITLE============================================================================================================            
+                    $sheet_dsmh->getCell("A1")->setValue("STT");                     
+                    $sheet_dsmh->getColumnDimension('A')->setWidth(6);
+                    
+                    $sheet_dsmh->getCell("B1")->setValue("MSSV");        
+                    $sheet_dsmh->getColumnDimension('B')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("C1")->setValue("Tên sinh viên");
+                    
+                    $sheet_dsmh->getColumnDimension('C')->setWidth(30);
+                    
+                    $sheet_dsmh->getCell("D1")->setValue("Điểm giữa kỳ");
+                    $sheet_dsmh->getStyle("D1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('D')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("E1")->setValue("Điểm thực hành");
+                    $sheet_dsmh->getStyle("E1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('E')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("F1")->setValue("Cuối kỳ");
+                    $sheet_dsmh->getStyle("F1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('F')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("G1")->setValue("Điểm học phần");
+                    $sheet_dsmh->getStyle("G1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('G')->setWidth(20);
+                    
+                    $sheet_dsmh->getCell("H1")->setValue("Ghi chú");
+                    $sheet_dsmh->getStyle("H1")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $sheet_dsmh->getColumnDimension('H')->setWidth(20);                    
+                    
+                    $sheet_dsmh->getStyle("A1:H1")->getFont()->setSize(12)->setBold(true);
+            //======DATA============================================================================================================
+                          
+                    foreach($danhsach_result as $row)
+                    {
+                        $ncol=0;
+                        foreach($fields as $field)
+                        {
+                            if($field=="STT") $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue($nrow-1);
+                            else 
+                                if($field=="diemgk"||$field=="diemth"||$field=="diemck"||$field=="diemhp"||$field=="ghichu")
+                                {
+                                    $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValue("");
+                                }
+                                else
+                                {
+                                    $sheet_dsmh->getCellByColumnAndRow($ncol, $nrow)->setValueExplicit(trim($row->$field),PHPExcel_Cell_DataType::TYPE_STRING);        
+                                }
+                            
+                            $ncol++;
+                        }                
+                        $nrow++;
+                    }
+                    // Rename worksheet
+                    $objPHPExcel->getActiveSheet()->setTitle('DSLOP_'.$malop);
+                    
+                    
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    $filename="Danh sach lop_".$malop;
+                    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                    header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
+                    header('Cache-Control: max-age=0');                
+                    
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                    $objWriter->save('php://output');
+                    exit();
+                }//END 2007 OUTPUT
+                
+            }
+            else
+            {
+                $khoa_result=$this->mlop->get_khoa();
+                $data["khoa_result"]=$khoa_result;
+        
+                $data["title"]="Trang xuất dữ liệu";  
+                $this->load->view("admin/vlop_export",$data);   
+                  
+            }
+	    
+        
+   	}//END EXPORT DATA
+    
+
+//================================================BO TRI LICH GIANG DAY====================================================================================================
+
+    public function lichgiangday()
+    {
+        $khoa_result=$this->mlop->get_khoa();
+        $data["khoa_result"]=$khoa_result;
+        $data["thu_result"]=$this->mlop->get_thu();
+        $data["ca_result"]=$this->mlop->get_ca("*",0);
+        $data["title"]="Trang bố trí lịch giảng dạy";
+        $data["data_title"]="Thao tác bố trí lịch giảng dạy";   
+        $this->load->view("admin/vlich_giang_day",$data);     
+    } 
+//================================================LUU LICH GIANG DAY====================================================================================================
+
+    public function luu_lich_giang_day()
+    {
+        $array_change=$this->input->post();        
+        
+        foreach($array_change as $malop=>$value)
+        {
+            $malop=str_replace("_",".",$malop);
+            $this->mlop->update_lich($malop,$value);
+        }
+        
+        echo "success";
+        
+        
+    }
+//================================================DANH SACH LOP==================================================================================================================================================
+    public function danh_sach($malop)
+    {
+            $khoa_result=$this->mlop->get_khoa();
+            $tenmh=$this->mlop->get_tenmh($malop);
+            //get data to dump into table
+            $danhsach_result=$this->mlop->get_lop_danh_sach($malop);           
+            
+            $data["khoa_result"]=$khoa_result;
+            
+            $data["danhsach_result"]=$danhsach_result;  
+            $data["total_rows"]=count($danhsach_result);          
+            $data["data_title"]="Danh sách sinh viên đăng ký lớp <span id='malop'>".$malop."</span>(<span id='tenmh'>".$tenmh."</span>)";
+            
+            $data["title"]="Trang quản lý lớp";        
+            
+    		$this->load->view('admin/vlop_danhsach',$data);                  
+        
+                        
+    } 
+//================================================THONG KE==================================================================================================================================================   
+    public function thongke()
+    {
+        
+        $khoa_result=$this->mlop->get_khoa();
+        $danhsach_mh=$this->mlop->get_danhsach_monhoc();           
+        $danhsach_gv=$this->mlop->get_danhsach_giaovien("lt");//chua chinh xac
+        $data["khoa_result"]=$khoa_result;
+        $data["danhsach_mh"]=$danhsach_mh;
+        $data["total_mh"]=count($danhsach_mh);
+        
+        $data["danhsach_gv"]=$danhsach_gv;
+        $data["total_gv"]=count($danhsach_gv);
+        
+        $data["title"]="Trang thống kê tổng quát lớp";
+        $data["data_title"]="Thống kê tổng quát lớp";    
+        $this->load->view("admin/vlop_statistic",$data); 
+        
+       
+          
+    }//end thong ke
+   
+   
+//================================================XU LY LOP DE NGHI==================================================================================================================================================   
+    public function denghi()
+    {
+            $loai="denghi";
+        //get khoa make menu
+            $khoa_result=$this->mlop->get_khoa();
+            //get data to dump into table
+            $lop_result=$this->mlop->get_lop("",$loai,0,15);//lay danh sach sinh vien cac khoa, thuoc cac k, 15 record dau tien
+           
+            //tong so hang de tao phan trang
+            $num_rows=$this->mlop->get_num_rows("",$loai);
+            
+            //make pagination
+            $this->load->library("pagination");        
+            $config["base_url"]="http://dkhp.uit.edu.vn/quanly/lop/ajax_full_data";
+            $config["total_rows"]=$num_rows;
+            $config["per_page"]=15;
+            $this->pagination->initialize($config);
+            $data["pagination"]=$this->pagination->create_links();
+            
+            //data for view
+            
+            $data["khoa_result"]=$khoa_result;
+            
+            $data["lop_result"]=$lop_result;
+            $data["total_rows"]=$num_rows;//get total rows to export function
+            $data["data_title"]="Danh sách môn học đề nghị";
+            
+            $data["title"]="Trang quản lý lớp đề nghị";        
+            
+    		$this->load->view('admin/vlop_request',$data);  
+        
+       
+          
+    }//end thong ke
+
+}//end CONTROLLER LOP
 
 ?>
