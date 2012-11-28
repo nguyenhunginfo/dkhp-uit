@@ -23,22 +23,20 @@
                 </li>
                 <li><a href="/quanly/lop">Lớp học &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &#187;</a>
                  <ul>
-						<li><a href="/quanly/lop/lop-da-mo">Lớp đã mở</a></li>	
-                        <li><a href="/quanly/lop/lop-da-huy">Lớp đã hủy</a></li>						
+						<li><a href="/quanly/lop/lop-da-mo">Lớp đã mở</a></li>                        						
 					    <li><a href="/quanly/lop/lop-de-nghi">Lớp đề nghị</a></li>	
 				</ul>
-                </li>
-                
-                <li><a href="/quanly/he-thong-diem">Hệ thống điểm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&#187;</a>
+                </li>                
+                <li><a href="/quanly/he-thong-diem">Hệ thống điểm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&#187;</a>
                 <ul>
-						<li><a href="/quanly/he-thong-diem/MMT" title="Khoa mạng máy tính">Khoa MMT</a></li>							
-					    <li><a href="/quanly/he-thong-diem/CNPM" title="Khoa công nghệ phần mềm">Khoa CNPM</a></li>		
-                        <li><a href="/quanly/he-thong-diem/HTTT" title="Khoa hệ thống thông tin">Khoa HTTT</a></li>
-                        <li><a href="/quanly/he-thong-diem/KTMT" title="Khoa kỹ thuật máy tính">Khoa KTMT</a></li>		
-                        <li><a href="/quanly/he-thong-diem/KHMT" title="Khoa khoa học máy tính">Khoa KHMT</a></li>				
+						<li><a href="/quanly/he-thong-diem/mmt" title="Khoa mạng máy tính">Khoa MMT</a></li>							
+					    <li><a href="/quanly/he-thong-diem/cnpm" title="Khoa công nghệ phần mềm">Khoa CNPM</a></li>		
+                        <li><a href="/quanly/he-thong-diem/httt" title="Khoa hệ thống thông tin">Khoa HTTT</a></li>
+                        <li><a href="/quanly/he-thong-diem/ktmt" title="Khoa kỹ thuật máy tính">Khoa KTMT</a></li>		
+                        <li><a href="/quanly/he-thong-diem/khmt" title="Khoa khoa học máy tính">Khoa KHMT</a></li>				
 				</ul>
                 </li>
-                <li><a href="/quanly/chuong-trinh-dao-tao">Chương trình đào tạo &nbsp; &#187;</a>
+                <li><a href="/quanly/chuong-trinh-dao-tao">Chương trình đào tạo &nbsp; &nbsp;&nbsp;&#187;</a>
                 <ul>
 						<li><a href="/quanly/chuong-trinh-dao-tao/mmt" title="Khoa mạng máy tính">Khoa MMT</a></li>							
 					    <li><a href="/quanly/chuong-trinh-dao-tao/cnpm" title="Khoa công nghệ phần mềm">Khoa CNPM</a></li>		
