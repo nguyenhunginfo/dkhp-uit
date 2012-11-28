@@ -37,6 +37,7 @@
                 <?php
                 $num_lt=$this->mlop->get_num_rows("","lt");
                 $num_th=$this->mlop->get_num_rows("","th");
+                $num_denghi=$this->mlop->get_num_rows("","denghi");
                 $num_all=$num_lt+$num_th;
                 echo "<li><a href='/quanly/lop'>Lớp đã mở(".$num_all.")</a>";
                 echo "<ul>";                                       
@@ -47,7 +48,7 @@
                  
                 </li>
                 
-                <li><a href="/quanly/lop/lop-de-nghi">Lớp đề nghị</a></li>
+                <li><a href="/quanly/lop/lop-de-nghi">Lớp đề nghị<?php echo "(".$num_denghi.")"; ?></li>
                 <li><a href="/quanly/lop/them-lop">Thêm lớp</a></li>
                 <li><a href="/quanly/lop/nhap-du-lieu" class='active'>Nhập dữ liệu</a></li>
                 <li><a href="/quanly/lop/lich-giang-day">Lịch giảng dạy</a></li>

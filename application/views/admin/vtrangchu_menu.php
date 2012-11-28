@@ -27,9 +27,8 @@
                         <li><a href="/quanly/lophoc/lop-da-huy">Lớp đã hủy</a></li>						
 					    <li><a href="/quanly/lophoc/lop-de-nghi">Lớp đề nghị</a></li>	
 				</ul>
-                </li>
-                
-                <li><a href="/quanly/he-thong-diem">Hệ thống điểm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&#187;</a>
+                </li>                
+                <li><a href="/quanly/he-thong-diem">Hệ thống điểm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&#187;</a>
                 <ul>
 						<li><a href="/quanly/he-thong-diem/mmt" title="Khoa mạng máy tính">Khoa MMT</a></li>							
 					    <li><a href="/quanly/he-thong-diem/cnpm" title="Khoa công nghệ phần mềm">Khoa CNPM</a></li>		
@@ -38,7 +37,7 @@
                         <li><a href="/quanly/he-thong-diem/khmt" title="Khoa khoa học máy tính">Khoa KHMT</a></li>				
 				</ul>
                 </li>
-                <li><a href="/quanly/chuong-trinh-dao-tao">Chương trình đào tạo &nbsp; &#187;</a>
+                <li><a href="/quanly/chuong-trinh-dao-tao">Chương trình đào tạo &nbsp; &nbsp;&nbsp;&#187;</a>
                 <ul>
 						<li><a href="/quanly/chuong-trinh-dao-tao/mmt" title="Khoa mạng máy tính">Khoa MMT</a></li>							
 					    <li><a href="/quanly/chuong-trinh-dao-tao/cnpm" title="Khoa công nghệ phần mềm">Khoa CNPM</a></li>		
