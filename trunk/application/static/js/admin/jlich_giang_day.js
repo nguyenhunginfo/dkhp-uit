@@ -1,183 +1,134 @@
 $(document).ready(function()
-{       
-    
-    $("#action img#create").click(function()
+{   
+    //JSON ojbect luu su thay doi
+    array_change={};
+   //1 doi tuong lop 
+    $("table td p.item").live("hover",function()
     {
-        //alert("create");
-        
-        key="";
-        loai=$("table.info select#loai").val();
-        malop=$("table.info input#malop").val();
-        mamh=$("table.info  select#mamh").val();
-        magv=$("table.info  select#magv").val();
-        thu=$("table.info  select#thu").val();
-        ca=$("table.info  select#ca").val();
-        phong=$("table.info  select#phong").val();        
-        min=$("table.info  input#min").val();
-        max=$("table.info  input#max").val();
-        
-        //alert(key+" "+malop+" "+mamh+" "+magv+" "+thu+" "+ca+" "+phong+" "+max+" "+min);
-        
-        enable_footer(0,0);       
-        $.ajax(
-         {
-            url:"/lop/ajax_insert",
-            type:"POST",
-            data:{key:key,loai:loai,malop:malop,mamh:mamh,magv:magv,thu:thu,ca:ca,phong:phong,min:min,max:max},
+        td_array=  $("table td.info");                 
+                
+        magv=$(this).children("span#magv").html();
+        phong=$(this).children("span#phong").html();
+        error_magv=$("table td p."+magv);
+        error_phong=$("table td p."+phong);
+        //DRAPABLE
+        $(this).draggable({cursor:"move",
+                containment: "#wrapper",
+                revert:"invalid",//auto return original position
+                Zindex:1000,
+                helper:"clone",
+                start:function(event,ui)
+                {
+                    error_magv.parents("td").css("background-color","#fb7383");
+                    error_phong.parents("td").css("background-color","#fb7383");
+                    $(this).parents("td").css("background-color","white");
+                    
+                }                                  
+                });
+                                     
+                     
+         //DROPPABLE            
+        $("table td.info").droppable({accept: "p.item",
+                   
+                    drop: function( event, ui ) 
+                    {                                                            
+                        td_old=ui.draggable.parents("td");
+                        td_new=$(this);
+                                               
+                        td_id_new=td_new.attr("id");
+                        td_id_old=td_old.attr("id");
+                                                              // alert(td_id_new+" "+td_id_old);
+                                                               
+                        if(td_id_new!=td_id_old)
+                        {
+                            text=ui.draggable.html();
+                            title=ui.draggable.attr("title");
+                            malop=ui.draggable.attr("id");
+                            tengv=ui.draggable.children("span#tengv").html();
+                            magv=ui.draggable.children("span#magv").html();
+                            phong=ui.draggable.children("span#phong").html();
+                            //KIEM TRA DIEU KIEN
+                            if(td_new.children("p#magv").hasClass(magv))
+                            {
+                                alert("Trùng giáo viên("+tengv+")");
+                            }
+                            else if(td_new.children("p#phong").hasClass(phong))
+                            {
+                                alert("Trùng phòng("+phong+")");
+                            }                                                                                                
+                            else//ADD AND REMOVE ELEMENT
+                            {   
+                                                                                
+                                td_old.children("p#magv").removeClass(magv);
+                                td_old.children("p#phong").removeClass(phong); 
+                                td_new.children("p#magv").addClass(magv);
+                                td_new.children("p#phong").addClass(phong);
+                                ui.draggable.hide();  
+                                td_new.append("<p class='item' id='"+malop+"' title='"+title+"'>"+text+"</p>"); 
+                                                                     
+                                ca=Math.floor(td_id_new/10);
+                                thu=td_id_new%10;
+                                //alert(malop);
+                                array_change[malop]={"Ca":ca,"Thu":thu};
+                                enable_footer(1);                                             
+                            }
+                                                    
+                        }//end if
+                        $("table td").css("background-color","white");
+                                           
+                    }
+            });  //end droppable                
+    }); //end hover
+//===============LUU SU THAY DOI================================================================================================================
+    $("#action img#save").click(function()
+    {   $.ajax({
+            url:"/lop/luu_lich_giang_day",
+            type:"POST",                       
+            data:array_change,
+            timeout: 10000,//10s
+            beforeSend: function()
+                {
+                    enable_footer(0);	
+                },
+            error: function (xhr, ajaxOptions, thrownError) {
+                enable_footer(1);
+                alert("Lưu thất bại");
+               
+            },                      
             success:function(result)
-            {   
-                //alert(result);
+            {                   
+                
                 if(result=="success")
-                {
-                    $("#right #message span").html("Tạo lớp "+malop+" thành công");
-                    $("#right #message").fadeIn(500).fadeOut(2500);
-                    clear_form();
-                    enable_footer(2,0); 
+                {                
+                    enable_footer(1); 
+                    $("#message").fadeIn(500).fadeOut(1000);
                 }
-                else
-                {
-                  
-                  $("table.error").html(result);
-                  enable_footer(1,1);  
-                } 
-              
+                else enable_footer(1); 
+                
             }
-        });//end ajax
-        
-      
-    });//end crate action
-});
-$("table.info select").live("change",function()
-{
-    enable_footer(1,0);
-});
-$("table.info input,table.info textarea").live("keydown",function()
-{
-    
-    enable_footer(1,0);
-});
-function enable_footer(save,h4)
+            
+            
+        });
+    });
+});//end jlich_giang_day.js 
+function enable_footer(save)
 {
         
     if(save==0)
     {     
-      $("#action img#create").hide();     
+      $("#action img#save").hide();           
       $("#action img#process").show();  
     }
-    else if(save==1)  
+    else  
     {
         $("#action img#process").hide();
-        $("#action img#create").show();     
+        $("#action img#save").show();
+              
        
     }
-    else
-    {
-        $("#action img#process").hide();
-        $("#action img#create").hide(); 
-    }
+   
     
-    if(h4==0) 
-    {
-     $(".box table.error").hide();   
-     $("#action h4").hide();   
-    }    
-    else
-    {
-        $(".box table.error").show();
-        $("#action h4").show();  
-    }     
-    
-}
-function clear_form()
-{
-    $("table.info input").val("");
-    
-    $("table.info select#magv option:first").attr("selected","selected");
-    $("table.info select#ca").html("<option value=''>Chọn ca</option>");
-    $("table.info select#phong").html("<option value=''>Chọn phòng</option>");
-    $("table.info input#min").val(30);
-    $("table.info input#max").val(100);
-}
-//tu dong tinh so tinh chi thuc hanh
-$("table.info  select#loai").live("change",function()
-{
-    loai=$(this).val();
-    
-    $.ajax({
-               url:"/lop/ajax_monhoc",
-               type:"POST",
-               data:{loai:loai},
-               success: function(result)
-               {    
-                    $("table.info select#mamh").html(result);                    
-               }
-           });//end ajax_
-    
-});
-
-
-$("table.info select#magv").live("change",function()
-{
-    
-    magv=$(this).val();    
-    thu=$("table.info select#thu").val();
-    
-     
-    
-    load_ca(magv,thu);
-    
-});
-$("table.info select#thu").live("change",function()
-{
-    
-    
-    magv=$("table.info select#magv").val();
-    
-    thu=$(this).val();
-    
-    
-     
-    //alert("load ca: "+magv_new+" "+magv_old+" "+thu_old+" "+thu_new);
-    load_ca(magv,thu);
-    
-});
-$("table.info select#ca").live("change",function()
-{  
-    
-    thu=$("table.info select#thu").val();    
-    ca=$(this).val();    
-    load_phong(thu,ca);
-});
-function load_ca(magv,thu)
-{
-    ca_old="";
-    $.ajax({
-               url:"/lop/ajax_ca",
-               type:"POST",
-               data:{magv:magv,thu:thu,ca_old:ca_old},
-               success: function(result)
-               {                
-                    $("table.info select#ca").html(result);
-                    ca=$("table.info select#ca").val();
-                    if(ca!="") load_phong(thu,ca);
-               }
-           });//end ajax_del
-}
-function load_phong(thu,ca)
-{
-    phong_old="";    
-    
-    $.ajax({
-               url:"/lop/ajax_phong",
-               type:"POST",
-               data:{thu:thu,ca:ca,phong_old:phong_old},
-               success: function(result)
-               {                
-                    $("table.info select#phong").html(result);
-               }
-           });//end ajax_del
-}
-    
+}    
     
     
     
