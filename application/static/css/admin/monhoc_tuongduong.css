@@ -113,12 +113,9 @@
 #wrapper #data #right #content table td{border:1px solid #e8e9e8;text-align:center;font-size:14px;}
 
 #wrapper #data #right #content table th#checkbox{width:50px;}
-#wrapper #data #right #content table th#mamh{width:100px;}
-#wrapper #data #right #content table th#tenmh{width:240px;}
-#wrapper #data #right #content table th#sotc{width:100px;}
-#wrapper #data #right #content table th#tclt{width:100px;}
-#wrapper #data #right #content table th#tcth{width:100px;}
-#wrapper #data #right #content table th#loai{width:150px;}
+#wrapper #data #right #content table th#mamh{width:140px;}
+#wrapper #data #right #content table th#tenmh{width:240px;text-align:left;}
+
 
 
 #wrapper #data #right #change_data{min-height:500px;}
@@ -131,12 +128,8 @@
                       
 
 #wrapper #data #right #change_data td.checkbox {width:50px;}
-#wrapper #data #right #change_data td.mamh{width:100px;}
+#wrapper #data #right #change_data td.mamh{width:140px;}
 #wrapper #data #right #change_data td.tenmh{width:240px;}
-#wrapper #data #right #change_data td.sotc{width:100px;}
-#wrapper #data #right #change_data td.tclt{width:100px;}
-#wrapper #data #right #change_data td.tcth{width:100px;}
-#wrapper #data #right #change_data td.loai{width:150px;}
 
  #wrapper #data #right #change_data td.kieumh a{color:blue;text-decoration:underline;}
 #wrapper #data #right #change_data td {overflow: hidden;}

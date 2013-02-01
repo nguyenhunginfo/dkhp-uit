@@ -1,0 +1,128 @@
+
+/*It uses with almost interface */
+
+#wrapper #data h3{background-color: #e8e9e8;padding:10px 10px;
+                        -webkit-border-top-right-radius: 5px;
+                        -moz-border-top-right-radius: 5px;
+                        -o-border-top-right-radius: 5px;
+                        border-top-right-radius: 5px;
+                        
+                        -webkit-border-top-left-radius: 5px;
+                        -moz-border-top-left-radius: 5px;
+                        -o-border-top-left-radius: 5px;
+                        border-top-left-radius: 5px; 
+                        height:36px;
+                         }
+#wrapper #data #left{float:left;width:168px;
+                     min-height:600px;
+                     border:1px solid #a1a2a1;
+                     -webkit-border-radius: 5px;
+                     -moz-border-radius: 5px;
+                     -o-border-radius: 5px;
+                     border-radius: 5px; 
+                     -webkit-box-shadow: 0 0  8px #646564;
+                     -moz-box-shadow: 0 0  8px #646564;
+                                          
+                     }
+
+
+#wrapper #data #left ul li{margin:2px 0px 10px 0px;}
+#wrapper #data #left ul li a{background: #e8e9e8;padding:8px 10px;display:block;
+                        
+                        }
+#wrapper #data #left ul li a:hover{color: #023bfe;font-weight:bold;}
+#wrapper #data #left ul li a.active{font-weight:bold;color: #023bfe;}
+#wrapper #data #left ul li ul li{margin:5px 0px 0px 20px;}
+#wrapper #data #left ul li ul li a{background:none;padding:0px;border:none;}
+
+#wrapper #data #left ul li ul li a:hover{color: red;font-weight:bold;cursor:pointer;}
+#wrapper #data #left ul li ul li.active a{color:red;font-weight:bold;}
+
+#wrapper #data #right{float:right;width:978px;                                       
+                      
+                      min-height:600px;
+                      -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        border-radius: 5px; 
+                        position:relative;
+                        
+                        border:1px solid #a1a2a1;
+                        -webkit-box-shadow: 0 0  8px #646564;
+                        -moz-box-shadow: 0 0  8px #646564;
+                      }
+#wrapper #data #right #tool{
+                            position:relative;background-color: #e8e9e8;padding:10px 10px;
+                            height: 36px;
+                            -webkit-border-top-right-radius: 5px;
+                            -moz-border-top-right-radius: 5px;
+                            -o-border-top-right-radius: 5px;
+                            border-top-right-radius: 5px;
+                            
+                            -webkit-border-top-left-radius: 5px;
+                            -moz-border-top-left-radius: 5px;
+                            -o-border-top-left-radius: 5px;
+                            border-top-left-radius: 5px;
+                            
+                            }
+                        
+                       
+
+#wrapper #data #right #tool p#data_title{font-weight:bold;}
+#wrapper #data #right #tool #action{position: absolute;top:25px;right:10px;z-index:100;}
+#wrapper #data #right #tool #action img#del{visibility: hidden;}
+
+#wrapper #data #right #tool img{margin:0px 0px 0px 10px;}
+#wrapper #data #right #tool img:hover{cursor:pointer;}
+
+#wrapper #data #right #thongtin {margin-right: 100px;font-weight: bold;}
+#wrapper #data #right #thongtin select:hover{cursor:pointer;}
+#wrapper #data #right #thongtin td#k{width: 200px;}
+#wrapper #data #right #thongtin td#somon{width: 200px;}
+#wrapper #data #right #thongtin td#sohk{width: 200px;}
+
+#wrapper #data #right #content{position:relative;overflow:auto;margin:2px 0px;}
+#wrapper #data #right #content div{margin-bottom:20px;}
+#wrapper #data #right #content table{border-collapse: collapse;}
+
+
+
+#wrapper #data #right #content #message{position:fixed;top:40%;right:2%;display:none;}
+#wrapper #data #right #content #message span{font-size:16px;color:green;}
+
+
+#wrapper #data #right #content table tr{height:30px;}
+#wrapper #data #right #content table tr.empty{height:150px;}
+#wrapper #data #right #content table td{border:1px solid #e8e9e8;text-align:center;font-size:14px;}
+#wrapper #data #right #content table th{border:1px solid #e8e9e8;background: #e8e9e8;}
+#wrapper #data #right #content table th#hk{width:140px;}
+#wrapper #data #right #content table th#mamh{width:120px;}
+#wrapper #data #right #content table th#tenmh{width:250px;}
+#wrapper #data #right #content table th#sotc{width:70px;}
+#wrapper #data #right #content table th#tclt{width:70px;}
+#wrapper #data #right #content table th#tcth{width:70px;}
+#wrapper #data #right #content table th#loai{width:120px;}
+#wrapper #data #right #content table td.hk{font-size: 18px;}
+#wrapper #data #right #content table td span{font-size:11px;}
+#wrapper #data #right #content table td a{color:blue;text-decoration: underline;}
+#wrapper #data #right #content table td.hk a{font-size:12px;}
+#wrapper #data #right  #table_data{width:976px;}
+
+#wrapper #data #right  #table_data tr.chan{background: #f0efee;}
+#wrapper #data #right  #table_data tr#caption th{text-align:left;font-size:18px;    }
+
+#wrapper #data #right #chuyennganh{width:976px;}
+#wrapper #data #right #chuyennganh tr#caption{height:40px;}
+#wrapper #data #right #chuyennganh button{padding:5px 20px;}
+#wrapper #data #right #chuyennganh tr#caption th{text-align:left;font-size:16px; }
+#wrapper #data #right #chuyennganh td.macn a{font-size:12px;}
+
+
+.popup_detail#create_chuyennganh {width:900px;top:5%;left:20%;}
+.popup_detail#create_chuyennganh #pdata table input{border:1px solid #e8e9e8;width:400px;}
+.popup_detail#create_chuyennganh #pdata table td#label{width:200px;}
+
+.popup_detail#add_chuyennganh {width:800px;top:20%;left:22%;}
+.popup_detail#add_chuyennganh #pdata{height:200px;}
+.popup_detail#add_chuyennganh #pdata table input{border:1px solid #e8e9e8;width:400px;}
+.popup_detail#add_chuyennganh #pdata table td#label{width:160px;}               

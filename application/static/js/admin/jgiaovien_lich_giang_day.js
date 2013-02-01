@@ -1,36 +1,7 @@
 $(document).ready(function()
 {
     
-    //chang k and load data again
-    $("#tool select#k").change(function()
-    {
-        var k=$(this).val();        
-        var khoa=$("#data #left li li.active").attr("id");
-        var display=parseInt($("select#view_num").val());//hien thi bao nhiu?
-        var search=$("#search form").children().val();
-        
-        $.ajax(
-        {
-            url:"/sinhvien/ajax_full_data",
-            type:"POST",  
-            data:{search:search,khoa:khoa,k:k,limit:display},
-            timeout: 10000,//10s
-            beforeSend: function()
-                {
-                    $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                },
-            error: function (xhr, ajaxOptions, thrownError) {
-                $("#content #change_data").html("Dữ liệu bị lỗi");
-               
-            },             
-            success:function(result)
-            {                
-                $("#content #change_data").html(result);
-            }
-        });
-        $("#tool #action img#del").css("visibility","hidden");
-        
-    });
+    
 //================================CHANGE VIEW NUM=====================================================================================================
     $("#tool select#view_num").live("change",function()
     {             
@@ -107,27 +78,22 @@ $(document).ready(function()
     //event when you click in mssv to see detail
     
     current_row=null;
-    $("#table_data td.masv").live("click",function()
+    $("#table_data td.magv").live("click",function()
     {
 		
         current_row=$(this).parent("tr");
         current_row.addClass("active").find(".checkbox_row").attr("checked","checked");
         $("#tool #action img#del").css("visibility","visible");               
        
-        masv=current_row.children("td.masv").html();
-        khoa=current_row.attr("id");
-        
-         $(".popup_detail#view #ptitle").html("Thông tin chi tiết sinh viên");
-                    
-         $(".popup_detail#view #pdata").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");
-         
+        magv=current_row.children("td.magv").html();
+         $(".popup_detail#view #ptitle").html("Thông tin chi tiết giáo viên");         
          open_popup(".popup_detail#view");
          	           
          $.ajax(
          {
-            url:"/sinhvien/ajax_data",
+            url:"/giaovien/ajax_data",
             type:"POST",
-            data:{masv:masv,khoa:khoa},
+            data:{magv:magv},
             timeout: 10000,//10s
             beforeSend: function()
                 {
@@ -149,25 +115,22 @@ $(document).ready(function()
 //=================UPDATE SINHVIEN=================================================================================================================================   
     $(".popup_detail#view img#save").click(function()
     {
+        
         key=$(".popup_detail#view table.info").attr("id");
-        masv=$(".popup_detail#view input#masv").val();
-        tensv=$(".popup_detail#view  input#tensv").val();
-        khoa_old=$(".popup_detail#view  select#khoa").attr("class");
-        khoa_new=$(".popup_detail#view  select#khoa").val();
-        lop=$(".popup_detail#view  select#lop").val();
-        k=$(".popup_detail#view  select#k").val();
+        magv=$(".popup_detail#view input#magv").val();
+        tengv=$(".popup_detail#view  input#tengv").val();        
         ngaysinh=$(".popup_detail#view  input#ngaysinh").val();
         noisinh=$(".popup_detail#view  textarea#noisinh").val();
-        sdt=$(".popup_detail#view  input#sdt").val();
+        sodt=$(".popup_detail#view  input#sodt").val();
         email=$(".popup_detail#view  input#email").val();
-        //alert(key+" "+masv+" "+tensv+" "+khoa_old+" "+lop+" "+khoa_new+" "+sdt+" "+email);
+        alert(key+" "+magv+" "+tengv+" "+sodt+" "+email);
        
            
         $.ajax(
          {
-            url:"/sinhvien/ajax_update",
+            url:"/giaovien/ajax_update",
             type:"POST",
-            data:{key:key,masv:masv,tensv:tensv,khoa_old:khoa_old,khoa_new:khoa_new,lop:lop,k:k,ngaysinh:ngaysinh,noisinh:noisinh,sdt:sdt,email:email},
+            data:{key:key,magv:magv,tengv:tengv,ngaysinh:ngaysinh,noisinh:noisinh,sodt:sodt,email:email},
             timeout: 10000,//10s
             beforeSend: function()
                 {
@@ -184,13 +147,11 @@ $(document).ready(function()
                 if(result=="success")
                 {
                    
-                   current_row.children("td.masv").html(masv);
-                   current_row.children("td.tensv").html(tensv);                   
-                   current_row.children("td.lop").html(lop);
-                   current_row.children("td.k").html(k);
+                   current_row.children("td.magv").html(magv);
+                   current_row.children("td.tengv").html(tengv);
                    current_row.children("td.ngaysinh").html(ngaysinh);
                    current_row.children("td.noisinh").html(noisinh);
-                   current_row.children("td.sdt").html(sdt);
+                   current_row.children("td.sodt").html(sodt);
                    current_row.children("td.email").html(email);
                    
                    $("#content #message").fadeIn(1000).fadeOut(2000);                   
@@ -204,7 +165,10 @@ $(document).ready(function()
                 } 
              
             }//end success
-        });       
+            
+        }); //end ajax 
+         
+            
       
     });//end UPDATE SINHVIEN
     
@@ -214,28 +178,61 @@ $(document).ready(function()
     { 
         checkbox=$("#table_data").find(":checked");
         count=checkbox.length;
-        mssv_array=new Array();
+        msgv_array=new Array();
         checkbox.each(function()
         {
-           mssv=$(this).attr("id");
-           mssv_array.push(mssv);
+           msgv=$(this).attr("id");
+           msgv_array.push(msgv);
            
         });
         
         khoa=$("#data #left li li.active").attr("id");
         if(khoa==undefined) khoa=""; 
-        //alert(mssv_array+" "+khoa);
-        conf=confirm("Nhắc nhở: Bạn có thật sự muốn xóa "+count+" sinh viên này không?\nDanh sách MSSV: "+mssv_array );        
+        //alert(msgv_array+" "+khoa);
+        conf=confirm("Nhắc nhở: Bạn có thật sự muốn xóa "+count+" sinh viên này không?\nDanh sách MSSV: "+msgv_array );        
         if(conf) 
         {            
             $.ajax({
-                        url:"/sinhvien/ajax_delete",
+                        url:"/giaovien/ajax_delete",
                         type:"POST",
-                        data:{mssv_array:mssv_array,khoa:khoa},
+                        data:{msgv_array:msgv_array,khoa:khoa},
                         success: function(result)
                         {
+                            //alert(result);
+                            $("#content #message span").html(result);
+                            $("#content #message").fadeIn(1000).fadeOut(1000);
                             
-                            window.location.reload(true);
+                            var search=$("#search form").children().val();
+                            var k=$("select#k").val();
+                            var display=parseInt($("#tool select#view_num").val());//hien thi bao nhiu?			
+                            var start_num=0;
+                            var khoa=$("#data #left li li.active").attr("id");
+                            if(khoa==undefined) khoa="cnpm";
+                            
+                            
+                    			$.ajax(
+                                {
+                                    url:"/giaovien/ajax_full_data",
+                                    type:"POST",  
+                                    data:{search:search,khoa:khoa,k:k,start:start_num,limit:display},
+                                    timeout: 10000,//10s
+                                    beforeSend: function()
+                                        {
+                                            $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
+                                        },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        $("#content #change_data").html("Dữ liệu bị lỗi");
+                                       
+                                    },                                                
+                                    success:function(result)
+                                    {                   
+                                        $("#content #change_data").html(result);                   
+                                        
+                                    }
+                                });//end ajax full data
+                                $("#tool #action img#del").css("visibility","hidden");
+                                
+                             
                          }
                     });//end ajax_del
         }//end confirm
@@ -253,7 +250,7 @@ $(document).ready(function()
         {
             $.ajax(
                 {
-                    url:"/sinhvien/ajax_full_data",
+                    url:"/giaovien/ajax_full_data",
                     type:"POST",                  
                     data:{search:search,k:k,limit:display},
                     timeout: 10000,//10s
@@ -268,12 +265,11 @@ $(document).ready(function()
                     success:function(result)
                     {                    
                        $("#content #change_data").html(result);
-                       active_search_interface();
                     }
                     
                 });
             
-            
+            active_search_interface();
         }
        e.preventDefault();//prevent to reload when submit
     });//END SEARCH SINH VIEN
@@ -398,7 +394,7 @@ $(document).ready(function()
              
             
             $.ajax({
-                url: "/sinhvien/ajax_lop_from_khoa",
+                url: "/giaovien/ajax_lop_from_khoa",
                 type:"POST",
                 data:{k:k,khoa:khoa},
                 success:function(result)
@@ -449,8 +445,7 @@ function enable_footer(save,h4)
 }//end enable_footer
 function active_search_interface()
 {
-    num_row=$("#pagination").attr("class");    
-    $("#right #tool p#data_title").html("Kết quả tìm kiếm: "+num_row);
+    $("#right #tool p#data_title").html("Kết quả tìm kiếm");
     $("#tool #action img#del").css("visibility","hidden");
     
     $("#data #left li li").removeClass("active");
@@ -463,14 +458,14 @@ function active_search_interface()
         current_row=current_row.next();
         next_row=current_row.next();
         prev_row=current_row.prev();
-        if(next_row.find("td.masv").html()==null) $(".popup_detail img#pnext").hide();
+        if(next_row.find("td.magv").html()==null) $(".popup_detail img#pnext").hide();
         else $(".popup_detail img#pnext").show();
         
-        if(prev_row.find("td.masv").html()==null) $(".popup_detail img#pprev").hide();
+        if(prev_row.find("td.magv").html()==null) $(".popup_detail img#pprev").hide();
         else $(".popup_detail img#pprev").show();
        $(".popup_detail #pfooter img#save,.popup_detail #pfooter img#process,.popup_detail #pfooter h4").hide();
        
-         masv=current_row.children("td.masv").html();
+         magv=current_row.children("td.magv").html();
          
          $(".popup_detail#view #ptitle").html("Thông tin chi tiết sinh viên");
                     
@@ -478,9 +473,9 @@ function active_search_interface()
                	           
          $.ajax(
          {
-            url:"/sinhvien/ajax_data",
+            url:"/giaovien/ajax_data",
             type:"POST",
-            data:{masv:masv},
+            data:{magv:magv},
             success:function(result)
             {                
                 $(".popup_detail #pdata").html(result);
@@ -494,22 +489,22 @@ function active_search_interface()
         current_row=current_row.prev();
         next_row=current_row.next();
         prev_row=current_row.prev();
-        if(next_row.find("td.masv").html()==null) $(".popup_detail img#pnext").hide();
+        if(next_row.find("td.magv").html()==null) $(".popup_detail img#pnext").hide();
         else $(".popup_detail img#pnext").show();
         
-        if(prev_row.find("td.masv").html()==null) $(".popup_detail img#pprev").hide();
+        if(prev_row.find("td.magv").html()==null) $(".popup_detail img#pprev").hide();
         else $(".popup_detail img#pprev").show();
         
         $(".popup_detail #pfooter img#save,.popup_detail #pfooter img#process,.popup_detail #pfooter h4").hide();
          
-         masv=current_row.children("td.masv").html();         
+         magv=current_row.children("td.magv").html();         
          $(".popup_detail#view #ptitle").html("Thông tin chi tiết sinh viên");                    
          $(".popup_detail #pdata").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");                   	           
          $.ajax(
          {
-            url:"/sinhvien/ajax_data",
+            url:"/giaovien/ajax_data",
             type:"POST",
-            data:{masv:masv},
+            data:{magv:magv},
             success:function(result)
             {                
                 $(".popup_detail #pdata").html(result);
@@ -534,7 +529,7 @@ function active_search_interface()
            // alert(khoa+" "+tenkhoa+" "+k+" "+display);
 			$.ajax(
             {
-                url:"/sinhvien/ajax_full_data",
+                url:"/giaovien/ajax_full_data",
                 type:"POST",  
                 data:{khoa:khoa,k:k,limit:display},
                 beforeSend: function()

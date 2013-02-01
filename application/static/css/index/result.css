@@ -1,0 +1,43 @@
+#wrapper #primary #left #content table{border: 1px solid #DCDDDE;border-collapse: collapse;}
+#wrapper #primary #left #content table tr#first{height:30px;background: #DCDDDE;}
+#wrapper #primary #left #content table tr{height:24px;}
+#wrapper #primary #left #content table tr:hover{background-color:#eeecec;}
+#wrapper #primary #left #content table td,
+#wrapper #primary #left #content table th{border-top:1px dashed #DCDDDE;border-right:1px solid #DCDDDE;text-align:center;}
+#wrapper #primary #left #content table td:nth-child(4){text-align:left;}
+#wrapper #primary #left #content table tr td:last-child p{text-decoration: underline;}/*3761FF*/
+#wrapper #primary #left #content table tr td:last-child p:hover{cursor: pointer;color: blue;}
+#wrapper #primary #left #content table th#stt{width:60px;}
+#wrapper #primary #left #content table th#mamh{width:100px;}
+#wrapper #primary #left #content table th#malop{width:100px;}
+#wrapper #primary #left #content table th#tenmh{width:260px;}
+#wrapper #primary #left #content table th#sotc{width:60px;}
+#wrapper #primary #left #content table th#gv{width:260px;}
+#wrapper #primary #left #content table th#thu{width:60px;}
+#wrapper #primary #left #content table th#ca{width:60px;}
+#wrapper #primary #left #content table th#phong{width:80px;}
+#wrapper #primary #left #content #contenttable1 {position: relative;}
+#wrapper #primary #left #content #contenttable1  button {	background: url(../../images/index/blue_bg.jpg) repeat-x;
+										position: absolute;
+										height:30px;
+										padding:5px 20px;
+										display:block;
+										-webkit-border-radius: 5px;
+										-moz-border-radius: 5px;
+										-o-border-radius: 5px;
+										border-radius: 5px;                      
+										-webkit-box-shadow: 2px 2px  6px #646564;
+										-moz-box-shadow: 2px 2px 6px #646564;
+										line-height:20px;
+										text-align:center;
+                                        border:1px dashed #ebebeb;
+                                        width:130px;                                                
+                                        font-size:14px;
+                                        }
+#wrapper #primary #left #content #contenttable1  button:hover{cursor:pointer;color:white;}
+#wrapper #primary #left #content #contenttable1  button#inphieu{	margin:10px 0px 0px 600px;}
+#wrapper #primary #left #content #contenttable1  button#suadk {	margin:10px 0px 0px 740px;}
+
+#wrapper #primary #left #content input#suadk:hover{font-weight:bold;cursor:pointer;color:#fff;}
+
+

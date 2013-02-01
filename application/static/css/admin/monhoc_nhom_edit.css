@@ -1,0 +1,144 @@
+
+/*It uses with almost interface */
+
+#wrapper #data h3{background-color: #e8e9e8;padding:10px 10px;
+                        -webkit-border-top-right-radius: 5px;
+                        -moz-border-top-right-radius: 5px;
+                        -o-border-top-right-radius: 5px;
+                        border-top-right-radius: 5px;
+                        
+                        -webkit-border-top-left-radius: 5px;
+                        -moz-border-top-left-radius: 5px;
+                        -o-border-top-left-radius: 5px;
+                        border-top-left-radius: 5px; 
+                        height:36px;
+                         }
+#wrapper #data #left{float:left;width:168px;
+                     min-height:600px;
+                     border:1px solid #a1a2a1;
+                     -webkit-border-radius: 5px;
+                     -moz-border-radius: 5px;
+                     -o-border-radius: 5px;
+                     border-radius: 5px; 
+                     -webkit-box-shadow: 0 0  8px #646564;
+                     -moz-box-shadow: 0 0  8px #646564;
+                                          
+                     }
+
+
+#wrapper #data #left ul li{margin:2px 0px 10px 0px;}
+#wrapper #data #left ul li a{background: #e8e9e8;padding:8px 10px;display:block;
+                        
+                        }
+#wrapper #data #left ul li a:hover{color: #023bfe;font-weight:bold;}
+#wrapper #data #left ul li a.active{font-weight:bold;color: #023bfe;}
+#wrapper #data #left ul li ul li{margin:5px 0px 0px 20px;}
+#wrapper #data #left ul li ul li a{background:none;padding:0px;border:none;}
+
+#wrapper #data #left ul li ul li a:hover{color: red;font-weight:bold;cursor:pointer;}
+#wrapper #data #left ul li ul li.active a{color:red;font-weight:bold;}
+
+#wrapper #data #right{float:right;width:978px;                                       
+                      
+                      min-height:600px;
+                      -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        border-radius: 5px; 
+                        position:relative;                        
+                        border:1px solid #a1a2a1;
+                        -webkit-box-shadow: 0 0  8px #646564;
+                        -moz-box-shadow: 0 0  8px #646564;
+                      }
+                      
+
+#wrapper #data #right #tool{
+                            position:relative;background-color: #e8e9e8;padding:2px 10px;
+                            height: 19px;
+                            -webkit-border-top-right-radius: 5px;
+                            -moz-border-top-right-radius: 5px;
+                            -o-border-top-right-radius: 5px;
+                            border-top-right-radius: 5px;
+                            
+                            -webkit-border-top-left-radius: 5px;
+                            -moz-border-top-left-radius: 5px;
+                            -o-border-top-left-radius: 5px;
+                            border-top-left-radius: 5px;                            
+                            }
+                        
+                       
+
+#wrapper #data #right #tool p{float:left;font-weight:bold;}
+#wrapper #data #right #tool #action{position: absolute;top:25px;right:10px;z-index:100;}
+#wrapper #data #right #tool #action img#del{visibility: hidden;}
+#wrapper #data #right #tool #search{position: absolute;top:33px;left:0px;width:220px;height:22px;
+                                    background: url("../../images/search_bg.jpg");z-index:100;}
+#wrapper #data #right #tool #search input{width:180px;height:18px;border:none;margin:2px 5px;}
+#wrapper #data #right #tool #search #submit{width:32px;height:32px;position:absolute;top:-8px;left:186px;}
+#wrapper #data #right #tool img:hover{cursor:pointer;}
+
+#wrapper #data #right #detail {float:right;margin-right: 100px;font-weight: bold;}
+#wrapper #data #right #detail select:hover{cursor:pointer;}
+#wrapper #data #right #detail span{margin:0px 10px;}                      
+
+#wrapper #data #right button{padding:2px 10px;}                        
+                       
+
+
+#wrapper #data #right #content{position:relative;overflow:auto;margin:0px 0px;}
+#wrapper #data #right #content table{border-collapse: collapse;}
+#wrapper #data #right #content table tr{height:30px;}
+
+#wrapper #data #right #content table th{background: #e8e9e8;}
+#wrapper #data #right #content table th,
+#wrapper #data #right #content table td{border:1px solid #e8e9e8;}
+
+
+#wrapper #data #right #content #thongtin{background: #e8e9e8;width:100%;}
+
+#wrapper #data #right #content #thongtin td#manhom{width:200px;}
+#wrapper #data #right #content #thongtin td#tennhom{width:300px;}
+#wrapper #data #right #content #thongtin td#somon{width:100px;}
+#wrapper #data #right #content #thongtin td#action{text-align:right;}
+#wrapper #data #right #content #thongtin td#action button{  margin-left:10px;padding:3px 15px;}
+
+
+#wrapper #data #right #content #chuongtrinh{margin:2px 0px 0px 0px;min-height:120px;}
+#wrapper #data #right #content #chuongtrinh table{width:100%;}
+#wrapper #data #right #content #chuongtrinh td{text-align:center;}
+#wrapper #data #right #content #chuongtrinh th#action{width:100px;}
+#wrapper #data #right #content #chuongtrinh th#mamh{width:120px;}
+#wrapper #data #right #content #chuongtrinh th#tenmh{width:270px;}
+#wrapper #data #right #content #chuongtrinh th#sotc{width:100px;}
+#wrapper #data #right #content #chuongtrinh th#tclt{width:100px;}
+#wrapper #data #right #content #chuongtrinh th#tcth{width:100px;}
+#wrapper #data #right #content #chuongtrinh tr:hover{background:#bdf7f5;}
+#wrapper #data #right #content #save{width:100%;margin:0px;}
+
+
+#wrapper #data #right #content #danhsachmonhoc{margin:5px 0px 2px 0px;}
+#wrapper #data #right #content #danhsachmonhoc table{width:100%;}
+#wrapper #data #right #content #danhsachmonhoc table#fixed button{padding:4px 10px;}
+#wrapper #data #right #content #danhsachmonhoc table#main tr#first{height:0px;}
+
+#wrapper #data #right #content #danhsachmonhoc td{text-align:center;}
+#wrapper #data #right #content #danhsachmonhoc th#caption{font-size: 16px;text-align:left;}
+#wrapper #data #right #content #danhsachmonhoc th#button{text-align:right;}
+#wrapper #data #right #content #danhsachmonhoc th#action{width:100px;}
+#wrapper #data #right #content #danhsachmonhoc th#mamh{width:150px;}
+#wrapper #data #right #content #danhsachmonhoc th#tenmh{width:250px;}
+#wrapper #data #right #content #danhsachmonhoc th#sotc{width:100px;}
+#wrapper #data #right #content #danhsachmonhoc th#tclt{width:100px;}
+#wrapper #data #right #content #danhsachmonhoc th#tcth{width:100px;}
+#wrapper #data #right #content #danhsachmonhoc tr:hover{background:#bdf7f5;}
+
+
+#wrapper #data #right #content #message{position:fixed;top:40%;right:2%;display:none;}
+#wrapper #data #right #content #message span{font-size:16px;color:green;}
+
+
+#wrapper #data #right #save{position:relative;margin:10px 0px;width:626px;overflow:auto;}
+#wrapper #data #right #save img{float:right;} 
+#wrapper #data #right #save img:hover{cursor:pointer;}
+.popup_detail#view {width:900px;top:5%;left:20%;}
+.popup_detail#export {width:900px;top:5%;left:20%;}                        

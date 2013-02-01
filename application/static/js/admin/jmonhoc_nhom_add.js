@@ -2,32 +2,22 @@ $(document).ready(function()
 {       
     
     $("#action img#create").click(function()
-    {      
-        key="";
-        kieumh=$("table.info  select#kieumh").val();
+    {   
         mamh=$("table.info #mamh").val();
         tenmh=$("table.info  input#tenmh").val();
-        sotc=$("table.info  input#sotc").val();
-        tclt=$("table.info  input#tclt").val();
-        tcth=$("table.info  input#tcth").val();
-        loai=$("table.info  select#loai").val();
-        
         
         enable_footer(0,0);       
         $.ajax(
          {
-            url:"/monhoc/ajax_insert",
+            url:"/monhoc/ajax_insert_monhoc_nhom",
             type:"POST",
-            data:{key:key,mamh:mamh,tenmh:tenmh,sotc:sotc,tclt:tclt,tcth:tcth,loai:loai,kieumh:kieumh},
+            data:{mamh:mamh,tenmh:tenmh},
             success:function(result)
             {   
-                //alert(result);
+                
                 if(result=="success")
                 {
-                    $("#right #message span").html("Tạo môn học "+tenmh+" thành công");
-                    $("#right #message").fadeIn(500).fadeOut(2500);
-                    clear_form();
-                    enable_footer(2,0); 
+                    window.location.assign("/quanly/monhoc/mon-hoc-nhom");
                 }
                 else
                 {
@@ -43,26 +33,6 @@ $(document).ready(function()
     });//end save action
     
     
-    $("select#kieumh").live("change",function()
-        {
-            
-            kieumh=$(this).val();
-            
-            mamh=$("#mamh").html();
-           // alert(kieumh+" "+mamh);
-            
-            $.ajax({
-                 url:"/monhoc/ajax_mamh",
-                        type:"POST",
-                        data:{kieumh:kieumh,mamh:mamh},
-                        success: function(result)
-                        {
-                            $("td#mamh_change").html(result);
-                        }
-            });//end ajax
-            
-            
-        });
         
         
     $("table.info select").live("change",function()
