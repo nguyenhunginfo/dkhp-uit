@@ -39,10 +39,13 @@
 */
 
 $route['default_controller'] = "welcome";
-$route['404_override'] = '';
-$route['dang-ky-hoc-phan']='index/login';
+$route['dang-ki-hoc-phan']='index/toVindex';
+$route['ket-qua']='index/toVresult';
+$route['thoi-khoa-bieu']='tkb';
 $route['login']='welcome';
 $route['logout']='index/logout';
+$route['404_override'] = '';
+
 $route['quanly/sinhvien']='sinhvien/index';
 $route['quanly/sinhvien/them-sinh-vien']='sinhvien/themsv';
 $route['quanly/sinhvien/them-sinh-vien/(:any)']='sinhvien/themsv/$1';
@@ -50,35 +53,65 @@ $route['quanly/sinhvien/nhap-du-lieu']='sinhvien/nhapdl';
 $route['quanly/sinhvien/nhap-du-lieu/(:any)']='sinhvien/nhapdl/$1';
 $route['quanly/sinhvien/xuat-du-lieu']='sinhvien/xuatdl';
 $route['quanly/sinhvien/thongke']='sinhvien/thongke';
-$route['quanly/sinhvien/test']='sinhvien/test';
 $route['quanly/sinhvien/(:any)']='sinhvien/index/$1';
 $route['sinhvien']='';
 
+$route['quanly/giaovien']='giaovien/index';
+$route['quanly/giaovien/them-giao-vien']='giaovien/themgv';
+$route['quanly/giaovien/nhap-du-lieu']='giaovien/nhapdl';
+$route['quanly/giaovien/lich-giang-day']='giaovien/lich_giang_day';
+$route['quanly/giaovien/thoi-khoa-bieu/(:any)']='giaovien/tkb/$1';
+$route['quanly/giaovien/xuat-du-lieu']='giaovien/xuatdl';
+$route['quanly/giaovien/thongke']='giaovien/thongke';
+$route['giaovien']='';
+
 $route['quanly/monhoc']='monhoc/index';
 $route['quanly/monhoc/them-mon-hoc']='monhoc/themmh';
+$route['quanly/monhoc/mon-hoc-nhom']='monhoc/monhocnhom';
+$route['quanly/monhoc/mon-hoc-nhom/them']='monhoc/them_nhom_monhoc';
+$route['quanly/monhoc/mon-hoc-nhom/dieu-chinh/(:any)']='monhoc/dieuchinhnhom/$1';
+$route['quanly/monhoc/mon-hoc-nhom/(:any)']='monhoc/monhocnhom/$1';
+$route['quanly/monhoc/tuong-duong']='monhoc/monhoctuongduong';
 $route['quanly/monhoc/them-mon-hoc/(:any)']='monhoc/themmh/$1';
 $route['quanly/monhoc/nhap-du-lieu']='monhoc/nhapdl';
 $route['quanly/monhoc/thong-ke']='monhoc/thongke';
 $route['quanly/monhoc/(:any)']='monhoc/index/$1';
 
 $route['quanly/lop']='lop/index';
+$route['quanly/lop/lop-da-mo']='lop/index';
 $route['quanly/lop/ly-thuyet']='lop/index/lt';
 $route['quanly/lop/thuc-hanh']='lop/index/th';
+$route['quanly/lop/lop-de-nghi']='lop/denghi';
 $route['quanly/lop/them-lop']='lop/themlop';
 $route['quanly/lop/them-lop/lt']='lop/themlop/lt';
 $route['quanly/lop/them-lop/th']='lop/themlop/th';
-
+$route['quanly/lop/danh-sach/(:any)']='lop/danh_sach/$1';
 $route['quanly/lop/nhap-du-lieu']='lop/nhapdl';
 $route['quanly/lop/nhap-du-lieu/lt']='lop/nhapdl/lt';
 $route['quanly/lop/nhap-du-lieu/th']='lop/nhapdl/th';
 $route['quanly/lop/lich-giang-day']='lop/lichgiangday';
-
+$route['quanly/lop/thong-ke']='lop/thongke';
 
 
 $route['quanly/giaovien']='giaovien/index';
 $route['giaovien']='';
 
+$route['quanly/chuong-trinh-dao-tao']='ctdt/index';
+$route['quanly/chuong-trinh-dao-tao/dieu-chinh-chuyen-nganh/(:any)']='ctdt/dieuchinhchuyennganh/$1';
 
+$route['quanly/chuong-trinh-dao-tao/them']='ctdt/themctdt';
+$route['quanly/chuong-trinh-dao-tao/them/(:any)']='ctdt/themctdt/$1';
+$route['quanly/chuong-trinh-dao-tao/them/(:any)/(:any)']='ctdt/themctdt/$1/$2';
+$route['quanly/chuong-trinh-dao-tao/saochep']='ctdt/saochepctdt';
+$route['quanly/chuong-trinh-dao-tao/saochep/(:any)/(:any)']='ctdt/saochepctdt/$1/$2';
+$route['quanly/chuong-trinh-dao-tao/dieu-chinh/(:any)/(:any)']='ctdt/dieuchinh/$1/$2';
+$route['quanly/chuong-trinh-dao-tao/xoa/(:any)/(:any)']='ctdt/xoa_hocky/$1/$2';
+$route['quanly/chuong-trinh-dao-tao/nhap-du-lieu']='ctdt/nhapdl';
+$route['quanly/chuong-trinh-dao-tao/nhap-du-lieu/(:any)']='ctdt/nhapdl/$1';
+$route['quanly/chuong-trinh-dao-tao/xuat-du-lieu']='ctdt/xuatdl';
+$route['quanly/chuong-trinh-dao-tao/thongke']='ctdt/thongke';
+$route['quanly/chuong-trinh-dao-tao/(:any)/(:any)']='ctdt/detail/$1/$2';
+$route['quanly/chuong-trinh-dao-tao/(:any)']='ctdt/index/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
