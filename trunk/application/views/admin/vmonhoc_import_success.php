@@ -91,12 +91,12 @@
 #wrapper #data #data_checking  table tr.active,
 #wrapper #data #data_checking  table tr:hover{background:#bdf7f5;}  
 #wrapper #data #data_checking  table th#im_success{width:50px;}
-#wrapper #data #data_checking  table th#mamh{width:150px;}
-#wrapper #data #data_checking  table th#tenmh{width:250px;}
-#wrapper #data #data_checking  table th#sotc{width:120px;}
-#wrapper #data #data_checking  table th#tclt{width:120px;}
-#wrapper #data #data_checking  table th#tcth{width:120px;}
-#wrapper #data #data_checking  table th#loai{width:120px;}
+#wrapper #data #data_checking  table th#mamh{width:100px;}
+#wrapper #data #data_checking  table th#tenmh{width:260px;}
+#wrapper #data #data_checking  table th#sotc{width:100px;}
+#wrapper #data #data_checking  table th#tclt{width:100px;}
+#wrapper #data #data_checking  table th#tcth{width:100px;}
+#wrapper #data #data_checking  table th#loai{width:150px;}
 </style>
 <body>
 <div id="wrapper">
@@ -115,27 +115,32 @@
            
         <div id="data">  
             <div id="left">
-                <h3>Quản lý môn học</h3>
-                <ul>
-                <li><a  href="/quanly/monhoc">Danh sách môn học</a>
-                <?php
-                    $num_tatca=$this->mmonhoc->get_num_rows("","tatca");
-                    $num_DC=$this->mmonhoc->get_num_rows("","DC");
-                    $num_CN=$this->mmonhoc->get_num_rows("","CN");
-                    echo "<ul>";            
-                        echo "<li id='tatca'  > <a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
-                        echo "<li id='DC'  >    <a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
-                        echo "<li id='CN'  >    <a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
-                    echo "</ul>";
-            
-                ?>        
-                </li>
-                <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
-                <li><a href="/quanly/monhoc/nhap-du-lieu" class="active">Nhập dữ liệu</a></li>        
-                <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>
-                
+            <h3>Quản lý môn học</h3>
+            <ul>
+            <li><a  href="/quanly/monhoc">Danh sách môn học</a>
+            <?php
+                $num_tatca=$this->mmonhoc->get_num_rows("","tatca");            
+                echo "<ul>";
+               
+               echo "<li id='tatca'  ><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
+                foreach($loai_monhoc_result as $row)
+                {
+                    $maloai=$row->MaLoai;
+                    $tenloai=$row->TenLoai;
+                    $num=$this->mmonhoc->get_num_rows("",$maloai);
                     
-                </ul>
+                    echo "<li id='$maloai'><a href='/quanly/monhoc/$maloai'>$tenloai($num)</a></li>";
+                }
+                echo "</ul>";
+            ?>        
+            </li>
+            <li><a href="/quanly/monhoc/mon-hoc-nhom" title="Danh sách nhóm môn học">Nhóm môn học</a>
+            <li><a href="/quanly/monhoc/tuong-duong" title="Môn học tương đương(thay thế)">MH tương đương</a>
+            <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
+            <li><a class="active" href="/quanly/monhoc/nhap-du-lieu">Nhập dữ liệu</a></li>        
+            <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>          
+                
+            </ul>
             </div><!--end #left -->
             
             <div id="right"> 
@@ -158,7 +163,8 @@
                                 <th id='sotc'>Số Tín Chỉ</th>
                                 <th id='tclt'>Tín Chỉ LT</th>
                                 <th id='tcth'>Tín Chỉ TH</th>
-                                <th id='loai'>Loại Môn</th>                                
+                                <th id='loai'>Loại Môn Học</th>
+                                <th id='kieumh'>Kiểu Môn Học</th>
                                 </tr>";
                                 
                                 foreach($success_data as $row)
@@ -166,12 +172,35 @@
                                     
                                     echo "<tr class='success'>";
                                     echo "<td class='im_success'><img title='Đã thêm thành công' src='".static_url()."/images/tick.png' alt='OK' /></td>";                           
-                                    echo "<td class='mamh'>".$row["MaMH"]."</td>";
-                                    echo "<td class='tenmh' style='text-align:left' >".$row["TenMH"]."</td>";                            
-                                    echo "<td class='sotc'>".$row["SoTC"]."</td>";
-                                    echo "<td class='tclt'>".$row["TCLT"]."</td>";
-                                    echo "<td class='tcth'>".$row["TCTH"]."</td>";
-                                    echo "<td class='loai'>".$row["Loai"]."</td>";                                    
+                                    
+                                    echo "<td>".$row["MaMH"]."</td>";
+                                    echo "<td style='text-align:left' >".$row["TenMH"]."</td>";                            
+                                    echo "<td>".$row["SoTC"]."</td>";
+                                    echo "<td>".$row["TCLT"]."</td>";
+                                    echo "<td>".$row["TCTH"]."</td>";
+                                    
+                                    $maloai=$row["Loai"];
+                                    $tenloai="";
+                                    switch($maloai)
+                                    {
+                                        case "DC":$tenloai="Đại Cương";break;
+                                        case "CN":$tenloai="Chuyên Nghành";break;
+                                        case "CSN":$tenloai="Cơ Sở Nghành";break;
+                                        case "TC":$tenloai="Tự Chọn";break;
+                                        
+                                    }
+                                    echo "<td>$tenloai</td>";
+                                    
+                                    $kieumh=$row["KieuMH"];
+                                    $ten_kieumh="";
+                                    switch($kieumh)
+                                    {
+                                        case "DON":$ten_kieumh="Đơn";break;
+                                        case "NHOM":$ten_kieumh="Nhóm";break;
+                                                                               
+                                    }
+                                    
+                                    echo "<td>$ten_kieumh</td>";                                     
                                     echo "</tr>";
                                     
                                 }

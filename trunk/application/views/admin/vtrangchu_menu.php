@@ -5,20 +5,28 @@
 		<li class="top" ><a href="/quanly" title="Quản lý hệ thống">Quản lý&nbsp; &nbsp; <img src="<?php echo static_url(); ?>/images/arrow-down.png" /></a>
       	<ul>
 				<li><a href="/quanly/sinhvien">Sinh viên &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &#187;</a>
-                <ul>    
-                    <li><a href="/quanly/sinhvien/MMT" title="Khoa mạng máy tính">Khoa MMT</a></li>							
-					<li><a href="/quanly/sinhvien/CNPM" title="Khoa công nghệ phần mềm">Khoa CNPM</a></li>		
-                    <li><a href="/quanly/sinhvien/HTTT" title="Khoa hệ thống thông tin">Khoa HTTT</a></li>
-                    <li><a href="/quanly/sinhvien/KTMT" title="Khoa kỹ thuật máy tính">Khoa KTMT</a></li>		
-                    <li><a href="/quanly/sinhvien/KHMT" title="Khoa khoa học máy tính">Khoa KHMT</a></li>				
-				</ul>
+                <?php
+                echo "<ul>";
+                foreach($khoa_result as $khoa_row)
+                {
+                    $makhoa=$khoa_row->MaKhoa;
+                    $ten_khoa=$khoa_row->TenKhoa;
+                    echo "<li><a href='/quanly/sinhvien/$makhoa' title='$ten_khoa'>Khoa $makhoa</a></li>";
+                }
+                echo "</ul>"; 
+                
+                ?>
                 </li>
 				<li><a href="/quanly/giaovien">Giáo viên</a>					
 				</li>
                 <li><a href="/quanly/monhoc">Môn học &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &#187;</a>
-                 <ul>
-						<li><a href="/quanly/monhoc/DC" title="Môn học đại cương">Đại Cương</a></li>							
-					    <li><a href="/quanly/monhoc/CN" title="Môn học chuyên nghành">Chuyên Nghành</a></li>
+                <ul>
+						<li><a href="/quanly/monhoc/DC" title="Môn học đại cương">Đại Cương</a></li>
+                        <li><a href="/quanly/monhoc/CSN" title="Môn học cơ sở ngành">Cơ Sở Ngành</a></li>							
+					    <li><a href="/quanly/monhoc/CN" title="Môn học chuyên ngành">Chuyên Ngành</a></li>
+                        <li><a href="/quanly/monhoc/TC" title="Môn học tự chọn">Tự Chọn</a></li>
+                        <li><a href="/quanly/monhoc/tuong-duong" title="Môn học tương đương">Tương đương</a></li>
+                       <li><a href="/quanly/monhoc/mon-hoc-nhom" title="Môn học nhóm">Môn Học Nhóm</a></li>
 				</ul>
                 </li>
                 <li><a href="/quanly/lophoc">Lớp học &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &#187;</a>
@@ -29,22 +37,30 @@
 				</ul>
                 </li>                
                 <li><a href="/quanly/he-thong-diem">Hệ thống điểm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&#187;</a>
-                <ul>
-						<li><a href="/quanly/he-thong-diem/mmt" title="Khoa mạng máy tính">Khoa MMT</a></li>							
-					    <li><a href="/quanly/he-thong-diem/cnpm" title="Khoa công nghệ phần mềm">Khoa CNPM</a></li>		
-                        <li><a href="/quanly/he-thong-diem/httt" title="Khoa hệ thống thông tin">Khoa HTTT</a></li>
-                        <li><a href="/quanly/he-thong-diem/ktmt" title="Khoa kỹ thuật máy tính">Khoa KTMT</a></li>		
-                        <li><a href="/quanly/he-thong-diem/khmt" title="Khoa khoa học máy tính">Khoa KHMT</a></li>				
-				</ul>
+                <?php
+                echo "<ul>";
+                foreach($khoa_result as $khoa_row)
+                {
+                    $makhoa=$khoa_row->MaKhoa;
+                    $ten_khoa=$khoa_row->TenKhoa;
+                    echo "<li><a href='/quanly/he-thong-diem/$makhoa' title='$ten_khoa'>Khoa $makhoa</a></li>";
+                }
+                echo "</ul>"; 
+                
+                ?>
                 </li>
                 <li><a href="/quanly/chuong-trinh-dao-tao">Chương trình đào tạo &nbsp; &nbsp;&nbsp;&#187;</a>
-                <ul>
-						<li><a href="/quanly/chuong-trinh-dao-tao/mmt" title="Khoa mạng máy tính">Khoa MMT</a></li>							
-					    <li><a href="/quanly/chuong-trinh-dao-tao/cnpm" title="Khoa công nghệ phần mềm">Khoa CNPM</a></li>		
-                        <li><a href="/quanly/chuong-trinh-dao-tao/httt" title="Khoa hệ thống thông tin">Khoa HTTT</a></li>
-                        <li><a href="/quanly/chuong-trinh-dao-tao/ktmt" title="Khoa kỹ thuật máy tính">Khoa KTMT</a></li>		
-                        <li><a href="/quanly/chuong-trinh-dao-tao/khmt" title="Khoa khoa học máy tính">Khoa KHMT</a></li>				
-				</ul>
+                <?php
+                echo "<ul>";
+                foreach($khoa_result as $khoa_row)
+                {
+                    $makhoa=$khoa_row->MaKhoa;
+                    $ten_khoa=$khoa_row->TenKhoa;
+                    echo "<li><a href='/quanly/chuong-trinh-dao-tao/$makhoa' title='$ten_khoa'>Khoa $makhoa</a></li>";
+                }
+                echo "</ul>"; 
+                
+                ?>
                 </li>
 		</ul>		
 		</li><!--end li quan ly -->

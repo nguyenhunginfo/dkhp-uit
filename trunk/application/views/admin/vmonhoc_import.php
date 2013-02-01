@@ -32,27 +32,32 @@
            
         <div id="data">  
             <div id="left">
-                <h3>Quản lý môn học</h3>
-                <ul>
-                <li><a  href="/quanly/monhoc">Danh sách môn học</a>
-                <?php
-                    $num_tatca=$this->mmonhoc->get_num_rows("","tatca");
-                    $num_DC=$this->mmonhoc->get_num_rows("","DC");
-                    $num_CN=$this->mmonhoc->get_num_rows("","CN");
-                    echo "<ul>";            
-                        echo "<li id='tatca'  > <a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
-                        echo "<li id='DC'  >    <a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
-                        echo "<li id='CN'  >    <a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
-                    echo "</ul>";
-            
-                ?>        
-                </li>
-                <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
-                <li><a href="/quanly/monhoc/nhap-du-lieu" class="active">Nhập dữ liệu</a></li>        
-                <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>
-                
+            <h3>Quản lý môn học</h3>
+            <ul>
+            <li><a  href="/quanly/monhoc">Danh sách môn học</a>
+            <?php
+                $num_tatca=$this->mmonhoc->get_num_rows("","tatca");            
+                echo "<ul>";
+               
+               echo "<li id='tatca'  ><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
+                foreach($loai_monhoc_result as $row)
+                {
+                    $maloai=$row->MaLoai;
+                    $tenloai=$row->TenLoai;
+                    $num=$this->mmonhoc->get_num_rows("",$maloai);
                     
-                </ul>
+                    echo "<li id='$maloai'><a href='/quanly/monhoc/$maloai'>$tenloai($num)</a></li>";
+                }
+                echo "</ul>";
+            ?>        
+            </li>
+            <li><a href="/quanly/monhoc/mon-hoc-nhom" title="Danh sách nhóm môn học">Nhóm môn học</a>
+            <li><a href="/quanly/monhoc/tuong-duong" title="Môn học tương đương(thay thế)">MH tương đương</a>
+            <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
+            <li><a class="active" href="/quanly/monhoc/nhap-du-lieu">Nhập dữ liệu</a></li>        
+            <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>          
+                
+            </ul>
             </div><!--end #left -->
             <div id="right"> 
                 <form method="post" action="/quanly/monhoc/nhap-du-lieu" enctype="multipart/form-data">

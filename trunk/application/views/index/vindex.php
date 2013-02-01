@@ -41,22 +41,6 @@
 					$("#" + id).show();
 				}
 			});
-			
-			$("#contenttable tr td p.denghi").live("click", function(e)
-			{
-				var c = confirm("Tên bạn sẽ được thêm vào lớp này nếu được mở.");
-				if(c == false)
-				{
-					return;
-				}
-				var p = $(this);
-				var td = p.parents("td");
-				var MaMH = td.attr("class");
-				var dn = $("#denghi").val();
-				$("#denghi").val(dn + " " + MaMH);
-				p.removeClass("denghi");
-				p.html("đã lưu thao tác");
-			});
 	
 			$("#btn_changepass").click(function(e)
 			{
@@ -112,6 +96,44 @@
 	
 	<div id="popup">
 	</div><!-- end #popup -->
+	<div id="monnhom">
+		<div id="monnhomajax">
+			<div id='mntop' >
+				<div id="topQTPT" class="mnshow">Quản trị&phát triển ứng dụng mạng</div>
+				<div id="topTTAN" class="mnnormal">Truyền thông& an ninh mạng</div>
+				<div class="mnhide">Truyền thông& an ninh mạng</div>
+			</div>
+			<div id='mncontent' >
+				<div id="contentQTPT" class="divmnshow">
+					<table class='th' cellspacing='0'>
+						<tr>
+							<th>Mã lớp</th>
+							<th>Tên môn học</th>
+							<th>Tên giáo viên</th>
+							<th>Thứ</th>
+							<th>Ca</th>
+							<th>Phòng</th>
+							<th>Min</th>
+							<th>Max</th>
+							<th>SLHT</th>
+							<td></td>
+						</tr>
+						<tr>
+							<td>dđ</td>
+						</tr>
+					</table>
+				</div>
+				<div id="contentTTAN" class="divmnnormal">Truyền thông& an ninh mạng</div>
+				<div class="divmnhide">Truyền thông& an ninh mạng</div>
+			</div>
+		</div>
+		<div class="selectMN">
+		</div>
+		<div id='mnbottom' >
+			<p>*Chú ý: chọn 1 trong các lớp do phòng đào tạo mở</p>
+			<p>*Đối với môn có tín chỉ thực hành thì phải đăng ký kèm theo tín  chỉ thực hành</p>
+		</div>
+	</div>
 	<?php
 		foreach ($loplt->result() as $row)
 		{
@@ -157,7 +179,7 @@
                 <ul>
                     <li id="dkhp">   <a href="#" class="active">Đăng Ký Học Phần</a></li>
                     <li id="hd">     <a href="#">Hướng Dẫn</a></li>
-                    <li id="inphieu"><a href="#">In Phiếu</a></li>
+                    <li id="vekq"><a href="<?php echo base_url()."ket-qua"; ?>">In Phiếu</a></li>
                 </ul>
             </div><!-- end #menu -->
         
@@ -217,19 +239,29 @@
 										}
 									}
 								}
-								if($full <= 0)
+								if($row->KieuMH == "NHOM")
 								{
-									echo "<tr class='lopmo'><td>";
+									if(substr_count($group ,$row->ID) > 0)
+										echo "<tr class='lopmo'><td>";
+									else 
+										echo "<tr><td>";
 								}
 								else
 								{
-									if($full < 200)
+									if($full <= 0)
 									{
-										echo "<tr class='lopday'><td>";
+										echo "<tr class='lopmo'><td>";
 									}
 									else
 									{
-										echo "<tr><td>";
+										if($full < 200)
+										{
+											echo "<tr class='lopday'><td>";
+										}
+										else
+										{
+											echo "<tr><td>";
+										}
 									}
 								}
 								echo $row->HK;
@@ -246,47 +278,83 @@
 								echo "</td><td>";
 								echo $row->Diem;
 								echo "</td><td>";
-								if($full <= 0)
+								if($row->KieuMH == "NHOM")
 								{
-									echo "lớp mở</td>";
+									if(substr_count($group ,$row->ID) > 0)
+										echo "lớp mở</td>";
+									else 
+										echo "</td>";
 								}
 								else
 								{
-									if($full < 200)
+									if($full <= 0)
 									{
-										echo "lớp đầy</td>";
+										echo "lớp mở</td>";
 									}
 									else
 									{
-										echo "</td>";
+										if($full < 200)
+										{
+											echo "lớp đầy</td>";
+										}
+										else
+										{
+											echo "</td>";
+										}
 									}
 								}
-								if($dk >= 200)
+								if($row->KieuMH == "NHOM")
 								{
-									echo "<td><p id='showdiv".$row->MaMH."' class = 'show'>".$lop."</p></td></tr>";
+									$tclass = "showmtc";
+									$lop = "";
+									if($row->Loai != "TC")
+										$tclass = 'showmcn';
+									foreach ($lopcn->result() as $row2)
+									{
+										if($row->ID == $row2->ID)
+										{
+											$lop = $lop.$row2->MaLop;
+											break;
+										}
+									}
+									if($lop != "")
+									{
+										echo "<td><p id='nhom".$row->ID."' title ='".$row->MaMH."' class = '$tclass'>$lop</p></td></tr>";
+									}
+									else
+									{
+										echo "<td><p id='nhom".$row->ID."' title='".$row->MaMH."' class = '$tclass'>Chọn lớp</p></td></tr>";
+									}
 								}
 								else
 								{
-									if($dk != 0)
+									if($dk >= 200)
 									{
-										if($full <= 0)
-											echo "<td><p id='showdiv".$row->MaMH."' class = 'show'>Chọn lớp</p></td></tr>";
+										echo "<td><p id='showdiv".$row->MaMH."' class = 'show'>".$lop."</p></td></tr>";
+									}
+									else
+									{
+										if($dk != 0)
+										{
+											if($full <= 0)
+												echo "<td><p id='showdiv".$row->MaMH."' class = 'show'>Chọn lớp</p></td></tr>";
+											else
+												if(strpos($lopdn, $row->MaMH) != null)
+												{
+													echo "<td>đã đề nghị mở</td></tr>";
+												}
+												else
+													echo "<td class='".$row->MaMH."'><p class = 'denghi'>đề nghị mở<p></td></tr>";
+										}
 										else
+										{
 											if(strpos($lopdn, $row->MaMH) != null)
 											{
 												echo "<td>đã đề nghị mở</td></tr>";
 											}
 											else
 												echo "<td class='".$row->MaMH."'><p class = 'denghi'>đề nghị mở<p></td></tr>";
-									}
-									else
-									{
-										if(strpos($lopdn, $row->MaMH) != null)
-										{
-											echo "<td>đã đề nghị mở</td></tr>";
 										}
-										else
-											echo "<td class='".$row->MaMH."'><p class = 'denghi'>đề nghị mở<p></td></tr>";
 									}
 								}
 							}
@@ -303,7 +371,7 @@
 						<input type="hidden" name="MSSV" value="<?php echo $MSSV; ?>" />
 						<input type="hidden" id="denghi" name="denghi" value="" />
 						<input type="hidden" id="DKHP" name="DKHP" value="<?php echo $lopdk; ?>" />
-						<input id="dangky" type="submit" value="Đăng ký" />
+						<a id="dangky" href="<?php echo base_url()."ket-qua"; ?>">Kết quả</a>
 					</form>
 				</div><!-- end #form -->
 				
@@ -338,6 +406,7 @@
 													break;
 											}
 										?></span></strong></p>
+					<span id="MaCN" style="display: none;"><? echo $MaCN; ?></span>
                     <p><a id="showchangepass" >Đổi mật khẩu</a></p>
                 </div>
             </div>
@@ -442,11 +511,13 @@
 							<?php
 								foreach($MonDK->result() as $row)
 								{
-									echo "<li id='mondk".$row->Malop."'>".$row->TenMH."</li>";
+									echo "<li id='mondk".$row->MaMH."'>".$row->TenMH."</li>";
 								}
 							?>
 						</ol>
+						
                     </div><!-- end #lietkedk -->
+					<p>Số tín chỉ: <span id = "stc" ><? echo $sotc; ?></span>/<span id = "tctd" ><? echo $TCTD; ?></span></p>
             </div><!-- end #mondadk -->
                 
 			</div><!-- end #right -->

@@ -37,7 +37,7 @@
     </div>      
     <div id="formlogin">
         <img id="close" title="Đóng" src="<?php echo static_url(); ?>/images/close.png" />
-		<form method="post" action="<?php echo base_url(); ?>dang-ky-hoc-phan">
+		<form method="post" action="<?php echo base_url(); ?>index/login">
         <table>
         <tr><td>Mã số tài khoản</td></tr>
         <tr><td><input type="text" name="username" value="" id="username" /></td></tr>
