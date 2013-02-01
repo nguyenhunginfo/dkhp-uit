@@ -114,8 +114,8 @@ class Lop extends CI_Controller {
 
         $malop=$this->input->post("malop");
         $loai=$this->input->post("loai");
-        
-        $data_result=$this->mlop->get_lop_data($malop,$loai);        
+        //echo "$malop $loai";
+        $data_result=$this->mlop->get_lop_data($malop);        
         if(count($data_result)>0)
         {
             foreach($data_result as $row)
