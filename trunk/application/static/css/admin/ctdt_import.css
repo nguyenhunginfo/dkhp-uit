@@ -66,7 +66,8 @@
 #wrapper #data .box{ 
                      margin:5px 10px 0px 10px;
                      position:relative;
-                     min-height:102px;
+                     min-height:150px;
+                     
                      
              }
 
@@ -78,9 +79,10 @@
 
 
 #wrapper #data  .box table td#import_type input{width:20px;}
+#wrapper #data  .box table select{width:300px;font-size:14px;}
 #wrapper #data  .box table input:hover,
-#wrapper #data  .box table select:hover,
-#wrapper #data  .box table textarea:hover{cursor:pointer;}
+#wrapper #data  .box table select:hover{cursor:pointer;}
+
 
 #wrapper #data  .box table.info td:first-child{text-align: right;}
 #wrapper #data  .box table.error td{font-size:14px;}
@@ -101,11 +103,12 @@
 #wrapper #data #data_checking  table tr.active,
 #wrapper #data #data_checking  table tr:hover{background:#bdf7f5;}  
 #wrapper #data #data_checking  table th#im_error{width:50px;}
+#wrapper #data #data_checking  table th#hk{width: 80px;}
 #wrapper #data #data_checking  table th#mamh{width:100px;}
-#wrapper #data #data_checking  table th#tenmh{width:260px;}
-#wrapper #data #data_checking  table th#sotc{width:100px;}
-#wrapper #data #data_checking  table th#tclt{width:100px;}
-#wrapper #data #data_checking  table th#tcth{width:100px;}
+#wrapper #data #data_checking  table th#tenmh{width:240px;}
+#wrapper #data #data_checking  table th#sotc{width:80px;}
+#wrapper #data #data_checking  table th#tclt{width:80px;}
+#wrapper #data #data_checking  table th#tcth{width:80px;}
 #wrapper #data #data_checking  table th#loai{width:150px;}
                  
 #wrapper #data  #action {height: 50px;

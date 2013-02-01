@@ -7,8 +7,9 @@
 #wrapper #primary #left #content table td,
 #wrapper #primary #left #content table th{border-top:1px dashed #DCDDDE;border-right:1px solid #DCDDDE;text-align:center;}
 #wrapper #primary #left #content table td:nth-child(3){text-align:left;}
-#wrapper #primary #left #content table tr td:last-child p{text-decoration: underline;}/*3761FF*/
-#wrapper #primary #left #content table tr td:last-child p:hover{cursor: pointer;color: blue;}
+#wrapper #primary #left #content table tr td:last-child p{color: #3761FF;}/*3761FF*/
+#wrapper #primary #left #content table tr td:last-child p.denghi{opacity:0.5;}
+#wrapper #primary #left #content table tr td:last-child p:hover{cursor: pointer;color: blue;opacity:1;}
 #wrapper #primary #left #content table th#hk{width:60px;}
 #wrapper #primary #left #content table th#mamh{width:100px;}
 #wrapper #primary #left #content table th#tenmh{width:260px;}
@@ -18,7 +19,7 @@
 #wrapper #primary #left #content table th#diem{width:60px;}
 #wrapper #primary #left #content table th#tinhtrang{width:80px;}
 #wrapper #primary #left #content table th#thaotac{width:140px;}
-#wrapper #primary #left #content input#dangky{background: url(../../images/index/blue_bg.jpg) repeat-x;
+#wrapper #primary #left #content a#dangky{background: url(../../images/index/blue_bg.jpg) repeat-x;
                                                   height:30px;
                                                   padding:5px 20px;
                                                   display:block;
@@ -36,7 +37,7 @@
                                                 font-size:14px;
                                                 }
 
-#wrapper #primary #left #content input#dangky:hover{font-weight:bold;cursor:pointer;color:#fff;}
+#wrapper #primary #left #content a#dangky:hover{font-weight:bold;cursor:pointer;color:#fff;}
 
 div.popupdetail{   opacity: 1;
                 top: 50%;
@@ -63,4 +64,33 @@ div.popupdetail div.select{position: absolute;top: 440px;left: 790px;background:
 div.popupdetail div.select:hover{background: url(../../images/index/btnaccept_hover.png) no-repeat;cursor: pointer;}
 div.popupdetail div.note{position: absolute;background-color: #29abfe;top: 440px;height: 60px;width: 100%;}
 div.popupdetail div.note p{font-size: 14px;line-height: 30px;}
-
+div#monnhom {opacity: 1;
+                top: 50%;
+                left: 50%;
+                margin-left: -445px;
+                margin-top: -250px;
+                width: 890px;
+                height: 500px;
+                background-color: white;
+                position: fixed;
+                z-index: 50;
+                box-shadow: 0px 0px 10px #ccc; 
+				cursor:default;
+				display:none;}
+div#monnhom div#mntop{background-color: #29abfe;color: white;height: 53px;text-align:center;}
+div#monnhom div#mntop div.mnshow{height: 49px;float: left;margin-top:5px; margin-left:10px;color: black;width: 240px;font-size:21px;font-weight:bold;background:url(../../images/index/mtcshow_bg.png) no-repeat;cursor:pointer;}
+div#monnhom div#mntop div.mnnormal{height: 47px;float: left;margin-top:5px;margin-left:10px;color: white;width: 240px;font-size:21px;font-weight:bold;cursor:pointer;}
+div#monnhom div#mntop div.mnhide{height: 47px;float: left;margin-top:5px;margin-left:10px;color: #BDBDBD;width: 240px;font-size:21px;font-weight:bold;}
+div#monnhom div#mncontent{margin-top: 30px;}
+div#monnhom div#mncontent div.divmnnormal{display:none;}
+div#monnhom div#mncontent table{margin-left: 20px;width: 810px;text-align: center;}
+div#monnhom div#mncontent table tr{height: 30px;}
+div#monnhom div#mncontent table tr.full{background-color: #FF120A;opacity: .9;}
+div#monnhom div#mncontent table tr td, th{border: 1px solid #DCDDDF;}
+div#monnhom div#mncontent table tr.full td{border-left: none;border-right: none;}
+div#monnhom div#mncontent table tr td:last-child{width: 40px;border: none;background-color: white;}
+div#monnhom div#mncontent table tr td:last-child input[type="checkbox"]{cursor: pointer;}
+div#monnhom div.selectMN{position: absolute;top: 440px;left: 790px;background: url(../../images/index/btnaccept.png) no-repeat;height: 59px;width: 58px;z-index:10;}
+div#monnhom div.selectMN:hover{background: url(../../images/index/btnaccept_hover.png) no-repeat;cursor: pointer;}
+div#monnhom div#mnbottom {position: absolute;background-color: #29abfe;top: 449px;height: 55px;width: 100%;}
+div#monnhom div#mnbottom p{font-size: 14px;font-weight: bold;line-height: 27px;padding-left:20px;}

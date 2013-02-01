@@ -107,15 +107,16 @@ $(document).ready(function()
         current_row=$(this).parent("tr");
         current_row.addClass("active").find(".checkbox_row").attr("checked","checked");
         $("#tool #action").css("visibility","visible");
-        mamh=current_row.children("td.mamh").html();      
-            
+        
+        id=current_row.children("td.mamh").attr("id");
+                
         $(".popup_detail#view #ptitle").html("Thông tin chi tiết môn học");
         open_popup(".popup_detail#view");         	           
          $.ajax(
          {
             url:"/monhoc/ajax_data",
             type:"POST",
-            data:{mamh:mamh},
+            data:{id:id},
             beforeSend:function()
             {
                 $(".popup_detail #pdata").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' alt='Đang tải...' />");
@@ -163,17 +164,16 @@ $(document).ready(function()
      
     //luu sua doi
     $(".popup_detail#view img#save").click(function()
-    {
-        
+    {       
         
         key=$(".popup_detail#view table.info").attr("id");
-        mamh=$(".popup_detail#view input#mamh").val();
+        mamh=$(".popup_detail#view #mamh").val();
         tenmh=$(".popup_detail#view  input#tenmh").val();
         sotc=$(".popup_detail#view  input#sotc").val();
         tclt=$(".popup_detail#view  input#tclt").val();
         tcth=$(".popup_detail#view  input#tcth").val();
         loai=$(".popup_detail#view  select#loai").val();
-       
+        kieumh=$(".popup_detail#view  select#kieumh").val();
        
        
         enable_footer(0,0);       
@@ -181,23 +181,13 @@ $(document).ready(function()
          {
             url:"/monhoc/ajax_update",
             type:"POST",
-            data:{key:key,mamh:mamh,tenmh:tenmh,sotc:sotc,tclt:tclt,tcth:tcth,loai:loai},
+            data:{key:key,mamh:mamh,tenmh:tenmh,sotc:sotc,tclt:tclt,tcth:tcth,loai:loai,kieumh:kieumh},
             success:function(result)
             {   
-                //alert(result);
+                
                 if(result=="success")
                 {
-                   //cap nhat lai bang danh sach
-                   current_row.children("td.mamh").html(mamh);
-                   current_row.children("td.tenmh").html(tenmh);
-                   current_row.children("td.sotc").html(sotc);
-                   current_row.children("td.tclt").html(tclt);
-                   current_row.children("td.tcth").html(tcth);
-                   if(loai=="DC") current_row.children("td.loai").html("Đại Cương");
-                   else current_row.children("td.loai").html("Chuyên Nghành");
-                   
-                   $("#content #message").fadeIn(1000).fadeOut(2000);                   
-                   close_popup();
+                   window.location.reload(true);
                 }
                 else
                 {                  
@@ -217,21 +207,21 @@ $(document).ready(function()
         
         checkbox=$("#table_data").find(":checked");
         count=checkbox.length;
-        mamh_array=new Array();
+        id_array=new Array();
         checkbox.each(function()
         {
-           mamh=$(this).attr("id");
-           mamh_array.push(mamh);
+           id=$(this).attr("id");
+           id_array.push(id);
            
-        });
-        conf=confirm("Nhắc nhở: Bạn có thật sự muốn xóa "+count+" môn học này không?\nDanh sách mã môn học: "+mamh_array ); 
+        });        
+        conf=confirm("Nhắc nhở: Bạn có thật sự muốn xóa "+count+" môn học này không?" ); 
           
         if(conf) 
         {            
             $.ajax({
                         url:"/monhoc/ajax_delete",
                         type:"POST",
-                        data:{mamh_array:mamh_array},
+                        data:{id_array:id_array},
                         success: function(result)
                         {
                             window.location.reload(true);
@@ -306,53 +296,76 @@ $(document).ready(function()
             
             
         });//END EXPORT
+        
         $(".popup_detail#export form").submit(function()
         {          
             close_popup();
         });
+        
+        $(".popup_detail #pdata select#kieumh").live("change",function()
+        {
+            kieumh=$(this).val();
+            mamh=current_row.children("td.mamh").html();
+            //alert(loai+" "+mamh);
+            
+            $.ajax({
+                 url:"/monhoc/ajax_mamh",
+                        type:"POST",
+                        data:{kieumh:kieumh,mamh:mamh},
+                        success: function(result)
+                        {
+                            $("td#mamh_change").html(result);
+                        }
+            });//end ajax
+            
+            
+        });
+        
+        $(".popup_detail #pdata table.info select").live("change",function()
+        {
+            enable_footer(1,0);
+        });
+        $(".popup_detail #pdata table.info input,.popup_detail #pdata table.info textarea").live("keydown",function()
+        {
+            enable_footer(1,0);
+        });
+        
+        
+        
+        //tu dong tinh so tinh chi thuc hanh
+        $(".popup_detail #pdata input#sotc").live("keyup",function()
+        {
+            sotc=$(this).val();
+            tclt=$(".popup_detail #pdata input#tclt").val();
+            if(isNaN(sotc)==false&& isNaN(tclt)==false)
+            {
+                
+                if(sotc-tclt>=0)tcth=sotc-tclt;
+                else tcth="SoTC=TCLT+TCTH";
+                
+                $(".popup_detail #pdata input#tcth").val(tcth);
+            }
+            
+        });
+        
+        $(".popup_detail #pdata input#tclt").live("keyup",function()
+        {
+            sotc=$(".popup_detail #pdata input#sotc").val();
+            tclt=$(this).val();
+            
+            if(isNaN(sotc)==false&& isNaN(tclt)==false)
+            {
+                
+                if(sotc-tclt>=0)tcth=sotc-tclt;
+                else tcth="SoTC=TCLT+TCTH";
+                $(".popup_detail #pdata input#tcth").val(tcth);
+            }
+            
+        });
     
 });//end ready funtion
-$(".popup_detail #pdata table.info select").live("change",function()
-{
-    enable_footer(1,0);
-});
-$(".popup_detail #pdata table.info input,.popup_detail #pdata table.info textarea").live("keydown",function()
-{
-    enable_footer(1,0);
-});
 
 
-
-//tu dong tinh so tinh chi thuc hanh
-$(".popup_detail #pdata input#sotc").live("keyup",function()
-{
-    sotc=$(this).val();
-    tclt=$(".popup_detail #pdata input#tclt").val();
-    if(isNaN(sotc)==false&& isNaN(tclt)==false)
-    {
-        
-        if(sotc-tclt>=0)tcth=sotc-tclt;
-        else tcth="SoTC=TCLT+TCTH";
-        
-        $(".popup_detail #pdata input#tcth").val(tcth);
-    }
-    
-});
-
-$(".popup_detail #pdata input#tclt").live("keyup",function()
-{
-    sotc=$(".popup_detail #pdata input#sotc").val();
-    tclt=$(this).val();
-    
-    if(isNaN(sotc)==false&& isNaN(tclt)==false)
-    {
-        
-        if(sotc-tclt>=0)tcth=sotc-tclt;
-        else tcth="SoTC=TCLT+TCTH";
-        $(".popup_detail #pdata input#tcth").val(tcth);
-    }
-    
-});
 function active_search_interface()
 {
     $("#right #tool p#data_title").html("Kết quả tìm kiếm");

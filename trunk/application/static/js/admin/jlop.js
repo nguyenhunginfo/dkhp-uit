@@ -159,6 +159,8 @@ $(document).ready(function()
         $("#tool #action").css("visibility","visible");
         malop=current_row.children("td.malop").html();      
         loai=$("#data #left li li.active").attr("id");
+        if(loai==undefined) loai="";
+        
         $(".popup_detail#view #ptitle").html("Thông tin chi tiết lớp");
         open_popup(".popup_detail#view");         	           
          $.ajax(

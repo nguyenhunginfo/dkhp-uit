@@ -1,282 +1,139 @@
 $(document).ready(function()
 {
     
-    //chang k and load data again
-    $("#tool select#k").change(function()
-    {
-        var k=$(this).val();        
-        var khoa=$("#data #left li li.active").attr("id");
-        var display=parseInt($("select#view_num").val());//hien thi bao nhiu?
-        var search=$("#search form").children().val();
-        
-        $.ajax(
-        {
-            url:"/sinhvien/ajax_full_data",
-            type:"POST",  
-            data:{search:search,khoa:khoa,k:k,limit:display},
-            timeout: 10000,//10s
-            beforeSend: function()
-                {
-                    $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                },
-            error: function (xhr, ajaxOptions, thrownError) {
-                $("#content #change_data").html("Dữ liệu bị lỗi");
-               
-            },             
-            success:function(result)
-            {                
-                $("#content #change_data").html(result);
-            }
-        });
-        $("#tool #action img#del").css("visibility","hidden");
-        
-    });
-//================================CHANGE VIEW NUM=====================================================================================================
-    $("#tool select#view_num").live("change",function()
-    {             
-            var khoa=$("#data #left li li.active").attr("id");            
-            var k=$("select#k").val();
-            var display=parseInt($(this).val());//hien thi bao nhiu?			
-            var search=$("#search form").children().val();
-			
-           //  alert(k+" "+khoa+" "+display+" "+start_num);            
-            
-			$.ajax(
-            {
-                url:"/sinhvien/ajax_full_data",
-                type:"POST",  
-                data:{search:search,khoa:khoa,k:k,limit:display},
-                timeout: 10000,//10s
-                beforeSend: function()
-                    {
-                        $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                    },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    $("#content #change_data").html("Dữ liệu bị lỗi");
-                   
-                },         
-                success:function(result)
-                {                   
-                    $("#content #change_data").html(result);                    
-                    
-                }
-            });
-            $("#tool #action img#del").css("visibility","hidden");        
-    });
-
-//==================AJAX PAGINATION================================================================================================================================    
-    //event when you click in pagination li
-    $("#pagination li a").live("click",function()
-    {
-        
-            var khoa=$("#data #left li li.active").attr("id");
-            var k=$("select#k").val();
-            var display=parseInt($("select#view_num").val());//hien thi bao nhiu?
-            var search=$("#search form").children().val();
-    		url=$(this).attr("href");
-            index=url.lastIndexOf("/");
-            num=url.substr(index+1);
-            if(num=="") num=0;
-            
-			$.ajax(
-            {
-                url:"/sinhvien/ajax_full_data/"+num,
-                type:"POST",                  
-                data:{search:search,khoa:khoa,k:k,limit:display},
-                timeout: 10000,//10s
-                beforeSend: function()
-                    {
-                        $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                    },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    $("#content #change_data").html("Dữ liệu bị lỗi");
-                   
-                },    
-                success:function(result)
-                {                    
-                   $("#content #change_data").html(result);                   
-                }
-            });
-            $("#tool #action img#del").css("visibility","hidden");
-            return false;
-                    
-    });//END PAGINATION
+//====THAO TAC SCROLL=================================================================================================================    
+  $("#danhsachmonhoc #fixed").scrollToFixed();
     
-   
-//========================EDIT SINH VIEN========================================================================================================================== 
-    //event when you click in mssv to see detail
-    
-    current_row=null;
-    $("#table_data td.masv").live("click",function()
+  change=false;//bien kiem tra co su thay doi hay khong?
+  
+//====THAO TAC XOA MON HOC=================================================================================================================
+    $("#chuongtrinh td.action").live("click",function()
     {
-		
-        current_row=$(this).parent("tr");
-        current_row.addClass("active").find(".checkbox_row").attr("checked","checked");
-        $("#tool #action img#del").css("visibility","visible");               
-       
-        masv=current_row.children("td.masv").html();
-        khoa=current_row.attr("id");
+        id=$(this).attr("id");
         
-         $(".popup_detail#view #ptitle").html("Thông tin chi tiết sinh viên");
-                    
-         $(".popup_detail#view #pdata").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");
-         
-         open_popup(".popup_detail#view");
-         	           
-         $.ajax(
-         {
-            url:"/sinhvien/ajax_data",
-            type:"POST",
-            data:{masv:masv,khoa:khoa},
-            timeout: 10000,//10s
-            beforeSend: function()
-                {
-                    $(".popup_detail#view #pdata").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                },
-            error: function (xhr, ajaxOptions, thrownError) {
-                $(".popup_detail#view #pdata").html("Dữ liệu bị lỗi");
-               
-            },    
-            success:function(result)
-            {                
-                $(".popup_detail#view #pdata").html(result);
-                 
-            }
-        });
-    }); //END EDIT SINHVIEN   
-   
-     
-//=================UPDATE SINHVIEN=================================================================================================================================   
-    $(".popup_detail#view img#save").click(function()
-    {
-        key=$(".popup_detail#view table.info").attr("id");
-        masv=$(".popup_detail#view input#masv").val();
-        tensv=$(".popup_detail#view  input#tensv").val();
-        khoa_old=$(".popup_detail#view  select#khoa").attr("class");
-        khoa_new=$(".popup_detail#view  select#khoa").val();
-        lop=$(".popup_detail#view  select#lop").val();
-        k=$(".popup_detail#view  select#k").val();
-        ngaysinh=$(".popup_detail#view  input#ngaysinh").val();
-        noisinh=$(".popup_detail#view  textarea#noisinh").val();
-        sdt=$(".popup_detail#view  input#sdt").val();
-        email=$(".popup_detail#view  input#email").val();
-        //alert(key+" "+masv+" "+tensv+" "+khoa_old+" "+lop+" "+khoa_new+" "+sdt+" "+email);
-       
-           
-        $.ajax(
-         {
-            url:"/sinhvien/ajax_update",
-            type:"POST",
-            data:{key:key,masv:masv,tensv:tensv,khoa_old:khoa_old,khoa_new:khoa_new,lop:lop,k:k,ngaysinh:ngaysinh,noisinh:noisinh,sdt:sdt,email:email},
-            timeout: 10000,//10s
-            beforeSend: function()
-                {
-                    enable_footer(0,0);                	
-                },
-            error: function (xhr, ajaxOptions, thrownError) {
-                enable_footer(1,1);  
-                alert("Thao tác sửa đổi thất bại. Thử lại sau.");
-                
-                },   
-            success:function(result)
-            {   
-                //alert(result);
-                if(result=="success")
-                {
-                   
-                   current_row.children("td.masv").html(masv);
-                   current_row.children("td.tensv").html(tensv);                   
-                   current_row.children("td.lop").html(lop);
-                   current_row.children("td.k").html(k);
-                   current_row.children("td.ngaysinh").html(ngaysinh);
-                   current_row.children("td.noisinh").html(noisinh);
-                   current_row.children("td.sdt").html(sdt);
-                   current_row.children("td.email").html(email);
-                   
-                   $("#content #message").fadeIn(1000).fadeOut(2000);                   
-                   close_popup();
-                }
-                else
-                {
-                  
-                  $(".popup_detail#view table.error").html(result);
-                  enable_footer(1,1);  
-                } 
+        $(this).html("<button title='Thêm môn học này'>Thêm</button>");
+        current_row=$(this).parent("tr"); 
+        cla=current_row.attr("class");
              
-            }//end success
-        });       
-      
-    });//end UPDATE SINHVIEN
+        new_element="<tr id='"+id+"'class='item "+cla+"'>"+current_row.html()+"</tr>";
+        sotc=parseInt(current_row.children("td.sotc").html());
+        //alert(new_element);
+        
+        somon=parseInt($("#thongtin #somon span").html());
+        new_sotc=parseInt($("#thongtin #sotc span").html())-sotc;
+        $("#thongtin #somon span").html(somon-1);
+        $("#thongtin #sotc span").html(new_sotc);
+        
+        $("#chuongtrinh table tr#"+id).remove();
+        $("#danhsachmonhoc table#main").append(new_element);
+        change=true;
+        
+    });
+//====THAO TAC THEM MON HOC======================================================================================================
+    $("#danhsachmonhoc td.action").live("click",function()
+    {
+        id=$(this).attr("id");
+        
+        $(this).html("<button title='Xóa môn học này'>Xóa</button>");
+        current_row=$(this).parent("tr"); 
+        current_row.removeClass("item");
+        cla=current_row.attr("class");       
+        new_element="<tr id='"+id+"'class='"+cla+"'>"+current_row.html()+"</tr>";
+        sotc=parseInt(current_row.children("td.sotc").html());
+        //alert(new_element);
+        
+        somon=parseInt($("#thongtin #somon span").html());
+        new_sotc=parseInt($("#thongtin #sotc span").html())+sotc;
+        $("#thongtin #somon span").html(somon+1);
+        $("#thongtin #sotc span").html(new_sotc);
+        
+        $("#danhsachmonhoc table#main tr#"+id).remove();
+        $("#chuongtrinh table").append(new_element);
+        change=true;
+    });
     
-//==============DELETE SINHVIEN==========================================================================================================
-    //event when you click bin image
-    $("#tool img#del").click(function()
+    
+//==============CAP NHAT LAI DANH SACH MON HOC==========================================================================================================
+    //event when you click SAVE image
+    $("#action button#luu").click(function()
     { 
-        checkbox=$("#table_data").find(":checked");
-        count=checkbox.length;
-        mssv_array=new Array();
-        checkbox.each(function()
+        khoa=$("#thongtin td#tenkhoa").attr("class");
+        k=$("#thongtin td#k").attr("class");
+        hk=$("#thongtin td#hk").attr("class");
+        //KHOI TAO BAN DAU
+        if(change)
         {
-           mssv=$(this).attr("id");
-           mssv_array.push(mssv);
-           
-        });
-        
-        khoa=$("#data #left li li.active").attr("id");
-        if(khoa==undefined) khoa=""; 
-        //alert(mssv_array+" "+khoa);
-        conf=confirm("Nhắc nhở: Bạn có thật sự muốn xóa "+count+" sinh viên này không?\nDanh sách MSSV: "+mssv_array );        
-        if(conf) 
-        {            
-            $.ajax({
-                        url:"/sinhvien/ajax_delete",
-                        type:"POST",
-                        data:{mssv_array:mssv_array,khoa:khoa},
-                        success: function(result)
-                        {
-                            
-                            window.location.reload(true);
-                         }
-                    });//end ajax_del
-        }//end confirm
-        
-    });//END DELETE SINHVIEN
-//=======================SEARCH SINH VIEN===========================================================================================================================     
-    $("#search form").submit(function(e)
-    {     
-       
-        var search=$(this).children().val();//input value        
-        var k=$("select#k").val();    
-        var display=parseInt($("select#view_num").val());//hien thi bao nhiu?       
-        
-        if(search!="")
-        {
-            $.ajax(
-                {
-                    url:"/sinhvien/ajax_full_data",
-                    type:"POST",                  
-                    data:{search:search,k:k,limit:display},
-                    timeout: 10000,//10s
-                    beforeSend: function()
-                        {
-                            $("#content #change_data").html("<img  id='waiting' src='http://localhost/dkhp/application/static/images/loading.gif' />");	
-                        },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        $("#content #change_data").html("Dữ liệu bị lỗi");
-                       
-                    },      
-                    success:function(result)
-                    {                    
-                       $("#content #change_data").html(result);
-                       active_search_interface();
-                    }
+            id_array=new Array();
+            td_array=$("#chuongtrinh table td.action"); 
+            td_array.each(function()
+            {
+                   id=$(this).attr("id");
+                   id_array.push(id);
+                   
+            });
+            
+           // alert(id_array+" "+khoa+ k+hk);
                     
-                });
-            
-            
+                $.ajax({
+                            url:"/ctdt/ajax_update",
+                            type:"POST",
+                            data:{id_array:id_array,khoa:khoa,k:k,hk:hk},
+                            success: function(result)
+                            {
+                                //alert(result);
+                               window.location.assign("/quanly/chuong-trinh-dao-tao/"+khoa+"/"+k);
+                             }
+                        });//end ajax_del
         }
-       e.preventDefault();//prevent to reload when submit
-    });//END SEARCH SINH VIEN
+        else
+        {
+            //alert("không có sự thây đổi nào");
+            window.location.assign("/quanly/chuong-trinh-dao-tao/"+khoa+"/"+k);
+        }
+        
+        
+    });//END 
+    
+//====XOA MOT HOC KY CUA CTDT=========================================================================================================    
+    $("#action button#xoa").click(function()
+    { 
+            //alert("me");
+            row_array=$("#chuongtrinh tr");      
+            row_array.each(function()
+            {
+                id=$(this).attr("id");
+                if(id!="first")
+                {
+                    $(this).children("td.action").html("<button title='Thêm môn học này'>Thêm</button>");
+                    cla=$(this).attr("class");
+                    new_element="<tr id='"+id+"'class='item "+cla+"'>"+$(this).html()+"</tr>";
+                    $("#danhsachmonhoc table#main").append(new_element);
+                    $(this).remove();
+                    }
+            });
+            
+            
+            $("#thongtin #somon span").html(0);
+            $("#thongtin #sotc span").html(0);
+    });//END XOA
+    
+   
+    
+//====change k and load data again=========================================================================================================
+    $("#danhsachmonhoc table#fixed button").click(function()
+    {
+        var loai_mh=$(this).attr("id");       
+        if(loai_mh=="all") $("table#main tr.item").show();
+        else
+        {
+            $("table#main tr.item").show();
+            $("table#main tr.item").hide();
+            $("table#main tr."+loai_mh).show();    
+        } 
+        $("#danhsachmonhoc button").removeAttr("disabled");
+        $(this).attr("disabled","disabled");
+        
+    });
 //========================================EXPORT DATA TO EXCEL, CSV==========================================================================================================
     //event when you click bin image
     $("#tool img#export").click(function()

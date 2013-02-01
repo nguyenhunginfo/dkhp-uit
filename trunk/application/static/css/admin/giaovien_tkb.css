@@ -1,0 +1,88 @@
+
+/*It uses with almost interface */
+
+#wrapper #data h3{background-color: #e8e9e8;padding:10px 10px;
+                        -webkit-border-top-right-radius: 5px;
+                        -moz-border-top-right-radius: 5px;
+                        -o-border-top-right-radius: 5px;
+                        border-top-right-radius: 5px;
+                        
+                        -webkit-border-top-left-radius: 5px;
+                        -moz-border-top-left-radius: 5px;
+                        -o-border-top-left-radius: 5px;
+                        border-top-left-radius: 5px; 
+                        height:22px;
+                         }
+#wrapper #data #left{float:left;width:188px;
+                     min-height:600px;
+                     border:1px solid #a1a2a1;
+                     -webkit-border-radius: 5px;
+                     -moz-border-radius: 5px;
+                     -o-border-radius: 5px;
+                     border-radius: 5px; 
+                     -webkit-box-shadow: 0 0  8px #646564;
+                     -moz-box-shadow: 0 0  8px #646564;
+                                          
+                     }
+
+
+#wrapper #data #left ul li{margin:2px 0px 10px 0px;}
+#wrapper #data #left ul li a{background: #e8e9e8;padding:8px 10px;display:block;
+                        
+                        }
+#wrapper #data #left ul li a:hover{color: #023bfe;font-weight:bold;}
+#wrapper #data #left ul li a.active{font-weight:bold;color: #023bfe;}
+#wrapper #data #left ul li ul li{margin:5px 0px 0px 20px;}
+#wrapper #data #left ul li ul li a{background:none;padding:0px;border:none;}
+
+#wrapper #data #left ul li ul li a:hover{color: red;font-weight:bold;cursor:pointer;}
+#wrapper #data #left ul li ul li.active a{color:red;font-weight:bold;}
+
+#wrapper #data #right{float:right;width:958px;                                       
+                      
+                      min-height:600px;
+                      -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        border-radius: 5px; 
+                        position:relative;
+                        
+                        border:1px solid #a1a2a1;
+                        -webkit-box-shadow: 0 0  8px #646564;
+                        -moz-box-shadow: 0 0  8px #646564;
+                      }
+#wrapper #data #right #tool{
+                            position:relative;background-color: #e8e9e8;padding:10px 10px;
+                            height: 22px;
+                            -webkit-border-top-right-radius: 5px;
+                            -moz-border-top-right-radius: 5px;
+                            -o-border-top-right-radius: 5px;
+                            border-top-right-radius: 5px;
+                            
+                            -webkit-border-top-left-radius: 5px;
+                            -moz-border-top-left-radius: 5px;
+                            -o-border-top-left-radius: 5px;
+                            border-top-left-radius: 5px;
+                            }
+                        
+                       
+
+#wrapper #data #right #tool p{float:left;}
+#wrapper #data #right #tool img{float:right;margin:-10px 5px 0px 0px;}
+#wrapper #data #right #tool img:hover{cursor:pointer;}
+
+
+
+#wrapper #data #right #content{position:relative;overflow:auto;margin:5px 0px;padding:0px 3px;}
+#wrapper #data #right #content table{border-collapse: collapse;}
+
+#wrapper #data #right #content table tr{height: 125px;}
+#wrapper #data #right #content table tr#first{height:30px;}
+
+#wrapper #data #right #content table th{width:170px;border:2px solid #a8a9a9;font-size:20px;padding:5px}
+#wrapper #data #right #content table th#ca{width:40px;}
+#wrapper #data #right #content table td{border:2px solid #a8a9a9;font-size:14px;padding:2px 5px;vertical-align: top;}
+#wrapper #data #right #content table td.ca{vertical-align: middle;text-align:center;}
+
+.popup_detail#view {width:900px;top:5%;left:20%;}
+.popup_detail#export {width:900px;top:5%;left:20%;}                        
