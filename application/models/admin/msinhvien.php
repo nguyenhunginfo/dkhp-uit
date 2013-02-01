@@ -43,36 +43,38 @@ class Msinhvien extends CI_Model
     {
         $result=null;
         //find by $masv
+        
         if($search!="") 
         {
-            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);  
             if($k!=0) $this->db->where("K",$k);  
-            if($limit!=0) $this->db->limit($limit,$start);          
-            $query_CNPM=$this->db->get("SV_CNPM");
+                    
+            $query_CNPM=$this->db->get("sv_cnpm");
             
-            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);
             if($k!=0) $this->db->where("K",$k);  
-            if($limit!=0) $this->db->limit($limit,$start);
-            $query_HTTT=$this->db->get("SV_HTTT");
             
-            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            $query_HTTT=$this->db->get("sv_httt");
+            
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);  
             if($k!=0) $this->db->where("K",$k);  
-            if($limit!=0) $this->db->limit($limit,$start);              
-            $query_KTMT=$this->db->get("SV_KTMT");
+                        
+            $query_KTMT=$this->db->get("sv_ktmt");
             
-            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);
             if($k!=0) $this->db->where("K",$k);  
-            if($limit!=0) $this->db->limit($limit,$start);
-            $query_KHMT=$this->db->get("SV_KHMT");
             
-            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            $query_KHMT=$this->db->get("sv_khmt");
+            
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);
             if($k!=0) $this->db->where("K",$k);  
-            if($limit!=0) $this->db->limit($limit,$start);
+            
             $query_MMT=$this->db->get("SV_MMT");
             
             $array_cnmp=$query_CNPM->result_object();
@@ -106,30 +108,30 @@ class Msinhvien extends CI_Model
         //truong hop tim kiem
         if($search!="") //co gia tri de tim kiem
         {
-            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);  
             if($k!=0) $this->db->where("K",$k);           
-            $num_rows+=$this->db->count_all_results("SV_CNPM");
+            $num_rows+=$this->db->count_all_results("sv_cnpm");
             
-            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);
             if($k!=0) $this->db->where("K",$k); 
-            $num_rows+=$this->db->count_all_results("SV_HTTT");
+            $num_rows+=$this->db->count_all_results("sv_httt");
             
-            if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);
             if($k!=0) $this->db->where("K",$k); 
-            $num_rows+=$this->db->count_all_results("SV_KTMT");
+            $num_rows+=$this->db->count_all_results("sv_ktmt");
             
-             if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);
             if($k!=0) $this->db->where("K",$k); 
-            $num_rows+=$this->db->count_all_results("SV_KHMT");
+            $num_rows+=$this->db->count_all_results("sv_khmt");
             
-             if(is_numeric($search))$this->db->where("MaSV",$search);//$masv is a numberic string
+            if(is_numeric($search))$this->db->like("MaSV",$search,"after");//$masv is a numberic string
             else $this->db->like("TenSV",$search);
             if($k!=0) $this->db->where("K",$k); 
-            $num_rows+=$this->db->count_all_results("SV_MMT");
+            $num_rows+=$this->db->count_all_results("sv_mmt");
             
         }
         //truong hop liet ke
@@ -144,15 +146,15 @@ class Msinhvien extends CI_Model
             else
             {
                 if($k!=0) $this->db->where("K",$k); 
-                $num_rows+=$this->db->count_all_results("SV_CNPM");
+                $num_rows+=$this->db->count_all_results("sv_cnpm");
                 if($k!=0) $this->db->where("K",$k); 
-                $num_rows+=$this->db->count_all_results("SV_HTTT");
+                $num_rows+=$this->db->count_all_results("sv_httt");
                 if($k!=0) $this->db->where("K",$k); 
-                $num_rows+=$this->db->count_all_results("SV_KTMT");
+                $num_rows+=$this->db->count_all_results("sv_ktmt");
                 if($k!=0) $this->db->where("K",$k); 
-                $num_rows+=$this->db->count_all_results("SV_KHMT");
+                $num_rows+=$this->db->count_all_results("sv_khmt");
                 if($k!=0) $this->db->where("K",$k); 
-                $num_rows+=$this->db->count_all_results("SV_MMT");
+                $num_rows+=$this->db->count_all_results("sv_mmt");
             }    
             
         }
@@ -181,7 +183,7 @@ class Msinhvien extends CI_Model
                     if($key==0) $this->db->where("MaSV",$value);
                     else  $this->db->or_where("MaSV",$value);                    
                 }     
-                $table=array("SV_CNPM","SV_HTTT","SV_KTMT","SV_KHMT","SV_MMT");   
+                $table=array("sv_cnpm","sv_httt","sv_ktmt","sv_khmt","sv_mmt");   
                 $this->db->delete($table);
             }
             
@@ -250,15 +252,15 @@ class Msinhvien extends CI_Model
     function get_sv_table($masv)
     {
         $this->db->where("MaSV",$masv);
-        if($this->db->count_all_results("SV_CNPM")>0) return "CNPM";
+        if($this->db->count_all_results("sv_cnpm")>0) return "CNPM";
         $this->db->where("MaSV",$masv);
-        if($this->db->count_all_results("SV_HTTT")>0) return "HTTT";
+        if($this->db->count_all_results("sv_httt")>0) return "HTTT";
         $this->db->where("MaSV",$masv);
-        if($this->db->count_all_results("SV_KTMT")>0) return "KTMT";
+        if($this->db->count_all_results("sv_ktmt")>0) return "KTMT";
         $this->db->where("MaSV",$masv);
-        if($this->db->count_all_results("SV_KHMT")>0) return "KHMT";
+        if($this->db->count_all_results("sv_khmt")>0) return "KHMT";
         $this->db->where("MaSV",$masv);
-        if($this->db->count_all_results("SV_MMT")>0) return "MMT";
+        if($this->db->count_all_results("sv_mmt")>0) return "MMT";
     }
     
     function _get()

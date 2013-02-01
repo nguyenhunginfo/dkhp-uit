@@ -34,6 +34,7 @@ class Mlop extends CI_Model
         $this->db->select("MaMH, TenMH");
         
         if($loai=="th") $this->db->where("TCTH >",0);
+        $this->db->order_by("TenMH");
         $query=$this->db->get("monhoc");
         return $query->result_object();        
     }
@@ -80,6 +81,7 @@ class Mlop extends CI_Model
     //lay monhoc $loai: tatca, DC, CN ho?c search
     function get_lop($search="",$loai="",$start=0,$limit=0)
     {
+        
         if($search!="")
         {
             $str_query="SELECT MaLop,giaovien.MaGV,TenGV,monhoc.MaMH,TenMH,Phong,Thu,Ca,Min,Max,SLHT
@@ -151,7 +153,7 @@ class Mlop extends CI_Model
     function get_lich($thu,$ca)
     {
         
-        $str_query="SELECT MaLop,giaovien.MaGV,TenGV,monhoc.MaMH,TenMH,Phong,Thu,Ca,Min,Max,SLHT
+        $str_query="SELECT MaLop,giaovien.MaGV,TenGV,monhoc.MaMH,TenMH,Phong
                     FROM loplt,giaovien,monhoc
                     WHERE loplt.MaGV=giaovien.MaGV 
                     AND loplt.MaMH=monhoc.MaMH
@@ -162,7 +164,7 @@ class Mlop extends CI_Model
         $result_lt=$query_lt->result_object(); 
                  
             
-        $str_query="SELECT MaLop,giaovien.MaGV,TenGV,monhoc.MaMH,TenMH,Phong,Thu,Ca,Min,Max,SLHT
+        $str_query="SELECT MaLop,giaovien.MaGV,TenGV,monhoc.MaMH,TenMH,Phong
                     FROM lopth,giaovien,monhoc
                     WHERE lopth.MaGV=giaovien.MaGV 
                     AND lopth.MaMH=monhoc.MaMH
@@ -214,13 +216,23 @@ class Mlop extends CI_Model
     }
    
     //lay du lieu 1 mon hoc
-    function get_lop_data($malop,$loai="lt")
+    function get_lop_data($malop)
     {     
+        
+              
+          
+        
         $this->db->where("MaLop",$malop);
-       
-        if($loai=="lt")$query=$this->db->get("loplt");
-        else $query=$this->db->get("lopth");
-        return $query->result_object();
+        $query_lt=$this->db->get("loplt");
+        
+        $this->db->where("MaLop",$malop);
+        $query_th=$this->db->get("lopth");
+        
+        
+        $array_lt=$query_lt->result_object();
+        $array_th=$query_th->result_object();                            
+        $result=array_merge($array_lt,$array_th);
+        return $result;
         
     }
     function get_tenmh($malop)
