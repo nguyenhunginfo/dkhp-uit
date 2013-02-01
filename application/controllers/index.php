@@ -25,7 +25,15 @@ class Index extends CI_Controller
 			else
 			{
 				$khoa = $this->session->userdata('khoa');
-				$this->toVindex($name, $khoa);
+				$IsRegisterred = $this->mlogin->IsRegisterred($name, $khoa);
+				if($IsRegisterred == '1')
+				{
+					header('Location: '.base_url().'ket-qua');
+				}
+				else
+				{
+					header('Location: '.base_url().'dang-ki-hoc-phan');
+				}
 			}
 			return;
 		}
@@ -72,8 +80,26 @@ class Index extends CI_Controller
 						}
 						$array = explode("|",$login);
 						$khoa = $array[1];
+						$t = explode("|", $this->mlogin->getK($_POST['username'], $khoa));
+						$K = $t[0];
+						$MaCN = $t[1];
+						//if($MaCN != "")
+						//{
+							//$TenCN = $this->mlogin->getCN($MaCN);
+							//$this->session->set_userdata('TenCN', $TenCN);
+						//}
+						$this->session->set_userdata('K', $K);
+						$this->session->set_userdata('MaCN', $MaCN);
 						$this->session->set_userdata('khoa', $khoa);
-						$this->toVindex($_POST['username'], $khoa);
+						$IsRegisterred = $this->mlogin->IsRegisterred($_POST['username'], $khoa);
+						if($IsRegisterred == '1')
+						{
+							header('Location: '.base_url().'ket-qua');
+						}
+						else
+						{
+							header('Location: '.base_url().'dang-ki-hoc-phan');
+						}
 						break;
 				}
 			}
@@ -96,65 +122,262 @@ class Index extends CI_Controller
 		$this->load->helper('url');
 		$this->load->library('session');
 		$this->session->unset_userdata('name');
+		$this->session->unset_userdata('khoa');
+		$this->session->unset_userdata('K');
+		$this->session->unset_userdata('MaCN');
 		header('Location: '.base_url());
 	}
 	
-	private function toVindex($MSSV, $khoa)	//lấy những dữ liệu cần thiết đưa ra Vindex
+	function mcn()//hien ra popup mon cn
 	{
+		$this->load->helper('url');
 		$this->load->model('index/mlogin');
-		$data['MSSV'] = $MSSV;	
-		$data['khoa'] = $khoa;
-		$data['lopdn'] = $this->mlogin->getDeNghi($MSSV);
+		$this->load->library('session');
+		$ID = $this->input->post("ID");
+		$MSSV = $this->session->userdata('name');
+		$khoa = $this->session->userdata('khoa');
+		$MaCN = $this->session->userdata('MaCN');
+		$K = $this->session->userdata('K');		
+		$this->mlogin->tenCN($khoa, $K, $MaCN);
+        //echo $khoa." ".$K." ".$MaCN;
+        
+		if($MaCN == "")//chưa đk cn
+		{
+			$this->mlogin->lopCNAll($khoa, $K, $ID);
+			return;
+		}
+		//đã dk cn
+        //echo $MSSV;
+		$this->mlogin->lopCN($MSSV, $MaCN, $ID);
+        
+	}
+	
+	function mtc()//hien ra popup mon tc
+	{
+		$this->load->helper('url');
+		$this->load->model('index/mlogin');
+		$this->load->library('session');
+		$ID = $_POST['ID'];
+		$MaMH = $_POST['MaMH'];
+		$MSSV = $this->session->userdata('name');
+		$khoa = $this->session->userdata('khoa');
+		$MaCN = $this->session->userdata('MaCN');
+		$K = $this->session->userdata('K');		
+		$this->mlogin->tenCN($khoa, $K, $MaCN);
+		if($MaCN == "")//chưa đk cn
+		{
+			$this->mlogin->lopTCAll($khoa, $K, $ID, $MaMH);
+			return;
+		}
+		//đã dk cn
+		$this->mlogin->lopTC($MSSV, $MaCN, $ID, $MaMH);
+	}
+	
+	function dkmn()
+	{
+		$this->load->helper('url');
+		$this->load->model('index/mlogin');
+		$this->load->library('session');
+		$MaCN = $_POST['MaCN'];
+		$IDnhom = $_POST['IDnhom'];
+		$del = $_POST['del'];
+		$ins = $_POST['ins'];
+		$del = trim($del);
+		$ins = trim($ins);
+		if($del == "" && $ins == "")
+			return;
+		$MSSV = $this->session->userdata('name');
+		$khoa = $this->session->userdata('khoa');
+		$K = $this->session->userdata('K');
+		if($this->session->userdata('MaCN') == "")
+		{
+			//chưa đk cn => đk lần đầu.
+			if($this->mlogin->ins($MSSV, $khoa, $IDnhom, $ins) == false)
+				return;
+			$this->mlogin->setCN($MSSV, $khoa, $MaCN);
+			$this->session->set_userdata('MaCN', $MaCN);
+		}
+		else
+		{
+			if($this->mlogin->ins($MSSV, $khoa, $IDnhom, $ins) == false)
+				return;
+			if($this->mlogin->del($MSSV, $khoa, $IDnhom, $del) == false)
+			{
+				//bỏ các môn cn => chưa đk cn
+				$this->session->unset_userdata('MaCN');
+			}
+		}
+	}
+	
+	function dkmd()
+	{
+		$this->load->helper('url');
+		$this->load->model('index/mlogin');
+		$this->load->library('session');
+		$MaMH = $_POST['MaMH'];
+		$del = $_POST['del'];
+		$ins = $_POST['ins'];
+		$del = trim($del);
+		$ins = trim($ins);
+		if($del == "" && $ins == "")
+			return;
+		$MSSV = $this->session->userdata('name');
+		$khoa = $this->session->userdata('khoa');
+		if($this->mlogin->dangky($MSSV, $khoa, $ins) == false)
+				return;
+		$this->mlogin->bodangky($MSSV, $khoa, $del);
+	}
+	
+	function toVresult()
+	{
+		$this->load->helper('url');
+		$this->load->library('session');
+		$this->load->model('index/mlogin');
+		$MSSV = $data['MSSV'] = $this->session->userdata('name');	
+		$khoa = $data['khoa'] = $this->session->userdata('khoa');
+		$K = $this->session->userdata('K');
+		if($K == false)
+		{
+			header('Location: '.base_url());
+		}
+		$data['TCTD'] = $this->mlogin->TCTD();
 		switch($khoa)
 		{
 			case "mmt":
 				$data['TenSV'] = $this->mlogin->getNameMMT($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtMMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtMMT($MSSV, $K);
+				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
+				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['MonTH'] = $this->mlogin->getMonDKth($MSSV, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
+				break;
+			case "cnpm":
+				$data['TenSV'] = $this->mlogin->getNameCNPM($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtCNPM($MSSV, $K);
+				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
+				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['MonTH'] = $this->mlogin->getMonDKth($MSSV, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
+				break;
+			case "khmt":
+				$data['TenSV'] = $this->mlogin->getNameKHMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtKHMT($MSSV, $K);
+				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
+				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['MonTH'] = $this->mlogin->getMonDKth($MSSV, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
+				break;
+			case "ktmt":
+				$data['TenSV'] = $this->mlogin->getNameKTMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtKTMT($MSSV, $K);
+				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
+				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['MonTH'] = $this->mlogin->getMonDKth($MSSV, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
+				break;
+			case "httt":
+				$data['TenSV'] = $this->mlogin->getNameHTTT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtHTTT($MSSV, $K);
+				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
+				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['MonTH'] = $this->mlogin->getMonDKth($MSSV, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
+				break;
+		}
+		$this->load->view('index/vresult', $data);	
+	}
+	
+	public function toVindex($MSSV="", $khoa="")	//lấy những dữ liệu cần thiết đưa ra Vindex
+	{
+		$this->load->helper('url');
+		$this->load->model('index/mlogin');
+		$this->load->library('session');
+		if($MSSV == "")
+		{
+			$MSSV = $this->session->userdata('name');
+			$khoa = $this->session->userdata('khoa');
+		}
+		$data['MSSV'] = $MSSV;	
+		$data['khoa'] = $khoa;
+		$data['lopdn'] = $this->mlogin->getDeNghi($MSSV);
+		$K = $this->session->userdata('K');
+		$data['TCTD'] = $this->mlogin->TCTD();
+		switch($khoa)
+		{
+			case "mmt":
+				$data['TenSV'] = $this->mlogin->getNameMMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtMMT($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltMMT($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthMMT($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
 				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['group'] = $this->mlogin->groupOpen($khoa, $K);
+				$data['lopcn'] = $this->mlogin->getlopCN($MSSV, $K, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
 				break;
 			case "cnpm":
 				$data['TenSV'] = $this->mlogin->getNameCNPM($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtCNPM($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtCNPM($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltCNPM($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthCNPM($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
 				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['group'] = $this->mlogin->groupOpen($khoa, $K);
+				$data['lopcn'] = $this->mlogin->getlopCN($MSSV, $K, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
 				break;
 			case "khmt":
 				$data['TenSV'] = $this->mlogin->getNameKHMT($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtKHMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtKHMT($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltKHMT($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthKHMT($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
 				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['group'] = $this->mlogin->groupOpen($khoa, $K);
+				$data['lopcn'] = $this->mlogin->getlopCN($MSSV, $K, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
 				break;
 			case "ktmt":
 				$data['TenSV'] = $this->mlogin->getNameKTMT($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtKTMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtKTMT($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltKTMT($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthKTMT($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
 				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['group'] = $this->mlogin->groupOpen($khoa, $K);
+				$data['lopcn'] = $this->mlogin->getlopCN($MSSV, $K, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
 				break;
 			case "httt":
 				$data['TenSV'] = $this->mlogin->getNameHTTT($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtHTTT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtHTTT($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltHTTT($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthHTTT($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
 				$data['MonDK'] = $this->mlogin->getMonDK($MSSV, $khoa);
+				$data['group'] = $this->mlogin->groupOpen($khoa, $K);
+				$data['lopcn'] = $this->mlogin->getlopCN($MSSV, $K, $khoa);
+				$data['sotc'] = $this->mlogin->soTC($MSSV, $khoa);
 				break;
 		}
-		$this->load->view('index/vindex', $data);		
+		$this->load->view('index/vindex', $data);	
 	}
 	
 	function getLop()
 	{		
 		$this->load->model('index/mlogin');
 		$this->mlogin->getLop($_POST['MaMH'], $_POST['MSSV'], $_POST['khoa']);
+	}
+	
+	function sotc()
+	{
+		$this->load->helper('url');
+		$this->load->model('index/mlogin');
+		$this->load->library('session');
+		$MSSV = $this->session->userdata('name');
+		$khoa = $this->session->userdata('khoa');
+		$sotc = $this->mlogin->soTC($MSSV, $khoa);
+		echo $sotc;
 	}
 	
 	function register()
@@ -238,8 +461,6 @@ class Index extends CI_Controller
 		}
 	}
 	
-	
-	
 	function in($data)
 	{
 		$array = explode("%20",$data);
@@ -294,25 +515,45 @@ class Index extends CI_Controller
 		echo $html;
 	}
 	
+	function denghi()
+	{
+		$this->load->library('session');
+		$MSSV = $this->session->userdata('name');
+		$MaMH = $_POST['MaMH'];
+		$this->load->helper('url');
+		$this->load->model('index/mlogin');
+		$this->mlogin->deNghi($MSSV, $MaMH);	
+	}
+	
+	function updateTKB()
+	{
+		$this->load->helper('url');
+		$this->load->model('index/mlogin');
+		$this->load->library('session');
+		$MSSV = $this->session->userdata('name');	
+		$khoa = $this->session->userdata('khoa');
+		if($MSSV == false)
+			return;
+		$TKB = $this->mlogin->getTKB($MSSV, $khoa);
+		$this->mlogin->updateTKB($TKB);
+	}
+	
 	function xuatfile()
 	{
 		$this->load->library('session');
-		$name = $this->session->userdata('name');
-		if($name == false || !isset($_POST['MSSV']) || !isset($_POST['khoa']))
+		$MSSV = $this->session->userdata('name');
+		$khoa = $this->session->userdata('khoa');
+		if($MSSV == false)// || !isset($_POST['MSSV']) || !isset($_POST['khoa']))
 		{
-			return;
-		}
-		else
-		{
-			if($name != $_POST['MSSV'])
-				return;
+			echo "ko có session".$MSSV;
+			//return;
 		}
 		
 		$this->load->helper('url');
 		$this->load->model('index/mlogin');
-		$result = $this->mlogin->getMonDK($_POST['MSSV'], $_POST['khoa']);
-		$name = $this->mlogin->getNameMMT($_POST['MSSV']);
-		$TenKhoa = $this->mlogin->getTenKhoa($_POST['khoa']);
+		$result = $this->mlogin->getMonDK($MSSV, $khoa);
+		$name = $this->mlogin->getNameMMT($MSSV);
+		$TenKhoa = $this->mlogin->getTenKhoa($khoa);
         $this->load->library('TCPDF/tcpdf.php'); 		
     
 		// create new PDF document
@@ -323,27 +564,28 @@ class Index extends CI_Controller
 		$pdf->setPrintHeader(false);
 		$pdf->setPrintFooter(false);
 		$pdf->SetFont('freeserif', '', 12);
-		$pdf->SetTextColor(0, 0, 0);    
+		$pdf->SetTextColor(0, 0, 0);   
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
     
 		// add a page
 		$pdf->AddPage();
 		
 		$html = '<div style="text-align: center;">    
-				<h1>Đại Học Quốc Gia Thành Phố Hồ Chí Minh</h1>
-				<h2>Đại Học Công Nghệ Thông Tin</h2>
+				<h3>Đại Học Quốc Gia Thành Phố Hồ Chí Minh</h3>
+				<h4>Trường Đại Học Công Nghệ Thông Tin</h4>
 				</div>';
 				//<img src="logo.jpg" width="60px" height="50px" /> 
 				//<img src="'.static_url().'/images/index/uit.png" width="67px" height="70px" /> 
 				
 		$html=$html.'
-                                <p style="text-align:center; font-size:18px">PHIẾU ĐĂNG KÝ HỌC PHẦN</p>
-                                <p style="text-align:left; font-size:14px">MSSV:<b> '.$_POST['MSSV'].'</b>&nbsp;&nbsp;&nbsp;&nbsp;Họ Tên:<b> '.$name.'</b><br>Khoa:<b> '.$TenKhoa.'</b></p>
+                                <p style="text-align:center; font-size:25px">PHIẾU ĐĂNG KÝ HỌC PHẦN</p>
+                                <p style="text-align:left; font-size:20px">MSSV:<b> '.$MSSV.'</b>&nbsp;&nbsp;&nbsp;&nbsp;Họ Tên:<b> '.$name.'</b><br>Khoa:<b> '.$TenKhoa.'</b></p>
                                 <table border="1" style="text-align:center">
                                 <tr>
                                     <th style="width:50px;"><b>STT</b></th>
                                     <th style="width:80px;"><b>Mã Lớp</b></th>
                                     <th style="width:60px;"><b>Mã Môn</b></th>
-                                    <th style="width:220px;"><b>Tên Môn Học</b></th>
+                                    <th style="width:220px;text-align:left;"><b>Tên Môn Học</b></th>
                                     <th style="width:60px;"><b>Số TC</b></th>                                   
                                     
                                 </tr>';
@@ -355,7 +597,7 @@ class Index extends CI_Controller
                             <td>".$i."</td>
                             <td>".$row->Malop."</td>
                             <td>".$row->MaMH."</td>
-                            <td>".$row->TenMH."</td>
+                            <td style='text-align:left;'>".$row->TenMH."</td>
                             <td>".$row->SoTC."</td>
                         </tr>";
             $TongTC += $row->SoTC;

@@ -54,7 +54,7 @@ class Sinhvien extends CI_Controller {
         $k=$this->input->post("k");
         $limit=$this->input->post("limit");        
         $search=$this->input->post("search");
-        
+        //echo $search." ".$start." ".$limit;
        //get a record of masv OR all follow each $khoa,$k,$start and $limit
         $sinhvien_result=$this->msinhvien->get_sinhvien($search,$khoa,$k,$start,$limit);        
         $count_rows=count($sinhvien_result);
@@ -62,11 +62,13 @@ class Sinhvien extends CI_Controller {
         if($count_rows>0)
         {
             //make pagination
-            $this->load->library("pagination");        
-            $config["base_url"]="http://dkhp.uit.edu.vn/quanly/sinhvien/ajax_full_data";
-            $config["total_rows"]=$this->msinhvien->get_num_rows($search,$khoa,$k);
             
-            $config["per_page"]=$limit;
+            $this->load->library("pagination");    
+                
+            $config["base_url"]="http://dkhp.uit.edu.vn/quanly/sinhvien/ajax_full_data";
+            $config["total_rows"]=$this->msinhvien->get_num_rows($search,$khoa,$k);            
+            if($search==" ") $config["per_page"]=$limit;
+            else $config["per_page"]=$config["total_rows"];
             $this->pagination->initialize($config);
             
           
@@ -353,7 +355,7 @@ class Sinhvien extends CI_Controller {
             try
             {
                 $sinhvien_array=$this->read_import_file($file_data);    
-                if($import_type=="insert")$num_errors=$this->check_error_data($sinhvien_array);
+                if($import_type=="insert")$num_errors=$this->check_error_data($sinhvien_array);//neu bo sung can kiem tra trung
                 else $num_errors=$this->check_error_data($sinhvien_array,$khoa);
                 //LOI=============================================================================================
                 if($num_errors>0) 

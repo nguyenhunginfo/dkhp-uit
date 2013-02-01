@@ -14,6 +14,7 @@ class Tkb extends CI_Controller
 		$this->load->library('session');
 		$this->load->helper('url');	
 		$MSSV = $this->session->userdata('name');
+		$K = $this->session->userdata('K');
 		if($MSSV == false)
 		{
 			header('Location: '.base_url());
@@ -27,7 +28,7 @@ class Tkb extends CI_Controller
 		{
 			case "mmt":
 				$data['TenSV'] = $this->mlogin->getNameMMT($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtMMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtMMT($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltMMT($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthMMT($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
@@ -36,7 +37,7 @@ class Tkb extends CI_Controller
 				break;
 			case "cnpm":
 				$data['TenSV'] = $this->mlogin->getNameCNPM($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtCNPM($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtCNPM($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltCNPM($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthCNPM($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
@@ -45,7 +46,7 @@ class Tkb extends CI_Controller
 				break;
 			case "khmt":
 				$data['TenSV'] = $this->mlogin->getNameKHMT($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtKHMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtKHMT($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltKHMT($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthKHMT($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
@@ -54,7 +55,7 @@ class Tkb extends CI_Controller
 				break;
 			case "ktmt":
 				$data['TenSV'] = $this->mlogin->getNameKTMT($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtKTMT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtKTMT($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltKTMT($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthKTMT($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
@@ -63,7 +64,7 @@ class Tkb extends CI_Controller
 				break;
 			case "httt":
 				$data['TenSV'] = $this->mlogin->getNameHTTT($MSSV);
-				$data['ctdt'] = $this->mlogin->getCtdtHTTT($MSSV);
+				$data['ctdt'] = $this->mlogin->getCtdtHTTT($MSSV, $K);
 				$data['loplt'] = $this->mlogin->getLopltHTTT($MSSV);
 				$data['lopth'] = $this->mlogin->getLopthHTTT($MSSV);
 				$data['TKB'] = $this->mlogin->getTKB($MSSV, $khoa);
