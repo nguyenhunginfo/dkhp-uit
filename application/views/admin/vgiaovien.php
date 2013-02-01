@@ -5,12 +5,12 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="rinodung" />
     <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/admin/common.css" />    
-    <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/admin/sinhvien.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/admin/giaovien.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/menu/menu_css.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo static_url(); ?>/css/popup/popup_css.css" />
     <script type="text/javascript" src="<?php echo static_url(); ?>/js/jquery.min.js"></script>
     <script type="text/javascript" src="<?php echo static_url(); ?>/js/jpopup.js"></script>
-    <script type="text/javascript" src="<?php echo static_url(); ?>/js/admin/jsinhvien.js"></script>        
+    <script type="text/javascript" src="<?php echo static_url(); ?>/js/admin/jgiaovien.js"></script>        
 	<title><?php echo $title ?></title>
 </head>
 
@@ -32,25 +32,13 @@
        
     <div id="data">
         <div id="left">
-        <h3>Quản lý sinh viên</h3>
+        <h3>Quản lý giáo viên</h3>
         <ul>
-            <li><a class="active" href="/quanly/sinhvien">Danh sách sinh viên</a>
-            
-            <?php
-            echo "<ul>";                       
-            foreach($khoa_result as $row)
-            {   
-                $num_sinhvien=$this->msinhvien->get_num_rows("",$row->MaKhoa);
-                if(strcasecmp($row->MaKhoa,$khoa)==0) echo "<li id='".$row->MaKhoa."' class='active' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."(".$num_sinhvien.")</a></li>"; 
-                else echo "<li id='".$row->MaKhoa."' title='".$row->TenKhoa."'><a href='/quanly/sinhvien/".$row->MaKhoa."'> Khoa ".$row->MaKhoa."(".$num_sinhvien.")</a></li>"; 
-            }
-                echo "</ul>";
-            ?>
-             
-            </li>
-            <li><a href="/quanly/sinhvien/them-sinh-vien">Thêm sinh viên</a></li>
-            <li><a href="/quanly/sinhvien/nhap-du-lieu">Nhập dữ liệu</a></li>
-            <li><a href="/quanly/sinhvien/thongke">Thống kê</a></li>
+            <li><a class="active" href="/quanly/giaovien">Danh sách giáo viên<?php echo "(".$total_rows.")"; ?></a></li>
+            <li><a href="/quanly/giaovien/them-giao-vien">Thêm giáo viên</a></li>
+            <li><a href="/quanly/giaovien/lich-giang-day">Lịch giảng dạy</a></li>
+            <li><a href="/quanly/giaovien/nhap-du-lieu">Nhập dữ liệu</a></li>
+            <li><a href="/quanly/giaovien/thongke">Thống kê</a></li>
             
             
         </ul>
@@ -68,43 +56,31 @@
                 </select>
                 <div id="action">
                     <img id="del" title="Xóa" src="<?php echo static_url(); ?>/images/bin.png" alt="bin" />
-                    <a href="/quanly/sinhvien/them-sinh-vien/<?php echo $khoa ?>"><img title="Thêm sinh viên" src="<?php echo static_url(); ?>/images/add.png" alt="export" /></a>
-                    <a href="/quanly/sinhvien/nhap-du-lieu/<?php echo $khoa ?>"><img title="Nhập dữ liệu từ tập tin" src="<?php echo static_url(); ?>/images/import.png" alt="export" /></a>
+                    <a href="/quanly/giaovien/them-giao-vien"><img title="Thêm giáo viên" src="<?php echo static_url(); ?>/images/sv_add.png" alt="export" /></a>
+                    <a href="/quanly/giaovien/nhap-du-lieu"><img title="Nhập dữ liệu từ tập tin" src="<?php echo static_url(); ?>/images/import.png" alt="export" /></a>
                     <img id="export" title="Xuất dữ liệu" src="<?php echo static_url(); ?>/images/export.png" alt="export" />
                     
                 </div>
                 <div id="search" title="Tìm kiếm">
                     <form action="post" action="">
-                    <input  type="text" title="Nhập MSSV hoặc họ tên" />
+                    <input  type="text" id="field" title="Nhập Mã số giáo viên hoặc họ tên" />
                     <input id="submit" type="image" title="tìm kiếm" src="<?php echo static_url(); ?>/images/search_icon.png"/>
                     </form>
                 </div>
-                <select id="k" title="Chọn khóa học">          
-                <option value="0">Tất cả</option>  
-                <option value="1">K1 (2006)</option>
-                <option value="2">K2 (2007)</option>
-                <option value="3">K3 (2008)</option>
-                <option value="4">K4 (2009)</option>
-                <option value="5">K5 (2010)</option>
-                <option value="6">K6 (2011)</option>
-                <option value="7">K7 (2012)</option>
-                <option value="8">K8 (2013)</option>
-                </select>
+                
             </div><!--end #tool -->
             
             <div id="content">
                 
                 <table id="tempt">
                 <tr>
-                    <th id="textbox"><input id="all" type="checkbox" title="Chọn tất cả/ hủy tất cả"/></th>
-                    <th id="mssv">MSSV</th>
-                    <th id="tensv">Tên SV</th>                    
-                    <th id="lop">Lớp</th>
-                    <th id="k">Khóa</th>
+                    <th id="checkbox"><input id="all" type="checkbox" title="Chọn tất cả/ hủy tất cả"/></th>
+                    <th id="magv">Mã Giáo Viên</th>
+                    <th id="tengv" style='text-align:left;'>Tên Giáo Viên</th>
                     <th id="ngaysinh">Ngày Sinh</th>
                     <th id="noisinh">Nơi Sinh</th>
-                    <th id="sdt">Số ĐT</th>
-                    <th id="email">E-mail</th>
+                    <th id="sodt">Số Điện Thoại</th>
+                    <th id="email">E-Mail</th>
                 </tr>            
                 </table><!--end tempt -->
                 
@@ -125,28 +101,25 @@
                         <table id="table_data">
                         <tr id="first">
                             <td class="checkbox"></td>
-                            <td class="mssv">MSSV</td>
-                            <td class="tensv">Tên SV</td>                            
-                            <td class="lop">Lớp</td>
-                            <td class="k">Khóa</td>
-                            <td class="ngaysinh">Ngày Sinh</td>
-                            <td class="noisinh">Nơi Sinh</td>
-                            <td class="sdt">Số ĐT</td>
-                            <td class="email">E-mail</td>
+                            <td class="magv"></td>
+                            <td class="tengv"></td>
+                             <td class="ngaysinh"></td>
+                            <td class="noisinh"></td> 
+                             <td class="sodt"></td>
+                            <td class="email"></td>                           
+                            
                         </tr>
                         <?php
-                         foreach($sinhvien_result as $row)
+                         foreach($giaovien_result as $row)
                          {
-                            echo "<tr id='$khoa'>";
-                            echo "<td class='checkbox'><input id='".$row->MaSV."' class='checkbox_row' type='checkbox' /></td>";
-                            echo "<td class='masv' title='Xem chi tiết'>".$row->MaSV."</td>";
-                            echo "<td class='tensv' style='text-align:left' >".$row->TenSV."</td>";                            
-                            echo "<td class='lop'>".$row->Lop."</td>";
-                            echo "<td class='k'>".$row->K."</td>";
+                            echo "<tr>";
+                            echo "<td class='checkbox'><input id='".$row->MaGV."' class='checkbox_row' type='checkbox' /></td>";
+                            echo "<td class='magv' title='Xem chi tiết'>".$row->MaGV."</td>";
+                            echo "<td class='tengv' style='text-align:left' >".$row->TenGV."</td>";
                             echo "<td class='ngaysinh'>".$row->NgaySinh."</td>";
-                            echo "<td class='noisinh'>".$row->NoiSinh."</td>";
-                            echo "<td class='sdt'>".$row->SDT."</td>";
-                            echo "<td class='email'>".$row->email."</td>";
+                            echo "<td class='noisinh' style='text-align:left' >".$row->NoiSinh."</td>";
+                            echo "<td class='sodt' >".$row->SoDT."</td>";
+                            echo "<td class='email' style='text-align:left' >".$row->email."</td>";
                             echo "</tr>";
                          }
                          ?>                  
@@ -164,7 +137,44 @@
    
 </div><!--end #wrapper -->   
 
-<?php include_once("vpopup.php"); ?>
+<!--=======POPUP========================================================================================================== -->
+    
+    <div class="overflow"></div>
+    <!--=======VIEW POPUP============================================================================================== -->
+    <div class="popup_detail" id="view">
+        <div id="pheader">
+            <p id="ptitle">This is popup title here</p>
+            <img id="pclose" title="Đóng" src="<?php echo static_url(); ?>/images/close.png" />        
+        </div>
+        <div id="pdata">
+        
+        </div>
+        <div id="pfooter">
+        <h4 title="Phát hiện lỗi"><img src="<?php echo static_url(); ?>/images/error.png" />Phát hiện lỗi trong quá trình kiểm tra dữ liệu.Thao tác chỉ thành công khi không còn lỗi</h4>
+        <img id="save" title="Lưu" src="<?php echo static_url(); ?>/images/accept.png" />
+        <img id="process" title="Đang kiểm tra" src="<?php echo static_url(); ?>/images/process.gif" />
+        </div>
+    </div>
+    <!--=======EXPORT POPUP============================================================================================== -->
+    <div class="popup_detail" id="export">
+        <form method="post" action="/lop/xuatdl">
+            <div id="pheader">
+                <p id="ptitle">Thao tác xuất dữ liệu</p>
+                <img id="pclose" title="Đóng" src="<?php echo static_url(); ?>/images/close.png" />        
+            </div>
+            
+            <div id="pdata">            
+                    
+               
+            </div>
+            <div id="pfooter">
+            <h4 title="Phát hiện lỗi"><img src="<?php echo static_url(); ?>/images/error.png" />Phát hiện lỗi trong quá trình kiểm tra dữ liệu.Thao tác chỉ thành công khi không còn lỗi</h4>
+            <input name="submit" type="image" src="<?php echo static_url(); ?>/images/accept.png" title="Đồng ý"/>
+            
+         </form>
+        
+        </div>
+    </div><!-- end popup div -->
 
 </body>
 </html>

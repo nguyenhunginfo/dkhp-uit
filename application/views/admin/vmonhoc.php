@@ -36,21 +36,23 @@
         <ul>
         <li><a class="active" href="/quanly/monhoc">Danh sách môn học</a>
         <?php
-            $num_tatca=$this->mmonhoc->get_num_rows("","tatca");
-            $num_DC=$this->mmonhoc->get_num_rows("","DC");
-            $num_CN=$this->mmonhoc->get_num_rows("","CN");
+            $num_tatca=$this->mmonhoc->get_num_rows("","tatca");            
             echo "<ul>";
-            if($loai=="tatca") echo "<li id='tatca'  class='active'><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a></li>";
+            if($loai_monhoc=="tatca") echo "<li id='tatca'  class='active'><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a></li>";
             else               echo "<li id='tatca'  ><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
-            
-            if($loai=="DC") echo "<li id='DC'  class='active'><a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
-            else               echo "<li id='DC'  >           <a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
-            
-            if($loai=="CN") echo "<li id='CN'  class='active'><a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
-            else               echo "<li id='CN'  ><a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
+            foreach($loai_monhoc_result as $row)
+            {
+                $maloai=$row->MaLoai;
+                $tenloai=$row->TenLoai;
+                $num=$this->mmonhoc->get_num_rows("",$maloai);
+                if($maloai==$loai_monhoc) echo "<li id='$maloai'  class='active'><a href='/quanly/monhoc/$maloai'>$tenloai($num)</a></li>";
+                else echo "<li id='$maloai'><a href='/quanly/monhoc/$maloai'>$tenloai($num)</a></li>";
+            }
             echo "</ul>";
         ?>        
         </li>
+        <li><a href="/quanly/monhoc/mon-hoc-nhom" title="Danh sách nhóm môn học">Nhóm môn học</a>
+        <li><a href="/quanly/monhoc/tuong-duong" title="Môn học tương đương(thay thế)">MH tương đương</a>
         <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
         <li><a href="/quanly/monhoc/nhap-du-lieu">Nhập dữ liệu</a></li>        
         <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>
@@ -71,7 +73,7 @@
                 </select>
                 <div id="action">
                     <img id="del" title="Xóa" src="<?php echo static_url(); ?>/images/bin.png" alt="bin" />
-                    <a href="/quanly/monhoc/them-mon-hoc/<?php echo $loai ?>"><img title="Thêm môn học" src="<?php echo static_url(); ?>/images/mh_add.png" alt="export" /></a>
+                    <a href="/quanly/monhoc/them-mon-hoc/<?php echo $loai_monhoc ?>"><img title="Thêm môn học" src="<?php echo static_url(); ?>/images/mh_add.png" alt="export" /></a>
                     <a href="/quanly/monhoc/nhap-du-lieu"><img title="Nhập dữ liệu từ tập tin" src="<?php echo static_url(); ?>/images/import.png" alt="export" /></a>
                     <img id="export" title="Xuất dữ liệu" src="<?php echo static_url(); ?>/images/export.png" alt="export" />
                 </div>
@@ -88,14 +90,14 @@
                 
                 <table id="tempt">
                 <tr>
-                    <th id="textbox"><input id="all" type="checkbox" title="Chọn tất cả/ hủy tất cả"/></th>
+                    <th id="checkbox"><input id="all" type="checkbox" title="Chọn tất cả/ hủy tất cả"/></th>
                     <th id="mamh">Mã Môn Học</th>
                     <th id="tenmh">Tên Môn Học</th>
                     <th id="sotc">Số TC</th>
-                    <th id="tclt">TC Lý Thuyết</th>
-                    <th id="tcth">TC Thực Hành</th>
+                    <th id="tclt">Lý Thuyết</th>
+                    <th id="tcth">Thực Hành</th>
                     <th id="loai">Loại Môn</th>
-                  
+                    <th id="kieumh">Kiểu Môn Học</th>
                 </tr>            
                 </table><!--end tempt -->
                 
@@ -119,24 +121,47 @@
                             <td class="mamh">Mã Môn Học</td>
                             <td class="tenmh">Tên Môn Học</td>
                             <td class="sotc">Số TC</td>
-                            <td class="tclt">TC Lý Thuyết</td>
-                            <td class="tcth">TC Thực Hành</td>
+                            <td class="tclt">Lý Thuyết</td>
+                            <td class="tcth">Thực Hành</td>
                             <td class="loai">Loại Môn</td>
+                            <td class="kieumh">Kiểu môn học</td>
                             
                         </tr>
                         <?php
                          foreach($monhoc_result as $row)
                          {
+                            $ID=$row->ID;
+                            
+                            $mamh=$row->MaMH;
+                            $tenmh=$row->TenMH;
+                            
+                            $maloai=$row->MaLoai; 
+                            $tenloai=$row->TenLoai;
+                                     
+                            $kieumh=$row->KieuMH;
+                                   
+                               
                             echo "<tr>";
-                            echo "<td class='checkbox'><input id='".$row->MaMH."' class='checkbox_row' type='checkbox' /></td>";
-                            echo "<td class='mamh' title='Xem chi tiết'>".$row->MaMH."</td>";
-                            echo "<td class='tenmh' style='text-align:left' >".$row->TenMH."</td>";
+                            echo "<td class='checkbox'><input id='$ID' class='checkbox_row' type='checkbox' /></td>";
+                            echo "<td class='mamh' id='$ID' title='Xem chi tiết'>$mamh</td>";
+                            echo "<td class='tenmh' style='text-align:left' >$tenmh</td>";
                             echo "<td class='sotc'>".$row->SoTC."</td>";
                             echo "<td class='tclt'>".$row->TCLT."</td>";
-                            echo "<td class='tcth'>".$row->TCTH."</td>";
-                            if($row->Loai=="DC" )echo "<td class='loai'>Đại Cương</td>";
-                            else  echo "<td class='loai'>Chuyên Nghành</td>";
-                           
+                            echo "<td class='tcth'>".$row->TCTH."</td>";  
+                                            
+                            echo "<td class='loai' id='$maloai'>$tenloai</td>";
+                            
+                            if($kieumh=="DON")
+                            {
+                              $ten_kieumh="Đơn";
+                              echo "<td class='kieumh' id='$kieumh'>$ten_kieumh</td>";  
+                            } 
+                            else
+                            {
+                              $ten_kieumh="Nhóm";
+                              echo "<td class='kieumh' id='$kieumh'><a href='/quanly/monhoc/mon-hoc-nhom/$mamh'>$ten_kieumh</a></td>";  
+                            }  
+                                                       
                             echo "</tr>";
                          }
                          ?>                  

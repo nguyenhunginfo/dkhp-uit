@@ -32,7 +32,7 @@
         <!--div #main_menu -->    
         <?php $this->load->view("admin/vmain_menu"); ?>
         <!--END div #main_menu --> 
-           
+        
         <div id="data">
             <div id="right"> 
                 <h3><?php echo $data_title; ?><span><a href="/quanly/lop">Quay về danh sách lớp</a></span> </h3>

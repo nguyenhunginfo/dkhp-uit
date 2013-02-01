@@ -32,60 +32,79 @@
        
     <div id="data">
         <div id="left">
-        <h3>Quản lý môn học</h3>
-        <ul>
-        <li><a  href="/quanly/monhoc">Danh sách môn học</a>
+            <h3>Quản lý môn học</h3>
+            <ul>
+            <li><a  href="/quanly/monhoc">Danh sách môn học</a>
             <?php
-            $num_tatca=$this->mmonhoc->get_num_rows("","tatca");
-            $num_DC=$this->mmonhoc->get_num_rows("","DC");
-            $num_CN=$this->mmonhoc->get_num_rows("","CN");
-            echo "<ul>";            
-                echo "<li id='tatca'  > <a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
-                echo "<li id='DC'  >    <a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
-                echo "<li id='CN'  >    <a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
-            echo "</ul>";
-            ?> 
-        </li>
-        
-        
-        <li><a class="active" href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>   
-        <li><a href="/quanly/monhoc/nhap-du-lieu">Nhập dữ liệu</a></li>       
-        <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>
-        
-            
-        </ul>
-        </div><!--end #left -->
+                $num_tatca=$this->mmonhoc->get_num_rows("","tatca");            
+                echo "<ul>";
+               
+               echo "<li id='tatca'  ><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
+                foreach($loai_monhoc_result as $row)
+                {
+                    $maloai=$row->MaLoai;
+                    $tenloai=$row->TenLoai;
+                    $num=$this->mmonhoc->get_num_rows("",$maloai);
+                    
+                    echo "<li id='$maloai'><a href='/quanly/monhoc/$maloai'>$tenloai($num)</a></li>";
+                }
+                echo "</ul>";
+            ?>        
+            </li>
+            <li><a href="/quanly/monhoc/mon-hoc-nhom" title="Danh sách nhóm môn học">Nhóm môn học</a>
+            <li><a href="/quanly/monhoc/tuong-duong" title="Môn học tương đương(thay thế)">MH tương đương</a>
+            <li><a class="active" href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
+            <li><a href="/quanly/monhoc/nhap-du-lieu">Nhập dữ liệu</a></li>        
+            <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>          
+                
+            </ul>
+            </div><!--end #left -->
         
         <div id="right"> 
                     <h3><?php echo $data_title; ?></h3>
                     <div class='box'>
                     <form>        
                         <table class="info"> 
-                            <tr><td>Mã môn học</td><td>       <input    name='mamh'   id='mamh'   type='text' title='Mã môn học gồm 5 kí tự'/></td></tr>          
-                            <tr><td>Tên môn học</td><td>      <input  name='tenmh'  id='tenmh'  type='text'/></td></tr>
-                            <tr><td>Số tín chỉ</td><td>       <input  name='sotc'  id='sotc'  type='text' title="Số tín chỉ=lý thuyết + thực hành"/></td></tr>
-                            <tr><td>Tín chỉ lý thuyết</td><td><input  name='tclt'  id='tclt'  type='text' title="Số tín chỉ=lý thuyết + thực hành"/></td></tr>
-                            <tr><td>Tín chỉ thực hành</td><td><input  name='tcth'  id='tcth'  type='text' disabled="disabled" title="tự động tính" /></td></tr>             
-                            <tr><td>Loại môn</td>
+                        
+                            <tr><td>Kiểu môn học</td>
                                 <td>                                
-                                <select id="loai">
-                                    <?php
-                                        if($loai=="DC") echo'<option value="DC">Đại Cương</option>';
-                                        else if($loai=="CN") echo'<option value="CN">Chuyên Nghành</option>';
-                                        else
-                                        {
-                                            echo '<option value="DC">Đại Cương</option>
-                                                  <option value="CN">Chuyên Nghành</option>';
-                                        }
-                                    ?>
-                                    
+                                <select id="kieumh">                                
+                                <option value="DON" >Môn học đơn</option>
+                                <option value="NHOM" >Môn học nhóm</option>
                                 </select>
                                 </td>
                             </tr>
-                            <tr><td>Kiến thức môn học</td><td><textarea  name="ktmh" id="ktmh" cols="10" rows="10" title="Kiến thức tổng quát về môn học"></textarea></td></tr>
+                            <tr>
+                            <td>Mã môn học</td>
+                            <td id="mamh_change">        
+                            <input name='mamh' id='mamh' type='text' title='Mã môn học gồm 5 kí tự'/>                            
+                            </td>
+                            </tr>          
+                            <tr><td>Tên môn học</td><td>      <input  name='tenmh'  id='tenmh'  type='text'/></td></tr>
+                            <tr><td>Số tín chỉ</td><td>       <input  name='sotc'  id='sotc'  type='text' title="Số tín chỉ=lý thuyết + thực hành"/></td></tr>
+                            <tr><td>Tín chỉ lý thuyết</td><td><input  name='tclt'  id='tclt'  type='text' title="Số tín chỉ=lý thuyết + thực hành"/></td></tr>
+                            <tr><td>Tín chỉ thực hành</td><td><input  name='tcth'  id='tcth'  type='text' disabled="disabled" title="tự động tính" /></td></tr>
+                            <tr><td>Loại môn</td>
+                                <td>                                
+                                <select id="loai">                                
+                                <?php
+                                foreach($loai_monhoc_result as $loai_row)
+                                {
+                                    $tenloai=$loai_row->TenLoai;
+                                    $maloai=$loai_row->MaLoai;
+                                    if($maloai==$loai) echo "<option value='$maloai' selected='selected'>$tenloai</option>";
+                                    else echo "<option value='$maloai'>$tenloai</option>";                        
+                                    
+                                } 
+                                ?>
+                                </select>
+                                </td>
+                            </tr>
+                            
                         </table><!--end .info -->
                              
                         <table class='error'>
+                        <tr><td></td></tr>
                         <tr><td><span title="Bắt buộc">*</span></td></tr>
                         <tr><td><span title="Bắt buộc">*</span></td></tr>
                         <tr><td><span title="Bắt buộc">*</span></td></tr>

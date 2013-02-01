@@ -58,7 +58,7 @@
                 <ul>
                     <li id="dkhp">   <a href="/dang-ky-hoc-phan">Đăng Ký Học Phần</a></li>
                     <li id="hd">     <a href="#">Hướng Dẫn</a></li>
-                    <li id="inphieu"><a href="#">In Phiếu</a></li>
+                    <li id="vekq"><a href="<?php echo base_url()."ket-qua"; ?>">In Phiếu</a></li>
                 </ul>
             </div><!-- end #menu -->
         

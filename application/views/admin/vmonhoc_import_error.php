@@ -32,28 +32,35 @@
            
         <div id="data">  
             <div id="left">
-                <h3>Quản lý môn học</h3>
-                <ul>
-                <li><a  href="/quanly/monhoc">Danh sách môn học</a>
-                <?php
-                    $num_tatca=$this->mmonhoc->get_num_rows("","tatca");
-                    $num_DC=$this->mmonhoc->get_num_rows("","DC");
-                    $num_CN=$this->mmonhoc->get_num_rows("","CN");
-                    echo "<ul>";            
-                        echo "<li id='tatca'  > <a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
-                        echo "<li id='DC'  >    <a href='/quanly/monhoc/DC'>Đại Cương(".$num_DC.")</a></li>";
-                        echo "<li id='CN'  >    <a href='/quanly/monhoc/CN'>Chuyên Nghành(".$num_CN.")</a></li>";
-                    echo "</ul>";
-            
-                ?>        
-                </li>
-                <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
-                <li><a href="/quanly/monhoc/nhap-du-lieu" class="active">Nhập dữ liệu</a></li>        
-                <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>
-                
+            <h3>Quản lý môn học</h3>
+            <ul>
+            <li><a  href="/quanly/monhoc">Danh sách môn học</a>
+            <?php
+                $num_tatca=$this->mmonhoc->get_num_rows("","tatca");            
+                echo "<ul>";
+               
+               echo "<li id='tatca'  ><a href='/quanly/monhoc'>Tất cả(".$num_tatca.")</a> </li>";
+                foreach($loai_monhoc_result as $row)
+                {
+                    $maloai=$row->MaLoai;
+                    $tenloai=$row->TenLoai;
+                    $num=$this->mmonhoc->get_num_rows("",$maloai);
                     
-                </ul>
+                    echo "<li id='$maloai'><a href='/quanly/monhoc/$maloai'>$tenloai($num)</a></li>";
+                }
+                echo "</ul>";
+            ?>        
+            </li>
+            <li><a href="/quanly/monhoc/mon-hoc-nhom" title="Danh sách nhóm môn học">Nhóm môn học</a>
+            <li><a href="/quanly/monhoc/tuong-duong" title="Môn học tương đương(thay thế)">MH tương đương</a>
+            <li><a href="/quanly/monhoc/them-mon-hoc">Thêm môn học</a></li>
+            <li><a class="active" href="/quanly/monhoc/nhap-du-lieu">Nhập dữ liệu</a></li>        
+            <li><a href="/quanly/monhoc/thong-ke">Thống kê</a></li>          
+                
+            </ul>
             </div><!--end #left -->
+            
+            
             <div id="right"> 
                 <form method="post" action="/quanly/monhoc/nhap-du-lieu" enctype="multipart/form-data">
                    <h3>Thao tác nhập dữ liệu môn học <img src="<?php echo static_url(); ?>/images/delete.png" /></h3>
@@ -93,29 +100,60 @@
                                 <th id='sotc'>Số Tín Chỉ</th>
                                 <th id='tclt'>Tín Chỉ LT</th>
                                 <th id='tcth'>Tín Chỉ TH</th>
-                                <th id='loai'>Loại Môn</th>
-                                
+                                <th id='loai'>Loại Môn Học</th>
+                                <th id='kieumh'>Kiểu Môn Học</th>
                                 </tr>";
                                   
                                 $arr_unique=array();
                                 foreach($error_data as $row)
                                 {
-                                    if(Monhoc::valid_mamh($row["MaMH"],$arr_unique,$import_type)==false)
+                                    if($row["KieuMH"]!="NHOM")
                                     {
-                                        echo "<tr class='error'>";
-                                        echo "<td class='im_error'><img title='Mã môn học đã tồn tại hoặc trùng' src='".static_url()."/images/delete.png' /></td>";
+                                        if(Monhoc::valid_mamh($row["MaMH"],$arr_unique,$import_type)==false)
+                                        {
+                                            echo "<tr class='error'>";
+                                            echo "<td class='im_error'><img title='Mã môn học đã tồn tại hoặc trùng' src='".static_url()."/images/delete.png' /></td>";
+                                        }
+                                        else
+                                        {
+                                            echo "<tr>";
+                                            echo "<td class='im_error'></td>";
+                                        }
                                     }
                                     else
                                     {
                                         echo "<tr>";
                                         echo "<td class='im_error'></td>";
                                     }
+                                                                        
                                     echo "<td>".$row["MaMH"]."</td>";
                                     echo "<td style='text-align:left' >".$row["TenMH"]."</td>";                            
                                     echo "<td>".$row["SoTC"]."</td>";
                                     echo "<td>".$row["TCLT"]."</td>";
                                     echo "<td>".$row["TCTH"]."</td>";
-                                    echo "<td>".$row["Loai"]."</td>";                                    
+                                    
+                                    $maloai=$row["Loai"];
+                                    $tenloai="";
+                                    switch($maloai)
+                                    {
+                                        case "DC":$tenloai="Đại Cương";break;
+                                        case "CN":$tenloai="Chuyên Nghành";break;
+                                        case "CSN":$tenloai="Cơ Sở Nghành";break;
+                                        case "TC":$tenloai="Tự Chọn";break;
+                                        
+                                    }
+                                    echo "<td>$tenloai</td>";
+                                    
+                                    $kieumh=$row["KieuMH"];
+                                    $ten_kieumh="";
+                                    switch($kieumh)
+                                    {
+                                        case "DON":$ten_kieumh="Đơn";break;
+                                        case "NHOM":$ten_kieumh="Nhóm";break;
+                                                                               
+                                    }
+                                    
+                                    echo "<td>$ten_kieumh</td>";                                     
                                     echo "</tr>";
                                     $arr_unique[]=$row["MaMH"];
                                 }
