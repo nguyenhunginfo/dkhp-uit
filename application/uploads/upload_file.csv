@@ -1,15 +1,53 @@
-'08520005,Thái Thu Thủy,CNPM02,2,10/12/1990,Vũng Tàu,'271899100,
-'08520221,Phan Thiên Quốc,CNPM03,4,*,*,'491881111,
-'08520234,Phan Thiên Quốc,CNPM04,4,*,*,'*,
-'08520235,Phan Thiên Quốc,CNPM04,4,*,Vinh,'009113313,
-'08520462,Trương Hoàng An,CNPM04,4,*,*,'900881134,
-'09520008,Quách Minh,CNPM01,1,,Đồng Nai,',
-'09520035,Mai Tiến Hoài,CNPM02,4,18/02/1989,Khánh Hòa,'288179919,
-'09520114,Hà Phong,CNPM03,3,17/03/2008,,',haphong@gmail.com
-'09520234,Phan Thiên Quốc,CNPM04,4,*,*,'*,
-'09520235,Phan Thiên Quốc,CNPM04,4,*,*,'*,
-'10520221,Phan Thiên Quốc,CNPM04,4,*,*,'987777113,
-'10520234,Phan Quốc Vinh,CNPM04,4,*,*,'991922415,
-'10520235,Phan Thiên Quốc,CNPM04,4,*,*,'*,
-'11520221,Phan Thiên Quốc,CNPM04,4,*,*,'*,
-'11520235,Phan Mạnh Tiến,CNPM04,4,*,*,'271999411,
+1,CSC21,Tin học đại cương,4,3,1,Đại Cương,DON
+1,ENG01,Anh văn 1,5,5,0,Đại Cương,DON
+1,LIA01,Đại Số Tuyến Tính,3,3,0,Đại Cương,DON
+1,MAT21,Toán cao cấp A1,3,3,0,Đại Cương,DON
+1,MEDU1,Giáo Dục Quốc Phòng,4,4,0,Đại Cương,DON
+1,PEDU1,Giáo Dục Thể Chất 1,5,0,5,Đại Cương,DON
+1,PHY01,Vật lý đại cương A1,3,3,0,Đại Cương,DON
+2,CARC1,Kiến trúc máy tính,3,3,0,Đại Cương,DON
+2,DSAL1,Cấu trúc dữ liệu và giải thuật,3,3,0,Đại Cương,DON
+2,ENG02,Anh văn 2,5,5,0,Đại Cương,DON
+2,MAT22,Toán cao cấp A2,3,3,0,Đại Cương,DON
+2,PEDU2,Giáo Dục Thể Chất 2,5,0,5,Đại Cương,DON
+2,PHIL2,Những Nguyên Lý Cơ Bản Mac-Lenin,5,5,0,Đại Cương,DON
+2,PHY02,Vật lý đại cương A2,3,3,0,Đại Cương,DON
+3,DBSS1,Cơ sở dữ liệu,4,4,0,Đại Cương,DON
+3,ENG03,Anh văn 3,2,3,0,Đại Cương,DON
+3,ITEM1,Nhập môn quảng trị doanh nghiệp,2,2,0,Đại Cương,DON
+3,OOPT1,Lập Trình Hướng Đối Tượng,4,3,1,Đại Cương,DON
+3,OSYS1,Hệ điều hành,4,3,1,Đại Cương,DON
+3,VCPL1,Đường Lối Đảng Cộng Sản Việt Nam,3,3,0,Đại Cương,DON
+4,CNET1,Mạng Máy Tính,4,4,0,Đại Cương,DON
+4,ENG04,Anh văn 4,3,3,0,Đại Cương,DON
+4,HCMT1,Tư tưởng hồ chí minh,2,2,0,Đại Cương,DON
+4,ITEW1,Nhập môn công tác kỹ sư,2,2,0,Đại Cương,DON
+4,MAT04,Cấu Trúc Rời Rạc,4,3,1,Đại Cương,DON
+4,WINP1,Lập Trình Windows,4,3,1,Đại Cương,DON
+5,NT103,Hệ Điều Hành Linux,4,3,1,Cơ Sở Nghành,DON
+5,NT104,Lý Thuyết Thông Tin,3,3,0,Cơ Sở Nghành,DON
+5,NT105,Truyền Dữ Liệu,4,3,1,Cơ Sở Nghành,DON
+5,NT106,Lập Trình Mạng Căn Bản,3,2,1,Cơ Sở Nghành,DON
+5,NT110,Tín hiệu & Mạch,3,3,0,Cơ Sở Nghành,DON
+6,NT102,Điện Tử Trong Công Nghệ Thông Tin,4,3,1,Cơ Sở Nghành,DON
+6,NT107,Xử Lý Tín Hiệu Số,4,3,1,Cơ Sở Nghành,DON
+6,NT109,Lập Trình Ứng Dụng Mạng,3,2,1,Cơ Sở Nghành,DON
+6,NT111,Thiết Bị Mạng và Truyền Thông,4,3,1,Cơ Sở Nghành,DON
+6,NT201,Phân tích và thiết kế hệ thống,3,3,0,Cơ Sở Nghành,DON
+7,NT101,An Toàn Mạng Máy Tính,4,3,1,Cơ Sở Nghành,DON
+7,NT112,Công Nghệ Mạng Viễn Thông,4,3,1,Cơ Sở Nghành,DON
+7,NT202,Đồ Án Lập Trình Ứng Dụng Mạng,2,0,2,Cơ Sở Nghành,DON
+7,NT30*,Học Phần Chuyên Nghành 1,3,2,1,Chuyên Nghành,NHOM
+7,NT30*,Học phần chuyên nghành 2,3,2,1,Chuyên Nghành,NHOM
+7,SMET1,Phương pháp luận sáng tạo,2,2,0,Đại Cương,DON
+8,NT108,Mạng Truyền Thông & Di Động,3,2,1,Cơ Sở Nghành,DON
+8,NT113,Thiết kế mạng,3,2,1,Cơ Sở Nghành,DON
+8,NT203,Đồ Án Chuyên Nghành,2,0,2,Cơ Sở Nghành,DON
+8,NT30*,Học phần chuyên nghành 3,3,2,1,Chuyên Nghành,NHOM
+8,NT40*,Tự chọn 2,3,2,1,Chuyên Nghành,NHOM
+8,NT40*,Tự chọn 1,3,2,1,Chuyên Nghành,NHOM
+8,NT501,Thực tập doanh nghiệp,3,0,3,Chuyên Nghành,DON
+9,NT502,Môn tốt nghiệp 1,3,0,3,Chuyên Nghành,DON
+9,NT503,Môn tốt nghiệp 2,3,0,0,Chuyên Nghành,DON
+9,NT504,Đồ án tốt nghiệp,4,0,4,Chuyên Nghành,DON
+9,NT505,Khóa luận tốt nghiệp,10,0,10,Chuyên Nghành,DON
